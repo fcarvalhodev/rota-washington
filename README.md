@@ -1,6 +1,6 @@
 # Rota Washington
 
-Linha do tempo das relações entre a campanha de Flávio Bolsonaro, o governo Lula e o governo Trump (2025–2026), com fontes e grau de comprovação de cada fato.
+Parte da série [Rotas](https://fcarvalhodev.github.io/rotas/). Linha do tempo das relações entre a campanha de Flávio Bolsonaro, o governo Lula e o governo Trump (2025–2026), com fontes e grau de comprovação de cada fato.
 
 Páginas:
 
