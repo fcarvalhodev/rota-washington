@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BRICS, dólar e Pix</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: a diplomatic cable file. Hero draws the BSB→DCA route; below, a single vertical timeline with a date rail, actor filters, then three short dossier sections. */
+:root{
+  --bg:#edf0f3; --paper:#f8fafb; --ink:#14213d; --muted:#56627a; --line:#cfd6df;
+  --accent:#0e7c74; --accent-soft:#d5ebe8;
+  --doc:#14213d; --alleg:#a56a00; --alleg-soft:#fbefd6; --open:#6b5bb5; --open-soft:#e8e5f6;
+  --c-flavio:#1f5fbf; --c-eduardo:#7a3fb0; --c-eua:#b23a48; --c-meta:#0e7c74; --c-lula:#9a5b00;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px}
+.mono{font-family:var(--mono)}
+
+/* hero */
+.hero{padding-block:40px 28px;display:grid;gap:22px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(56px,14vw,124px);line-height:.86;margin:0;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
+.lede{font-size:18px;max-width:62ch;margin:0;color:var(--ink)}
+.route{width:100%;max-width:100%;height:auto;display:block}
+.route .arc{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:6 7}
+.route .arc-draw{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.4s .3s cubic-bezier(.6,.1,.2,1) forwards}
+.route .pt{fill:var(--ink)}
+.route .ring{fill:none;stroke:var(--ink);stroke-width:1.5;opacity:.5;transform-origin:center;transform-box:fill-box;animation:pulse 2.4s infinite}
+.route text{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.route .sub{fill:var(--muted);font-size:11px}
+.route .plane{fill:var(--accent)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.6);opacity:0}}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+
+/* evidence tags */
+.ev{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
+.ev.doc{background:var(--doc);color:var(--paper)}
+.ev.alleg{background:var(--alleg-soft);color:var(--alleg);border:1px solid var(--alleg)}
+.ev.open{background:var(--open-soft);color:var(--open);border:1px dashed var(--open)}
+
+/* filters */
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px}
+.filters .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters .lbl{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
+.chip{font-family:var(--body);font-size:14px;font-weight:500;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px 5px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.chip[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--paper))}
+.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* timeline */
+h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,52px);line-height:1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.sec{padding-block:44px 8px;display:grid;gap:20px}
+.sec-intro{color:var(--muted);max-width:62ch;margin:0}
+.year{font-family:var(--display);font-weight:900;font-size:40px;color:var(--accent);margin:28px 0 6px 0;line-height:1}
+.tl{position:relative;display:grid;gap:14px;padding-left:0}
+.rail{position:absolute;left:96px;top:0;bottom:0;width:2px;background:var(--line)}
+.rail b{display:block;width:100%;background:var(--accent);height:0}
+.item{display:grid;grid-template-columns:84px 1fr;gap:24px;position:relative}
+.item .date{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:right;padding-top:16px;line-height:1.3}
+.item .dot{position:absolute;left:91px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s,transform .3s}
+.item.seen .dot{background:var(--accent);border-color:var(--accent)}
+.card{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px 14px;display:grid;gap:8px;transition:transform .45s ease,box-shadow .45s ease}
+.item.seen .card{box-shadow:0 1px 0 var(--line)}
+.item.key .card{border-left:4px solid var(--accent)}
+.card .top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:space-between}
+.actors{display:flex;flex-wrap:wrap;gap:6px}
+.actor{font-size:12px;font-weight:600;color:var(--c);display:inline-flex;align-items:center;gap:5px}
+.actor::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.card h3{font-size:18px;line-height:1.3;margin:0;font-weight:600;text-wrap:balance}
+.card p{margin:0}
+.src{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 12px}
+.src a{color:var(--muted);text-underline-offset:2px}
+.src a:hover{color:var(--accent)}
+.empty{color:var(--muted);font-style:italic}
+.item[hidden]{display:none}
+
+/* dossiers */
+.dossier{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.file{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:12px;align-content:start;border-top:5px solid var(--c)}
+.file h3{font-family:var(--display);font-size:30px;line-height:1;margin:0;text-transform:uppercase;font-weight:700}
+.file .role{font-size:14px;color:var(--muted);margin:-6px 0 0}
+.file ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.file li{padding-left:2px}
+.file li small{display:block;color:var(--muted);font-size:13px}
+
+.plan{display:grid;gap:0;border-top:1px solid var(--line)}
+.plan .row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding-block:14px;border-bottom:1px solid var(--line)}
+.plan .row strong{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.plan .row p{margin:0}
+
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.col{min-width:0;padding:18px;border-radius:6px;display:grid;gap:10px;align-content:start}
+.col.yes{background:var(--paper);border:1px solid var(--line)}
+.col.no{background:var(--open-soft);border:1px dashed var(--open)}
+.col h3{margin:0;font-size:17px}
+.col ul{margin:0;padding-left:18px;display:grid;gap:8px}
+
+footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;gap:8px}
+
+@media (max-width:620px){
+  .rail{left:6px}
+  .item{grid-template-columns:1fr;gap:6px;padding-left:24px}
+  .item .date{text-align:left;padding-top:0}
+  .item .dot{left:1px;top:4px}
+  .plan .row{grid-template-columns:1fr;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  .route .arc-draw{animation:none;stroke-dashoffset:0}
+  .route .ring,.route .plane-anim{animation:none}
+  .card,.item .dot{transition:none}
+}
+
+
+/* shared subpage components */
+.topnav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;padding-block:16px;font-family:var(--mono);font-size:13px}
+.topnav a{color:var(--accent);text-decoration:none}
+.topnav a:hover{text-decoration:underline}
+.pnav{display:flex;flex-wrap:wrap;gap:8px;padding-block:4px 10px}
+.pnav a{font-family:var(--mono);font-size:12px;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.pnav a[aria-current="page"]{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.pnav a:hover{border-color:var(--accent);color:var(--accent)}
+.hero2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:center;padding-block:18px 6px}
+.hero2 .txt{display:grid;gap:16px;min-width:0}
+.hero2 h1{font-size:clamp(48px,10vw,96px)}
+.hero2 svg{width:100%;height:auto;max-width:100%}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;padding-block:16px 0}
+.stat{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;gap:4px}
+.stat b{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+/* vertical animated steps */
+.vt{position:relative;display:grid;gap:14px;padding-left:30px}
+.vt::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.vt .fill{position:absolute;left:7px;top:6px;width:2px;height:0;background:var(--accent);transition:height .2s linear}
+.vs{position:relative;display:grid;gap:3px;min-width:0;transition:transform .45s ease}
+.vs::before{content:"";position:absolute;left:-29px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s}
+.vs.seen::before{background:var(--accent);border-color:var(--accent)}
+.vs.hot::before{background:var(--c-eua);border-color:var(--c-eua)}
+.vs time{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.vs strong{font-size:16px;line-height:1.35}
+.vs p{margin:0;font-size:15px;color:var(--ink)}
+.vs a.more{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.rv{transform:translateY(10px);transition:transform .5s ease}
+.rv.seen{transform:none}
+.cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.who{min-width:0;background:var(--paper);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:6px;padding:16px;display:grid;gap:8px;align-content:start}
+.who h3{margin:0;font-family:var(--display);font-size:28px;line-height:1;text-transform:uppercase;font-weight:700}
+.who p{margin:0;font-size:15px}
+.who small{color:var(--muted);font-size:13px}
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.view{min-width:0;padding:18px;border-radius:6px;background:var(--paper);border:1px solid var(--line);display:grid;gap:10px;align-content:start}
+.view h3{margin:0;font-size:17px}
+.view ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.srcs{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.srcs a{color:var(--muted)}
+.note{font-size:14px;color:var(--muted);margin:0}
+@media (max-width:700px){.hero2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.rv,.vs{transition:none;transform:none}.vt .fill{transition:none}}
+</style></head><body>
+<style>
+.pay text{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.pay .lbl{font-size:11px;fill:var(--muted)}
+.pay .box{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+.pay .mid{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.pay .route{fill:none;stroke:var(--line);stroke-width:2;stroke-dasharray:4 5}
+.pay .coinA{fill:var(--accent)}
+.pay .coinB{fill:var(--c-eua)}
+.pay .fee{font-family:var(--mono);font-size:12px;fill:var(--c-eua);font-weight:500}
+.pay .ok{font-family:var(--mono);font-size:12px;fill:var(--accent);font-weight:500}
+.targets{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tg{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px;display:grid;gap:6px;align-content:start;transition:border-color .4s,background .4s}
+.tg b{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tg span{font-size:15px}
+.tg.hit{border:2px solid var(--c-eua)}
+.tg.hit b{color:var(--c-eua)}
+.tg.hit.seen{background:color-mix(in srgb,var(--c-eua) 8%,var(--paper))}
+@media (prefers-reduced-motion:reduce){.pay animateMotion{display:none}}
+</style>
+
+<div class="wrap">
+  <nav class="topnav" aria-label="Navegação"><a href="./">← Rota Washington</a><span class="mono">Paralelo 3 de 5</span></nav>
+  <nav class="pnav" aria-label="Páginas"><a href="estrategia.html">Corolário Trump</a><a href="exigencias.html">21 exigências</a><a href="brics.html" aria-current="page">BRICS e Pix</a><a href="bigtechs.html">Big techs</a><a href="terras.html">Terras raras</a></nav>
+
+  <header class="hero2">
+    <div class="txt">
+      <div class="kicker">Paralelo 3 · Pagamentos e geopolítica</div>
+      <h1>BRICS, dólar e Pix</h1>
+      <p class="lede">O Pix é gratuito para quem paga, instantâneo e operado pelo Banco Central. Isso tirou espaço das bandeiras de cartão americanas e colocou um sistema de pagamento brasileiro no meio da disputa entre os EUA e o BRICS pelo futuro do dólar.</p>
+    </div>
+    <svg class="pay" viewBox="0 0 360 260" role="img" aria-label="Comparação: no Pix o dinheiro vai direto do cliente para a loja, sem taxa para quem paga; no cartão, passa pela bandeira e pelo banco, que cobram taxa da loja">
+      <text x="10" y="22" class="lbl">PIX</text>
+      <rect x="10" y="34" width="80" height="44" rx="6" class="box"/><text x="50" y="61" text-anchor="middle">Cliente</text>
+      <rect x="270" y="34" width="80" height="44" rx="6" class="box"/><text x="310" y="61" text-anchor="middle">Loja</text>
+      <path id="p1" d="M90 56 H270" class="route"/>
+      <circle r="7" class="coinA"><animateMotion dur="1.4s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle>
+      <text x="180" y="96" text-anchor="middle" class="ok">direto, via Banco Central</text>
+      <text x="10" y="138" class="lbl">CARTÃO</text>
+      <rect x="10" y="150" width="80" height="44" rx="6" class="box"/><text x="50" y="177" text-anchor="middle">Cliente</text>
+      <rect x="110" y="200" width="66" height="40" rx="6" class="mid"/><text x="143" y="225" text-anchor="middle">Bandeira</text>
+      <rect x="190" y="200" width="66" height="40" rx="6" class="mid"/><text x="223" y="225" text-anchor="middle">Banco</text>
+      <rect x="270" y="150" width="80" height="44" rx="6" class="box"/><text x="310" y="177" text-anchor="middle">Loja</text>
+      <path id="p2" d="M90 172 C 110 172 115 220 143 220 L 223 220 C 250 220 255 172 270 172" class="route"/>
+      <circle r="7" class="coinB"><animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion></circle>
+      <text x="180" y="160" text-anchor="middle" class="fee">taxas pagas pela loja</text>
+    </svg>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b data-to="148" data-suf=" mi">148 mi</b><span>pessoas físicas usam o Pix, segundo relatório do Banco Central</span></div>
+    <div class="stat"><b data-to="80" data-pre="~" data-suf=" bi">~80 bi</b><span>transações em 2025, segundo a imprensa</span></div>
+    <div class="stat"><b>2020</b><span>ano de lançamento do Pix</span></div>
+  </div>
+
+  <section class="sec" aria-labelledby="h-a">
+    <h2 id="h-a">Na mira de Washington</h2>
+    <p class="sec-intro">Em 15 de julho de 2025, os EUA abriram uma investigação comercial contra o Brasil pela Seção 301, instrumento usado para justificar tarifas. Estes foram os alvos. O que interessa aqui está destacado.</p>
+    <div class="targets">
+      <div class="tg rv"><b>Alvo</b><span>Tratamento dado a redes sociais americanas</span></div>
+      <div class="tg rv"><b>Alvo</b><span>Tarifa de 18% sobre o etanol americano</span></div>
+      <div class="tg rv"><b>Alvo</b><span>Pirataria, como na rua 25 de Março</span></div>
+      <div class="tg rv"><b>Alvo</b><span>Desmatamento ilegal</span></div>
+      <div class="tg hit rv"><b>Alvo · Pix</b><span>O papel do governo nos pagamentos eletrônicos e o efeito sobre Visa, Mastercard e American Express</span></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-t">
+    <h2 id="h-t">Como o Pix entrou na disputa</h2>
+    <div class="vt"><span class="fill" aria-hidden="true"></span>
+      <div class="vs"><time>nov 2024</time><strong>Ainda presidente eleito, Trump ameaça tarifa de 100% contra o BRICS</strong><p>A condição: o bloco não pode criar moeda ou mecanismo para substituir o dólar no comércio.</p></div>
+      <div class="vs hot"><time>6–7 jul 2025</time><strong>Cúpula do BRICS no Rio e ameaça de tarifa extra de 10%</strong><p>Vale para qualquer país alinhado às políticas “antiamericanas” do bloco. Lula diz que não deu “nenhuma importância”.</p></div>
+      <div class="vs"><time>9 jul 2025</time><strong>Carta de Trump impõe tarifa de 50% ao Brasil</strong><p>O texto cita o julgamento de Jair Bolsonaro e decisões contra plataformas americanas.</p></div>
+      <div class="vs hot"><time>15 jul 2025</time><strong>Seção 301 inclui os pagamentos eletrônicos</strong><p>É a primeira vez que o Pix aparece oficialmente como problema comercial para os EUA.</p></div>
+      <div class="vs"><time>16 out 2025</time><strong>Exigência nº 4: “neutralidade competitiva” do Banco Central</strong><p>O BC regula e ao mesmo tempo opera o Pix. Os EUA pedem que ele não favoreça o próprio sistema.</p><a class="more" href="exigencias.html">Ver as 21 exigências →</a></div>
+      <div class="vs"><time>7 mai 2026</time><strong>Lula na Casa Branca</strong><p>Segundo Lula, o Pix não foi tratado diretamente. Os governos criam um grupo de trabalho sobre tarifas e a investigação comercial.</p></div>
+      <div class="vs"><time>jun 2026</time><strong>Eduardo sugere trocar o Pix pelo Zelle</strong><p>O Zelle é um sistema de pagamentos de bancos americanos.</p></div>
+      <div class="vs hot"><time>1 jul 2026</time><strong>Flávio propõe ao USTR afastar o Pix de sistemas “não ocidentais”</strong><p>Ele defende que o Pix é infraestrutura soberana e não substitui o cartão, mas oferece um compromisso legislativo para que o sistema não se conecte a arranjos de países fora do Ocidente.</p></div>
+      <div class="vs"><time>jul 2026</time><strong>EUA propõem sobretaxa de 25%</strong><p>O governo Lula classifica a tarifa como “injustificada e arbitrária”.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-b">
+    <h2 id="h-b">Por que o BRICS entra nessa história</h2>
+    <p class="sec-intro">Brasil, Rússia, Índia, China, África do Sul e novos membros discutem formas de comerciar entre si sem passar pelo dólar. Não existe hoje um sistema único do bloco em funcionamento. Para Washington, o risco é o dólar perder o papel que dá aos EUA o poder de impor sanções financeiras. Um Pix ligado a sistemas de outros países do bloco seria uma peça desse quebra-cabeça. É isso que a proposta de Flávio sobre sistemas “não ocidentais” pretende fechar.</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-c">
+    <h2 id="h-c">Quem propõe o quê</h2>
+    <div class="cards3">
+      <article class="who rv" style="--c:var(--c-lula)"><h3>Governo Lula</h3><p>Trata o Pix como infraestrutura pública e diz que ele não está em negociação. Classifica a nova sobretaxa como injustificada.</p></article>
+      <article class="who rv" style="--c:var(--c-flavio)"><h3>Flávio</h3><p>Promete manter o Pix sem taxa. Ofereceu aos EUA uma lei que impeça o Pix de se conectar a sistemas “não ocidentais” e pediu adiar a tarifa para depois da eleição.</p></article>
+      <article class="who rv" style="--c:var(--c-eduardo)"><h3>Eduardo</h3><p>Sugeriu substituir o Pix pelo Zelle, sistema americano.</p><small>Flávio não endossou a proposta.</small></article>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-v">
+    <h2 id="h-v">Duas leituras</h2>
+    <div class="views">
+      <div class="view rv"><h3>Quem vê ameaça à soberania</h3><ul>
+        <li>Decidir com quem o Pix pode se conectar é decisão do Banco Central brasileiro, não de um acordo com os EUA.</li>
+        <li>O Pix reduziu custos para lojas e consumidores. Pressão contra ele protege lucros de empresas estrangeiras.</li>
+        <li>Abrir mão de alternativas ao dólar deixa o país mais exposto a sanções americanas, como a aplicada a Moraes.</li>
+      </ul></div>
+      <div class="view rv"><h3>Quem vê pragmatismo</h3><ul>
+        <li>Os EUA são o segundo maior parceiro comercial do Brasil. Ceder em pontos técnicos pode evitar tarifas que custam empregos.</li>
+        <li>Manter o Pix longe de sistemas russos ou chineses evita que o Brasil vire alvo de sanções secundárias.</li>
+        <li>A proposta de Flávio mantém o Pix gratuito no Brasil.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="srcs">Fontes:
+      <a href="https://forbes.com.br/forbes-money/2025/07/pre-mercado-eua-investigam-praticas-comerciais-do-brasil-pix-e-etanol-na-mira/" target="_blank" rel="noopener">Forbes</a>
+      <a href="https://www.americanbanker.com/payments/news/trump-tariffs-target-brazils-pix" target="_blank" rel="noopener">American Banker</a>
+      <a href="https://movimentoeconomico.com.br/politica/2025/07/07/trump-ameaca-impor-novas-tarifas-a-paises-alinhados-ao-brics-lula-reage/" target="_blank" rel="noopener">Movimento Econômico</a>
+      <a href="https://portaldeprefeitura.com.br/bastidores-da-politica/trump-ameaca-tarifar-paises-do-brics-em-100-se-tentarem-substituir-o/584498/" target="_blank" rel="noopener">Portal de Prefeitura</a>
+      <a href="https://bmcnews.com.br/economia/pix-2025-80-bilhoes-transacoes-35-trilhoes-banco-central/" target="_blank" rel="noopener">BMC News</a>
+      <a href="https://www.bahianoticias.com.br/noticia/318580-flavio-bolsonaro-propoe-aos-eua-restricao-a-sistemas-nao-ocidentais-e-defende-que-pix-nao-substitui-cartoes" target="_blank" rel="noopener">Bahia Notícias</a>
+      <a href="https://www.diariodepernambuco.com.br/politica/2026/06/11715755-eduardo-bolsonaro-sugere-trocar-pix-pelo-zelle-dos-estados-unidos.html" target="_blank" rel="noopener">Diario de Pernambuco</a>
+      <a href="https://jornalgrandebahia.com.br/2026/05/presidentes-lula-e-donald-trump-discutem-tarifas-crime-organizado-e-terras-raras-em-reuniao-de-tres-horas-na-casa-branca/" target="_blank" rel="noopener">Jornal Grande Bahia</a>
+      <a href="https://www.conjur.com.br/?p=907042" target="_blank" rel="noopener">Conjur</a>
+    </div>
+    <p class="note">O total de transações de 2025 é aproximado; a reportagem que o cita remete ao Banco Central para os números oficiais.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fmt=(v,d)=>v.toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+  function countUp(el){const to=+el.dataset.to,d=+(el.dataset.dec||0),pre=el.dataset.pre||"",suf=el.dataset.suf||"";
+    if(reduce){el.textContent=pre+fmt(to,d)+suf;return}
+    const t0=performance.now(),ms=1300;(function f(t){const k=Math.min(1,(t-t0)/ms);el.textContent=pre+fmt(to*(1-Math.pow(1-k,3)),d)+suf;if(k<1)requestAnimationFrame(f)})(t0)}
+  const counted=new WeakSet();
+  function check(){const vh=innerHeight;
+    document.querySelectorAll("[data-to]").forEach(el=>{if(!counted.has(el)&&el.getBoundingClientRect().top<vh*0.95){counted.add(el);countUp(el)}});
+    document.querySelectorAll(".rv,.vs,.grow,.go-on").forEach(el=>{if(el.getBoundingClientRect().top<vh*0.85)el.classList.add("seen")});
+    document.querySelectorAll(".vt").forEach(v=>{const r=v.getBoundingClientRect();const p=Math.min(1,Math.max(0,(vh*0.7-r.top)/r.height));const f=v.querySelector(".fill");if(f)f.style.height=(p*(r.height-12))+"px"});
+  }
+  window.__check=check;
+  addEventListener("scroll",check,{passive:true});addEventListener("resize",check);setTimeout(check,120);
+})();
+</script>
+</body></html>

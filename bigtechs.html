@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Big techs e a Justiça</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: a diplomatic cable file. Hero draws the BSB→DCA route; below, a single vertical timeline with a date rail, actor filters, then three short dossier sections. */
+:root{
+  --bg:#edf0f3; --paper:#f8fafb; --ink:#14213d; --muted:#56627a; --line:#cfd6df;
+  --accent:#0e7c74; --accent-soft:#d5ebe8;
+  --doc:#14213d; --alleg:#a56a00; --alleg-soft:#fbefd6; --open:#6b5bb5; --open-soft:#e8e5f6;
+  --c-flavio:#1f5fbf; --c-eduardo:#7a3fb0; --c-eua:#b23a48; --c-meta:#0e7c74; --c-lula:#9a5b00;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px}
+.mono{font-family:var(--mono)}
+
+/* hero */
+.hero{padding-block:40px 28px;display:grid;gap:22px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(56px,14vw,124px);line-height:.86;margin:0;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
+.lede{font-size:18px;max-width:62ch;margin:0;color:var(--ink)}
+.route{width:100%;max-width:100%;height:auto;display:block}
+.route .arc{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:6 7}
+.route .arc-draw{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.4s .3s cubic-bezier(.6,.1,.2,1) forwards}
+.route .pt{fill:var(--ink)}
+.route .ring{fill:none;stroke:var(--ink);stroke-width:1.5;opacity:.5;transform-origin:center;transform-box:fill-box;animation:pulse 2.4s infinite}
+.route text{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.route .sub{fill:var(--muted);font-size:11px}
+.route .plane{fill:var(--accent)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.6);opacity:0}}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+
+/* evidence tags */
+.ev{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
+.ev.doc{background:var(--doc);color:var(--paper)}
+.ev.alleg{background:var(--alleg-soft);color:var(--alleg);border:1px solid var(--alleg)}
+.ev.open{background:var(--open-soft);color:var(--open);border:1px dashed var(--open)}
+
+/* filters */
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px}
+.filters .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters .lbl{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
+.chip{font-family:var(--body);font-size:14px;font-weight:500;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px 5px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.chip[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--paper))}
+.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* timeline */
+h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,52px);line-height:1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.sec{padding-block:44px 8px;display:grid;gap:20px}
+.sec-intro{color:var(--muted);max-width:62ch;margin:0}
+.year{font-family:var(--display);font-weight:900;font-size:40px;color:var(--accent);margin:28px 0 6px 0;line-height:1}
+.tl{position:relative;display:grid;gap:14px;padding-left:0}
+.rail{position:absolute;left:96px;top:0;bottom:0;width:2px;background:var(--line)}
+.rail b{display:block;width:100%;background:var(--accent);height:0}
+.item{display:grid;grid-template-columns:84px 1fr;gap:24px;position:relative}
+.item .date{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:right;padding-top:16px;line-height:1.3}
+.item .dot{position:absolute;left:91px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s,transform .3s}
+.item.seen .dot{background:var(--accent);border-color:var(--accent)}
+.card{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px 14px;display:grid;gap:8px;transition:transform .45s ease,box-shadow .45s ease}
+.item.seen .card{box-shadow:0 1px 0 var(--line)}
+.item.key .card{border-left:4px solid var(--accent)}
+.card .top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:space-between}
+.actors{display:flex;flex-wrap:wrap;gap:6px}
+.actor{font-size:12px;font-weight:600;color:var(--c);display:inline-flex;align-items:center;gap:5px}
+.actor::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.card h3{font-size:18px;line-height:1.3;margin:0;font-weight:600;text-wrap:balance}
+.card p{margin:0}
+.src{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 12px}
+.src a{color:var(--muted);text-underline-offset:2px}
+.src a:hover{color:var(--accent)}
+.empty{color:var(--muted);font-style:italic}
+.item[hidden]{display:none}
+
+/* dossiers */
+.dossier{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.file{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:12px;align-content:start;border-top:5px solid var(--c)}
+.file h3{font-family:var(--display);font-size:30px;line-height:1;margin:0;text-transform:uppercase;font-weight:700}
+.file .role{font-size:14px;color:var(--muted);margin:-6px 0 0}
+.file ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.file li{padding-left:2px}
+.file li small{display:block;color:var(--muted);font-size:13px}
+
+.plan{display:grid;gap:0;border-top:1px solid var(--line)}
+.plan .row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding-block:14px;border-bottom:1px solid var(--line)}
+.plan .row strong{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.plan .row p{margin:0}
+
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.col{min-width:0;padding:18px;border-radius:6px;display:grid;gap:10px;align-content:start}
+.col.yes{background:var(--paper);border:1px solid var(--line)}
+.col.no{background:var(--open-soft);border:1px dashed var(--open)}
+.col h3{margin:0;font-size:17px}
+.col ul{margin:0;padding-left:18px;display:grid;gap:8px}
+
+footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;gap:8px}
+
+@media (max-width:620px){
+  .rail{left:6px}
+  .item{grid-template-columns:1fr;gap:6px;padding-left:24px}
+  .item .date{text-align:left;padding-top:0}
+  .item .dot{left:1px;top:4px}
+  .plan .row{grid-template-columns:1fr;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  .route .arc-draw{animation:none;stroke-dashoffset:0}
+  .route .ring,.route .plane-anim{animation:none}
+  .card,.item .dot{transition:none}
+}
+
+
+/* shared subpage components */
+.topnav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;padding-block:16px;font-family:var(--mono);font-size:13px}
+.topnav a{color:var(--accent);text-decoration:none}
+.topnav a:hover{text-decoration:underline}
+.pnav{display:flex;flex-wrap:wrap;gap:8px;padding-block:4px 10px}
+.pnav a{font-family:var(--mono);font-size:12px;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.pnav a[aria-current="page"]{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.pnav a:hover{border-color:var(--accent);color:var(--accent)}
+.hero2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:center;padding-block:18px 6px}
+.hero2 .txt{display:grid;gap:16px;min-width:0}
+.hero2 h1{font-size:clamp(48px,10vw,96px)}
+.hero2 svg{width:100%;height:auto;max-width:100%}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;padding-block:16px 0}
+.stat{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;gap:4px}
+.stat b{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+/* vertical animated steps */
+.vt{position:relative;display:grid;gap:14px;padding-left:30px}
+.vt::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.vt .fill{position:absolute;left:7px;top:6px;width:2px;height:0;background:var(--accent);transition:height .2s linear}
+.vs{position:relative;display:grid;gap:3px;min-width:0;transition:transform .45s ease}
+.vs::before{content:"";position:absolute;left:-29px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s}
+.vs.seen::before{background:var(--accent);border-color:var(--accent)}
+.vs.hot::before{background:var(--c-eua);border-color:var(--c-eua)}
+.vs time{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.vs strong{font-size:16px;line-height:1.35}
+.vs p{margin:0;font-size:15px;color:var(--ink)}
+.vs a.more{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.rv{transform:translateY(10px);transition:transform .5s ease}
+.rv.seen{transform:none}
+.cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.who{min-width:0;background:var(--paper);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:6px;padding:16px;display:grid;gap:8px;align-content:start}
+.who h3{margin:0;font-family:var(--display);font-size:28px;line-height:1;text-transform:uppercase;font-weight:700}
+.who p{margin:0;font-size:15px}
+.who small{color:var(--muted);font-size:13px}
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.view{min-width:0;padding:18px;border-radius:6px;background:var(--paper);border:1px solid var(--line);display:grid;gap:10px;align-content:start}
+.view h3{margin:0;font-size:17px}
+.view ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.srcs{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.srcs a{color:var(--muted)}
+.note{font-size:14px;color:var(--muted);margin:0}
+@media (max-width:700px){.hero2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.rv,.vs{transition:none;transform:none}.vt .fill{transition:none}}
+</style></head><body>
+<style>
+.scale text{font-family:var(--mono);font-size:13px;fill:var(--ink);text-anchor:middle}
+.scale .post{stroke:var(--ink);stroke-width:3}
+.scale .base{fill:var(--ink)}
+.scale .beam{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.scale .str{stroke:var(--muted);stroke-width:1.5}
+.scale .panL{fill:color-mix(in srgb,var(--c-meta) 25%,var(--paper));stroke:var(--c-meta);stroke-width:2}
+.scale .panR{fill:color-mix(in srgb,var(--c-lula) 25%,var(--paper));stroke:var(--c-lula);stroke-width:2}
+.scale .arm{transform-origin:180px 70px;animation:tilt 5s ease-in-out infinite}
+.scale .hang{animation:counter 5s ease-in-out infinite}
+@keyframes tilt{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+.claims{display:grid;gap:12px}
+.claim{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:start}
+.claim q{font-size:17px;font-weight:600;quotes:"“" "”";grid-column:1}
+.claim p{margin:0;font-size:14px;color:var(--muted);grid-column:1}
+.stamp{grid-column:2;grid-row:1/span 2;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:3px;border:2px solid currentColor;transform:rotate(-4deg) scale(1);transition:transform .4s cubic-bezier(.3,1.6,.5,1);white-space:nowrap;align-self:center}
+.claim:not(.seen) .stamp{transform:rotate(-4deg) scale(1.25)}
+.stamp.doc{color:var(--ink)} .stamp.part{color:var(--alleg)} .stamp.no{color:var(--c-eua)} .stamp.disp{color:var(--open)}
+@media (max-width:560px){.claim{grid-template-columns:1fr}.stamp{grid-column:1;grid-row:auto;justify-self:start}}
+@media (prefers-reduced-motion:reduce){.scale .arm{animation:none}.stamp{transition:none}}
+</style>
+
+<div class="wrap">
+  <nav class="topnav" aria-label="Navegação"><a href="./">← Rota Washington</a><span class="mono">Paralelo 4 de 5</span></nav>
+  <nav class="pnav" aria-label="Páginas"><a href="estrategia.html">Corolário Trump</a><a href="exigencias.html">21 exigências</a><a href="brics.html">BRICS e Pix</a><a href="bigtechs.html" aria-current="page">Big techs</a><a href="terras.html">Terras raras</a></nav>
+
+  <header class="hero2">
+    <div class="txt">
+      <div class="kicker">Paralelo 4 · Plataformas e tribunais</div>
+      <h1>Big techs e a Justiça</h1>
+      <p class="lede">Desde 2024, o STF manda plataformas americanas cumprirem ordens brasileiras, e o governo Trump trata essas ordens como censura. Essa briga virou motivo de tarifa, de sanção e de cinco das 21 exigências. Esta página separa o que aconteceu do que é suspeita.</p>
+    </div>
+    <svg class="scale" viewBox="0 0 360 240" role="img" aria-label="Balança oscilando entre plataformas americanas e tribunais brasileiros">
+      <rect x="140" y="214" width="80" height="10" rx="3" class="base"/>
+      <line x1="180" y1="214" x2="180" y2="70" class="post"/>
+      <g class="arm">
+        <line x1="60" y1="70" x2="300" y2="70" class="beam"/>
+        <line x1="60" y1="70" x2="30" y2="140" class="str"/><line x1="60" y1="70" x2="90" y2="140" class="str"/>
+        <line x1="300" y1="70" x2="270" y2="140" class="str"/><line x1="300" y1="70" x2="330" y2="140" class="str"/>
+        <path d="M22 140 H98 Q 60 170 22 140 Z" class="panL"/>
+        <path d="M262 140 H338 Q 300 170 262 140 Z" class="panR"/>
+        <text x="60" y="190">Plataformas</text><text x="300" y="190">Tribunais</text>
+      </g>
+      <circle cx="180" cy="70" r="7" class="base"/>
+    </svg>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b data-to="39" data-suf=" dias">39 dias</b><span>o X ficou fora do ar no Brasil em 2024</span></div>
+    <div class="stat"><b data-to="8" data-suf=" a 3">8 a 3</b><span>placar do STF que ampliou a responsabilidade das redes</span></div>
+    <div class="stat"><b data-to="5" data-suf=" de 21">5 de 21</b><span>exigências americanas tratam de plataformas digitais</span></div>
+  </div>
+
+  <section class="sec" aria-labelledby="h-t">
+    <h2 id="h-t">Os choques, em ordem</h2>
+    <div class="vt"><span class="fill" aria-hidden="true"></span>
+      <div class="vs"><time>30 ago 2024</time><strong>STF suspende o X no Brasil</strong><p>A rede de Elon Musk tinha retirado seu representante legal do país e não cumpria ordens de bloqueio de perfis. Volta em 8 de outubro, depois de pagar multas e nomear representante.</p></div>
+      <div class="vs hot"><time>7 jan 2025</time><strong>Zuckerberg encerra checagem de fatos e ataca “tribunais secretos”</strong><p>Diz que vai trabalhar com Trump contra governos que “censuram” empresas americanas e cita a América Latina.</p></div>
+      <div class="vs"><time>19–22 fev 2025</time><strong>Trump Media e Rumble processam Moraes na Flórida</strong><p>O Rumble é suspenso no Brasil dias depois, por não indicar representante nem cumprir ordem de suspender perfis de Allan dos Santos, foragido nos EUA.</p></div>
+      <div class="vs"><time>26 jun 2025</time><strong>STF muda o artigo 19 do Marco Civil</strong><p>Por 8 a 3, plataformas passam a responder por certos conteúdos de usuários mesmo sem ordem judicial prévia.</p></div>
+      <div class="vs hot"><time>9 jul 2025</time><strong>Carta de Trump cita ordens contra plataformas</strong><p>Ao impor tarifa de 50%, Trump acusa o Brasil de emitir ordens “secretas” de censura contra redes americanas.</p></div>
+      <div class="vs"><time>15 jul 2025</time><strong>Investigação comercial começa pelas redes sociais</strong><p>O tratamento dado a plataformas americanas é o primeiro item da Seção 301.</p><a class="more" href="brics.html">Ver a investigação →</a></div>
+      <div class="vs hot"><time>30 jul 2025</time><strong>Lei Magnitsky contra Alexandre de Moraes</strong><p>O relator dos casos contra plataformas e do processo de Bolsonaro tem bens bloqueados nos EUA.</p></div>
+      <div class="vs"><time>16 out 2025</time><strong>Cinco exigências sobre o setor digital</strong><p>Não taxar serviços digitais, nunca tarifar transmissões eletrônicas, não regular concorrência digital, não punir americanos por conduta protegida pela Primeira Emenda e dar direito de recurso às plataformas.</p><a class="more" href="exigencias.html">Ver itens 3, 5, 6, 8 e 9 →</a></div>
+      <div class="vs"><time>dez 2025</time><strong>Perfis de esquerda relatam queda de alcance</strong><p>PSOL e Fenaj vão ao MPF. A Meta atribui a falha técnica global que atingiu também a direita.</p></div>
+      <div class="vs hot"><time>fim set 2026</time><strong>Meta bloqueia anúncios de Lula e derruba perfil crítico a Flávio</strong><p>Os dois casos são revertidos. Há pedidos de investigação ao MPF.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-c">
+    <h2 id="h-c">Fato ou suspeita?</h2>
+    <p class="sec-intro">Frases que circulam sobre o tema, com o grau de comprovação de cada uma.</p>
+    <div class="claims">
+      <div class="claim go-on"><q>Zuckerberg se alinhou a Trump contra tribunais latino-americanos.</q><p>Declaração pública dele em janeiro de 2025.</p><span class="stamp doc">Documentado</span></div>
+      <div class="claim go-on"><q>Plataformas americanas desrespeitaram ordens da Justiça brasileira.</q><p>X e Rumble foram suspensos por não cumprir decisões e não ter representante legal no país.</p><span class="stamp doc">Documentado</span></div>
+      <div class="claim go-on"><q>A Meta prejudicou perfis de esquerda perto da eleição.</q><p>Houve casos concretos, como anúncios de Lula e o perfil Revelando Brasil, mas foram revertidos e a Meta fala em erro.</p><span class="stamp part">Em parte</span></div>
+      <div class="claim go-on"><q>O STF censura empresas americanas.</q><p>O STF diz aplicar a lei brasileira a quem opera no Brasil. O governo Trump chama isso de censura. É disputa de interpretação.</p><span class="stamp disp">Em disputa</span></div>
+      <div class="claim go-on"><q>A Meta agiu a mando do governo Trump na eleição.</q><p>Nenhuma reportagem apresentou prova disso até agora.</p><span class="stamp no">Sem prova</span></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-v">
+    <h2 id="h-v">Duas leituras</h2>
+    <div class="views">
+      <div class="view rv"><h3>Soberania judicial</h3><ul>
+        <li>Empresas que lucram no Brasil devem seguir a lei e as decisões dos tribunais brasileiros, como seguem as da Europa.</li>
+        <li>Usar tarifas e sanções para mudar decisões judiciais é interferência em outro Poder de outro país.</li>
+        <li>As exigências criariam regras especiais só para empresas americanas.</li>
+      </ul></div>
+      <div class="view rv"><h3>Liberdade de expressão</h3><ul>
+        <li>Ordens sigilosas de remoção de perfis dificultam a defesa e o controle público das decisões.</li>
+        <li>A nova leitura do artigo 19 pode levar as plataformas a remover conteúdo em excesso por medo de punição.</li>
+        <li>Pedir aviso prévio e direito de recurso é um princípio de devido processo.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="srcs">Fontes:
+      <a href="https://www.poder360.com.br/poder-midia/america-latina-tem-tribunais-secretos-de-censura-diz-zuckerberg/" target="_blank" rel="noopener">Poder360</a>
+      <a href="https://apublica.org/2025/02/quatro-pontos-para-entender-a-guerra-de-trump-e-rumble-contra-moraes/" target="_blank" rel="noopener">Agência Pública</a>
+      <a href="https://www.cnnbrasil.com.br/politica/entenda-o-embate-entre-alexandre-de-moraes-e-o-rumble/" target="_blank" rel="noopener">CNN Brasil</a>
+      <a href="https://exame.com/brasil/stf-tem-placar-de-8x2-para-ampliar-responsabilizacao-de-redes-sobre-conteudos-publicados" target="_blank" rel="noopener">Exame</a>
+      <a href="https://olhardigital.com.br/2025/11/05/pro/stf-publica-acordao-de-decisao-sobre-mudancas-no-marco-civil-da-internet/" target="_blank" rel="noopener">Olhar Digital</a>
+      <a href="https://www.poder360.com.br/poder-internacional/leia-a-integra-da-carta-de-trump-a-lula-impondo-tarifa-de-50/" target="_blank" rel="noopener">Poder360 · carta</a>
+      <a href="https://www.congressoemfoco.com.br/noticia/110610/eua-impoem-sancoes-da-lei-magnitsky-a-alexandre-de-moraes" target="_blank" rel="noopener">Congresso em Foco</a>
+      <a href="https://www.congressoemfoco.com.br/noticia/114781/psol-denuncia-a-meta-ao-mpf-por-reduzir-alcance-de-perfis-de-esquerda" target="_blank" rel="noopener">Congresso em Foco · PSOL</a>
+      <a href="https://techpolicy.press/on-eve-of-brazil-elections-meta-content-moderation-decisions-raise-questions" target="_blank" rel="noopener">Tech Policy Press</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fmt=(v,d)=>v.toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+  function countUp(el){const to=+el.dataset.to,d=+(el.dataset.dec||0),pre=el.dataset.pre||"",suf=el.dataset.suf||"";
+    if(reduce){el.textContent=pre+fmt(to,d)+suf;return}
+    const t0=performance.now(),ms=1300;(function f(t){const k=Math.min(1,(t-t0)/ms);el.textContent=pre+fmt(to*(1-Math.pow(1-k,3)),d)+suf;if(k<1)requestAnimationFrame(f)})(t0)}
+  const counted=new WeakSet();
+  function check(){const vh=innerHeight;
+    document.querySelectorAll("[data-to]").forEach(el=>{if(!counted.has(el)&&el.getBoundingClientRect().top<vh*0.95){counted.add(el);countUp(el)}});
+    document.querySelectorAll(".rv,.vs,.grow,.go-on").forEach(el=>{if(el.getBoundingClientRect().top<vh*0.85)el.classList.add("seen")});
+    document.querySelectorAll(".vt").forEach(v=>{const r=v.getBoundingClientRect();const p=Math.min(1,Math.max(0,(vh*0.7-r.top)/r.height));const f=v.querySelector(".fill");if(f)f.style.height=(p*(r.height-12))+"px"});
+  }
+  window.__check=check;
+  addEventListener("scroll",check,{passive:true});addEventListener("resize",check);setTimeout(check,120);
+})();
+</script>
+</body></html>

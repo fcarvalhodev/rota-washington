@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Terras raras</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: a diplomatic cable file. Hero draws the BSB→DCA route; below, a single vertical timeline with a date rail, actor filters, then three short dossier sections. */
+:root{
+  --bg:#edf0f3; --paper:#f8fafb; --ink:#14213d; --muted:#56627a; --line:#cfd6df;
+  --accent:#0e7c74; --accent-soft:#d5ebe8;
+  --doc:#14213d; --alleg:#a56a00; --alleg-soft:#fbefd6; --open:#6b5bb5; --open-soft:#e8e5f6;
+  --c-flavio:#1f5fbf; --c-eduardo:#7a3fb0; --c-eua:#b23a48; --c-meta:#0e7c74; --c-lula:#9a5b00;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px}
+.mono{font-family:var(--mono)}
+
+/* hero */
+.hero{padding-block:40px 28px;display:grid;gap:22px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(56px,14vw,124px);line-height:.86;margin:0;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
+.lede{font-size:18px;max-width:62ch;margin:0;color:var(--ink)}
+.route{width:100%;max-width:100%;height:auto;display:block}
+.route .arc{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:6 7}
+.route .arc-draw{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.4s .3s cubic-bezier(.6,.1,.2,1) forwards}
+.route .pt{fill:var(--ink)}
+.route .ring{fill:none;stroke:var(--ink);stroke-width:1.5;opacity:.5;transform-origin:center;transform-box:fill-box;animation:pulse 2.4s infinite}
+.route text{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.route .sub{fill:var(--muted);font-size:11px}
+.route .plane{fill:var(--accent)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.6);opacity:0}}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+
+/* evidence tags */
+.ev{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
+.ev.doc{background:var(--doc);color:var(--paper)}
+.ev.alleg{background:var(--alleg-soft);color:var(--alleg);border:1px solid var(--alleg)}
+.ev.open{background:var(--open-soft);color:var(--open);border:1px dashed var(--open)}
+
+/* filters */
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px}
+.filters .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters .lbl{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
+.chip{font-family:var(--body);font-size:14px;font-weight:500;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px 5px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.chip[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--paper))}
+.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* timeline */
+h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,52px);line-height:1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.sec{padding-block:44px 8px;display:grid;gap:20px}
+.sec-intro{color:var(--muted);max-width:62ch;margin:0}
+.year{font-family:var(--display);font-weight:900;font-size:40px;color:var(--accent);margin:28px 0 6px 0;line-height:1}
+.tl{position:relative;display:grid;gap:14px;padding-left:0}
+.rail{position:absolute;left:96px;top:0;bottom:0;width:2px;background:var(--line)}
+.rail b{display:block;width:100%;background:var(--accent);height:0}
+.item{display:grid;grid-template-columns:84px 1fr;gap:24px;position:relative}
+.item .date{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:right;padding-top:16px;line-height:1.3}
+.item .dot{position:absolute;left:91px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s,transform .3s}
+.item.seen .dot{background:var(--accent);border-color:var(--accent)}
+.card{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px 14px;display:grid;gap:8px;transition:transform .45s ease,box-shadow .45s ease}
+.item.seen .card{box-shadow:0 1px 0 var(--line)}
+.item.key .card{border-left:4px solid var(--accent)}
+.card .top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:space-between}
+.actors{display:flex;flex-wrap:wrap;gap:6px}
+.actor{font-size:12px;font-weight:600;color:var(--c);display:inline-flex;align-items:center;gap:5px}
+.actor::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.card h3{font-size:18px;line-height:1.3;margin:0;font-weight:600;text-wrap:balance}
+.card p{margin:0}
+.src{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 12px}
+.src a{color:var(--muted);text-underline-offset:2px}
+.src a:hover{color:var(--accent)}
+.empty{color:var(--muted);font-style:italic}
+.item[hidden]{display:none}
+
+/* dossiers */
+.dossier{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.file{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:12px;align-content:start;border-top:5px solid var(--c)}
+.file h3{font-family:var(--display);font-size:30px;line-height:1;margin:0;text-transform:uppercase;font-weight:700}
+.file .role{font-size:14px;color:var(--muted);margin:-6px 0 0}
+.file ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.file li{padding-left:2px}
+.file li small{display:block;color:var(--muted);font-size:13px}
+
+.plan{display:grid;gap:0;border-top:1px solid var(--line)}
+.plan .row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding-block:14px;border-bottom:1px solid var(--line)}
+.plan .row strong{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.plan .row p{margin:0}
+
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.col{min-width:0;padding:18px;border-radius:6px;display:grid;gap:10px;align-content:start}
+.col.yes{background:var(--paper);border:1px solid var(--line)}
+.col.no{background:var(--open-soft);border:1px dashed var(--open)}
+.col h3{margin:0;font-size:17px}
+.col ul{margin:0;padding-left:18px;display:grid;gap:8px}
+
+footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;gap:8px}
+
+@media (max-width:620px){
+  .rail{left:6px}
+  .item{grid-template-columns:1fr;gap:6px;padding-left:24px}
+  .item .date{text-align:left;padding-top:0}
+  .item .dot{left:1px;top:4px}
+  .plan .row{grid-template-columns:1fr;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  .route .arc-draw{animation:none;stroke-dashoffset:0}
+  .route .ring,.route .plane-anim{animation:none}
+  .card,.item .dot{transition:none}
+}
+
+
+/* shared subpage components */
+.topnav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;padding-block:16px;font-family:var(--mono);font-size:13px}
+.topnav a{color:var(--accent);text-decoration:none}
+.topnav a:hover{text-decoration:underline}
+.pnav{display:flex;flex-wrap:wrap;gap:8px;padding-block:4px 10px}
+.pnav a{font-family:var(--mono);font-size:12px;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.pnav a[aria-current="page"]{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.pnav a:hover{border-color:var(--accent);color:var(--accent)}
+.hero2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:center;padding-block:18px 6px}
+.hero2 .txt{display:grid;gap:16px;min-width:0}
+.hero2 h1{font-size:clamp(48px,10vw,96px)}
+.hero2 svg{width:100%;height:auto;max-width:100%}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;padding-block:16px 0}
+.stat{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;gap:4px}
+.stat b{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+/* vertical animated steps */
+.vt{position:relative;display:grid;gap:14px;padding-left:30px}
+.vt::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.vt .fill{position:absolute;left:7px;top:6px;width:2px;height:0;background:var(--accent);transition:height .2s linear}
+.vs{position:relative;display:grid;gap:3px;min-width:0;transition:transform .45s ease}
+.vs::before{content:"";position:absolute;left:-29px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s}
+.vs.seen::before{background:var(--accent);border-color:var(--accent)}
+.vs.hot::before{background:var(--c-eua);border-color:var(--c-eua)}
+.vs time{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.vs strong{font-size:16px;line-height:1.35}
+.vs p{margin:0;font-size:15px;color:var(--ink)}
+.vs a.more{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.rv{transform:translateY(10px);transition:transform .5s ease}
+.rv.seen{transform:none}
+.cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.who{min-width:0;background:var(--paper);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:6px;padding:16px;display:grid;gap:8px;align-content:start}
+.who h3{margin:0;font-family:var(--display);font-size:28px;line-height:1;text-transform:uppercase;font-weight:700}
+.who p{margin:0;font-size:15px}
+.who small{color:var(--muted);font-size:13px}
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.view{min-width:0;padding:18px;border-radius:6px;background:var(--paper);border:1px solid var(--line);display:grid;gap:10px;align-content:start}
+.view h3{margin:0;font-size:17px}
+.view ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.srcs{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.srcs a{color:var(--muted)}
+.note{font-size:14px;color:var(--muted);margin:0}
+@media (max-width:700px){.hero2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.rv,.vs{transition:none;transform:none}.vt .fill{transition:none}}
+</style></head><body>
+<style>
+.chart{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:grid;gap:10px;min-width:0}
+.chart h3{margin:0;font-size:16px}
+.chart .cap{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.bars{display:grid;gap:8px}
+.br{display:grid;grid-template-columns:78px 1fr 52px;gap:10px;align-items:center;font-size:14px}
+.br .nm{color:var(--ink);text-align:right}
+.br .tr{height:18px;background:var(--bg);border-radius:0 4px 4px 0;position:relative}
+.br .fl{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--muted);width:var(--w);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.bars:not(.seen) .fl{width:0}
+.br.bra .fl{background:var(--accent)}
+.br.chn .fl{background:var(--c-eua)}
+.br .v{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.br.bra .nm,.br.bra .v{font-weight:600;color:var(--ink)}
+.br:hover .fl{filter:brightness(1.1)}
+/* chain */
+.chain{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding-top:34px}
+.chain .wire{position:absolute;top:14px;left:10%;right:10%;height:2px;background:var(--line)}
+.chain .dot{position:absolute;top:8px;left:10%;width:14px;height:14px;border-radius:50%;background:var(--accent);animation:run 6s ease-in-out infinite}
+@keyframes run{0%{left:10%}80%,100%{left:calc(90% - 14px)}}
+.lk{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:12px;display:grid;gap:6px;align-content:start;position:relative}
+.lk b{font-size:15px}
+.lk span{font-size:13px;color:var(--muted)}
+.lk .who2{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px;justify-self:start}
+.lk.br2{border:2px solid var(--accent)} .lk.br2 .who2{background:var(--accent);color:var(--paper)}
+.lk.cn{border:2px solid var(--c-eua)} .lk.cn .who2{background:var(--c-eua);color:var(--paper)}
+.uses{display:flex;flex-wrap:wrap;gap:8px}
+.uses span{font-family:var(--mono);font-size:13px;border:1.5px solid var(--ink);padding:5px 10px;border-radius:3px}
+@media (max-width:700px){
+  .chain{grid-template-columns:1fr;padding-top:0;padding-left:28px}
+  .chain .wire{top:8px;bottom:8px;left:8px;right:auto;width:2px;height:auto}
+  .chain .dot{left:2px;top:8px;animation:runv 6s ease-in-out infinite}
+  @keyframes runv{0%{top:8px}80%,100%{top:calc(100% - 22px)}}
+}
+@media (prefers-reduced-motion:reduce){.chain .dot{animation:none}.br .fl{transition:none}.bars:not(.seen) .fl{width:var(--w)}}
+</style>
+
+<div class="wrap">
+  <nav class="topnav" aria-label="Navegação"><a href="./">← Rota Washington</a><span class="mono">Paralelo 5 de 5</span></nav>
+  <nav class="pnav" aria-label="Páginas"><a href="estrategia.html">Corolário Trump</a><a href="exigencias.html">21 exigências</a><a href="brics.html">BRICS e Pix</a><a href="bigtechs.html">Big techs</a><a href="terras.html" aria-current="page">Terras raras</a></nav>
+
+  <header class="hero2">
+    <div class="txt">
+      <div class="kicker">Paralelo 5 · Minerais críticos</div>
+      <h1>Terras raras</h1>
+      <p class="lede">São 17 elementos usados em ímãs de carros elétricos, turbinas eólicas, celulares e armamentos. A China domina a produção e o refino, os EUA querem uma alternativa e o Brasil tem a segunda maior reserva conhecida. É por isso que o tema aparece nas exigências americanas, nas reuniões de Flávio e de Lula e na venda de uma mina em Goiás.</p>
+    </div>
+    <div class="chart">
+      <h3>Reservas de terras raras, em milhões de toneladas</h3>
+      <div class="bars grow" id="bars" role="img" aria-label="China 44, Brasil 21, Índia 6,9, Austrália 5,7, Rússia 3,8, Vietnã 3,5, EUA 1,9 milhões de toneladas"></div>
+      <span class="cap">Estimativa do Serviço Geológico dos EUA (USGS)</span>
+    </div>
+  </header>
+
+  <section class="sec" aria-labelledby="h-u">
+    <h2 id="h-u">Para que servem</h2>
+    <div class="uses"><span>Ímãs de carros elétricos</span><span>Turbinas eólicas</span><span>Celulares e computadores</span><span>Mísseis e caças</span><span>Equipamentos médicos</span></div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-c">
+    <h2 id="h-c">Onde está o poder</h2>
+    <p class="sec-intro">Ter a reserva é só o começo. O valor está nas etapas seguintes, e a maior delas é dominada pela China.</p>
+    <div class="chain"><span class="wire" aria-hidden="true"></span><span class="dot" aria-hidden="true"></span>
+      <div class="lk br2"><span class="who2">Brasil tem</span><b>Mineração</b><span>Extrair o minério. O Brasil tem a 2ª maior reserva.</span></div>
+      <div class="lk"><b>Separação</b><span>Concentrar e separar os elementos do minério.</span></div>
+      <div class="lk cn"><span class="who2">China domina</span><b>Refino</b><span>Cerca de 90% do refino mundial é chinês, segundo a Agência Internacional de Energia.</span></div>
+      <div class="lk"><b>Ímãs</b><span>Fabricar os ímãs permanentes, também concentrados na China.</span></div>
+      <div class="lk"><b>Produtos</b><span>Carros, turbinas, eletrônicos e armas.</span></div>
+    </div>
+    <p class="note">Flávio defende que o refino e a fabricação venham para o Brasil, com transferência de tecnologia: “Interessa pro mundo? Vem pra cá.”</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-t">
+    <h2 id="h-t">A corrida pelo Brasil</h2>
+    <div class="vt"><span class="fill" aria-hidden="true"></span>
+      <div class="vs"><time>abr 2025</time><strong>China restringe exportação de terras raras</strong><p>Em meio à guerra tarifária com os EUA, Pequim limita a venda de vários elementos, e a busca americana por alternativas acelera.</p></div>
+      <div class="vs hot"><time>16 out 2025</time><strong>Exigências 12 e 16</strong><p>Os EUA pedem aviso prévio sobre a venda de minas de minerais críticos, chance para empresas americanas e limites a investimentos de “entidades preocupantes”, ou seja, chinesas.</p><a class="more" href="exigencias.html">Ver as exigências →</a></div>
+      <div class="vs"><time>2025–26</time><strong>Dinheiro do governo americano para a Serra Verde</strong><p>A única produtora de terras raras do Brasil, em Minaçu (GO), recebe US$ 565 milhões de um braço de investimento do governo dos EUA. Parte da produção fica reservada aos EUA ou a países “alinhados”.</p></div>
+      <div class="vs"><time>mar 2026</time><strong>Brasil nega vistos a delegação americana</strong><p>O grupo ia a um fórum sobre minerais críticos.</p></div>
+      <div class="vs"><time>28 mar 2026</time><strong>Flávio oferece o Brasil como solução</strong><p>Na CPAC, nos EUA, apresenta o país como alternativa para o acesso americano a terras raras.</p></div>
+      <div class="vs hot"><time>20 abr 2026</time><strong>USA Rare Earth compra a Serra Verde</strong><p>Negócio de cerca de US$ 2,8 bilhões, com conclusão prevista para o terceiro trimestre. A única mina em produção no país passa para controle americano.</p></div>
+      <div class="vs"><time>26 abr 2026</time><strong>Flávio: “vem pra cá”</strong><p>Em vídeo, defende processar as terras raras no Brasil e negociar com EUA e China.</p></div>
+      <div class="vs"><time>7 mai 2026</time><strong>Lula e Trump discutem minerais críticos</strong><p>O tema está na pauta da reunião de três horas na Casa Branca.</p></div>
+      <div class="vs hot"><time>26 mai 2026</time><strong>Flávio propõe “parceria estratégica de longo prazo”</strong><p>A proposta é apresentada na Casa Branca, segundo o ICL.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-v">
+    <h2 id="h-v">Duas leituras</h2>
+    <div class="views">
+      <div class="view rv"><h3>Quem vê ameaça à soberania</h3><ul>
+        <li>A única mina em produção já é americana, e parte do que ela produz tem destino definido por outro governo.</li>
+        <li>Dar aos EUA aviso prévio e preferência sobre minas tira do Brasil o poder de negociar com quem pagar mais ou oferecer mais tecnologia.</li>
+        <li>Exportar minério sem refino repete o modelo de vender matéria-prima barata e comprar produto caro.</li>
+      </ul></div>
+      <div class="view rv"><h3>Quem vê oportunidade</h3><ul>
+        <li>Capital americano tira projetos do papel mais rápido do que o Brasil faria sozinho.</li>
+        <li>Uma alternativa à China interessa ao mundo e pode dar ao Brasil poder de barganha.</li>
+        <li>Parcerias podem trazer refino e fábricas de ímãs, se a transferência de tecnologia for exigida em contrato.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="srcs">Fontes:
+      <a href="https://olhardigital.com.br/2026/04/20/pro/brasil-empresa-dos-eua-adquire-unica-mina-de-terras-raras-por-r-13-9-bi/" target="_blank" rel="noopener">Olhar Digital</a>
+      <a href="https://diariodocomercio.com.br/negocios/mineradora-terras-raras-brasileira-recebe-financiamento-maior-eua/" target="_blank" rel="noopener">Diário do Comércio</a>
+      <a href="https://www.infomoney.com.br/?p=3201609" target="_blank" rel="noopener">InfoMoney</a>
+      <a href="https://www.em.com.br/politica/2026/04/7406266-flavio-bolsonaro-defende-uso-de-terras-raras-no-brasil-por-outros-paises.html" target="_blank" rel="noopener">Estado de Minas</a>
+      <a href="https://iclnoticias.com.br/?p=128491" target="_blank" rel="noopener">ICL Notícias</a>
+      <a href="https://olhardigital.com.br/2026/05/07/pro/lula-e-trump-falam-sobre-minerais-criticos-em-reuniao/" target="_blank" rel="noopener">Olhar Digital · Lula e Trump</a>
+      <a href="https://www.gazetadopovo.com.br/mundo/governo-trump-revoga-visto-de-embaixadora-do-brasil-nos-eua/" target="_blank" rel="noopener">Gazeta do Povo</a>
+      <a href="https://www.brasilagro.com.br/conteudo/governo-trump-fez-21-exigencias-ao-brasil-para-negociar-tarifaco-em-2025.html" target="_blank" rel="noopener">BrasilAgro</a>
+    </div>
+    <p class="note">Reservas: estimativas do USGS em milhões de toneladas de óxidos de terras raras. Participação chinesa no refino: Agência Internacional de Energia.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const R=[["China",44,"chn"],["Brasil",21,"bra"],["Índia",6.9,""],["Austrália",5.7,""],["Rússia",3.8,""],["Vietnã",3.5,""],["EUA",1.9,""]];
+  const max=44,b=document.getElementById("bars");
+  b.innerHTML=R.map(r=>`<div class="br ${r[2]}" title="${r[0]}: ${String(r[1]).replace(".",",")} milhões de toneladas"><span class="nm">${r[0]}</span><span class="tr"><span class="fl" style="--w:${(r[1]/max*100).toFixed(1)}%"></span></span><span class="v">${String(r[1]).replace(".",",")}</span></div>`).join("");
+})();
+</script>
+
+<script>
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fmt=(v,d)=>v.toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+  function countUp(el){const to=+el.dataset.to,d=+(el.dataset.dec||0),pre=el.dataset.pre||"",suf=el.dataset.suf||"";
+    if(reduce){el.textContent=pre+fmt(to,d)+suf;return}
+    const t0=performance.now(),ms=1300;(function f(t){const k=Math.min(1,(t-t0)/ms);el.textContent=pre+fmt(to*(1-Math.pow(1-k,3)),d)+suf;if(k<1)requestAnimationFrame(f)})(t0)}
+  const counted=new WeakSet();
+  function check(){const vh=innerHeight;
+    document.querySelectorAll("[data-to]").forEach(el=>{if(!counted.has(el)&&el.getBoundingClientRect().top<vh*0.95){counted.add(el);countUp(el)}});
+    document.querySelectorAll(".rv,.vs,.grow,.go-on").forEach(el=>{if(el.getBoundingClientRect().top<vh*0.85)el.classList.add("seen")});
+    document.querySelectorAll(".vt").forEach(v=>{const r=v.getBoundingClientRect();const p=Math.min(1,Math.max(0,(vh*0.7-r.top)/r.height));const f=v.querySelector(".fill");if(f)f.style.height=(p*(r.height-12))+"px"});
+  }
+  window.__check=check;
+  addEventListener("scroll",check,{passive:true});addEventListener("resize",check);setTimeout(check,120);
+})();
+</script>
+</body></html>
