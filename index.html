@@ -5,7 +5,7 @@
 <title>Rota Washington</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
 /* Layout: a diplomatic cable file. Hero draws the BSB→DCA route; below, a single vertical timeline with a date rail, actor filters, then three short dossier sections. */
 :root{
@@ -13,9 +13,9 @@
   --accent:#0e7c74; --accent-soft:#d5ebe8;
   --doc:#14213d; --alleg:#a56a00; --alleg-soft:#fbefd6; --open:#6b5bb5; --open-soft:#e8e5f6;
   --c-flavio:#1f5fbf; --c-eduardo:#7a3fb0; --c-eua:#b23a48; --c-meta:#0e7c74; --c-lula:#9a5b00;
-  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
-  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --display:"Archivo","Arial Narrow",Impact,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
@@ -39,7 +39,7 @@ a{color:inherit}
 /* hero */
 .hero{padding-block:40px 28px;display:grid;gap:22px}
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-h1{font-family:var(--display);font-weight:900;font-size:clamp(56px,14vw,124px);line-height:.86;margin:0;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
+h1{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(56px,14vw,124px);line-height:.86;margin:0;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
 .lede{font-size:18px;max-width:62ch;margin:0;color:var(--ink)}
 .route{width:100%;max-width:100%;height:auto;display:block}
 .route .arc{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:6 7}
@@ -71,10 +71,10 @@ h1{font-family:var(--display);font-weight:900;font-size:clamp(56px,14vw,124px);l
 .chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
 /* timeline */
-h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,52px);line-height:1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+h2{font-family:var(--display);font-stretch:66%;font-weight:800;font-size:clamp(34px,7vw,52px);line-height:1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
 .sec{padding-block:44px 8px;display:grid;gap:20px}
 .sec-intro{color:var(--muted);max-width:62ch;margin:0}
-.year{font-family:var(--display);font-weight:900;font-size:40px;color:var(--accent);margin:28px 0 6px 0;line-height:1}
+.year{font-family:var(--display);font-stretch:66%;font-weight:900;font-size:40px;color:var(--accent);margin:28px 0 6px 0;line-height:1}
 .tl{position:relative;display:grid;gap:14px;padding-left:0}
 .rail{position:absolute;left:96px;top:0;bottom:0;width:2px;background:var(--line)}
 .rail b{display:block;width:100%;background:var(--accent);height:0}
@@ -100,7 +100,7 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,52px);lin
 /* dossiers */
 .dossier{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
 .file{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:12px;align-content:start;border-top:5px solid var(--c)}
-.file h3{font-family:var(--display);font-size:30px;line-height:1;margin:0;text-transform:uppercase;font-weight:700}
+.file h3{font-family:var(--display);font-stretch:66%;font-size:30px;line-height:1;margin:0;text-transform:uppercase;font-weight:700}
 .file .role{font-size:14px;color:var(--muted);margin:-6px 0 0}
 .file ul{margin:0;padding-left:18px;display:grid;gap:8px}
 .file li{padding-left:2px}
@@ -124,7 +124,7 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,52px);lin
 .par a:hover{border-color:var(--accent);transform:translateY(-2px)}
 .par a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .par .n{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
-.par strong{font-family:var(--display);font-size:30px;line-height:1;text-transform:uppercase;font-weight:700}
+.par strong{font-family:var(--display);font-stretch:66%;font-size:30px;line-height:1;text-transform:uppercase;font-weight:700}
 .par span.d{font-size:14px;color:var(--muted)}
 .par .go{font-family:var(--mono);font-size:13px;color:var(--accent)}
 .more{font-family:var(--mono);font-size:13px;color:var(--accent);text-decoration:none;justify-self:start;border-bottom:1px solid currentColor}
@@ -173,7 +173,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;ga
 }
 </style>
 </head><body>
-<style>/* barra comum das Rotas */.rotas-bar{border-bottom:1px solid var(--line);background:var(--bg);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}.rotas-bar>div{max-width:880px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}.rotas-bar a{color:var(--muted);text-decoration:none;padding-block:2px;border-bottom:2px solid transparent}.rotas-bar a:hover{color:var(--ink)}.rotas-bar a[aria-current]{color:var(--ink);border-bottom-color:var(--accent)}.rotas-bar .rb-home{color:var(--accent);font-weight:600}.rotas-bar a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}</style><nav class="rotas-bar" aria-label="Rotas"><div><a class="rb-home" href="https://fcarvalhodev.github.io/rotas/">Rotas</a><a href="https://fcarvalhodev.github.io/rota-washington/" aria-current="page">Washington</a><a href="https://fcarvalhodev.github.io/rota-master/">Master</a><a href="https://fcarvalhodev.github.io/rota-curitiba/">Curitiba</a><a href="https://fcarvalhodev.github.io/rota-da-fe/">Fé</a></div></nav>
+<style>/* barra comum das Rotas */.rotas-bar{border-bottom:1px solid var(--line);background:var(--bg);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}.rotas-bar>div{max-width:880px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}.rotas-bar a{color:var(--muted);text-decoration:none;padding-block:2px;border-bottom:2px solid transparent}.rotas-bar a:hover{color:var(--ink)}.rotas-bar a[aria-current]{color:var(--ink);border-bottom-color:var(--accent)}.rotas-bar .rb-home{color:var(--accent);font-weight:600}.rotas-bar a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}</style><nav class="rotas-bar" aria-label="Rotas"><div><a class="rb-home" href="https://fcarvalhodev.github.io/rotas/">Rotas</a><a href="https://fcarvalhodev.github.io/rota-washington/" aria-current="page">Washington</a><a href="https://fcarvalhodev.github.io/rota-master/">Master</a><a href="https://fcarvalhodev.github.io/rota-curitiba/">Curitiba</a><a href="https://fcarvalhodev.github.io/rota-da-fe/">Fé</a><a href="https://fcarvalhodev.github.io/rota-esplanada/">Esplanada</a></div></nav>
 
 
 
