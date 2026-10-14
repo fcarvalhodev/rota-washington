@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The 21 demands</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: a diplomatic cable file. Hero draws the BSB→DCA route; below, a single vertical timeline with a date rail, actor filters, then three short dossier sections. */
+:root{
+  --bg:#edf0f3; --paper:#f8fafb; --ink:#14213d; --muted:#56627a; --line:#cfd6df;
+  --accent:#0e7c74; --accent-soft:#d5ebe8;
+  --doc:#14213d; --alleg:#a56a00; --alleg-soft:#fbefd6; --open:#6b5bb5; --open-soft:#e8e5f6;
+  --c-flavio:#1f5fbf; --c-eduardo:#7a3fb0; --c-eua:#b23a48; --c-meta:#0e7c74; --c-lula:#9a5b00;
+  --display:"Archivo","Arial Narrow",Impact,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px}
+.mono{font-family:var(--mono)}
+
+/* hero */
+.hero{padding-block:40px 28px;display:grid;gap:22px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(56px,14vw,124px);line-height:.86;margin:0;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
+.lede{font-size:18px;max-width:62ch;margin:0;color:var(--ink)}
+.route{width:100%;max-width:100%;height:auto;display:block}
+.route .arc{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:6 7}
+.route .arc-draw{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.4s .3s cubic-bezier(.6,.1,.2,1) forwards}
+.route .pt{fill:var(--ink)}
+.route .ring{fill:none;stroke:var(--ink);stroke-width:1.5;opacity:.5;transform-origin:center;transform-box:fill-box;animation:pulse 2.4s infinite}
+.route text{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.route .sub{fill:var(--muted);font-size:11px}
+.route .plane{fill:var(--accent)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.6);opacity:0}}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+
+/* evidence tags */
+.ev{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
+.ev.doc{background:var(--doc);color:var(--paper)}
+.ev.alleg{background:var(--alleg-soft);color:var(--alleg);border:1px solid var(--alleg)}
+.ev.open{background:var(--open-soft);color:var(--open);border:1px dashed var(--open)}
+
+/* filters */
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px}
+.filters .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters .lbl{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
+.chip{font-family:var(--body);font-size:14px;font-weight:500;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px 5px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.chip[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--paper))}
+.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* timeline */
+h2{font-family:var(--display);font-stretch:66%;font-weight:800;font-size:clamp(34px,7vw,52px);line-height:1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.sec{padding-block:44px 8px;display:grid;gap:20px}
+.sec-intro{color:var(--muted);max-width:62ch;margin:0}
+.year{font-family:var(--display);font-stretch:66%;font-weight:900;font-size:40px;color:var(--accent);margin:28px 0 6px 0;line-height:1}
+.tl{position:relative;display:grid;gap:14px;padding-left:0}
+.rail{position:absolute;left:96px;top:0;bottom:0;width:2px;background:var(--line)}
+.rail b{display:block;width:100%;background:var(--accent);height:0}
+.item{display:grid;grid-template-columns:84px 1fr;gap:24px;position:relative}
+.item .date{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:right;padding-top:16px;line-height:1.3}
+.item .dot{position:absolute;left:91px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s,transform .3s}
+.item.seen .dot{background:var(--accent);border-color:var(--accent)}
+.card{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px 14px;display:grid;gap:8px;transition:transform .45s ease,box-shadow .45s ease}
+.item.seen .card{box-shadow:0 1px 0 var(--line)}
+.item.key .card{border-left:4px solid var(--accent)}
+.card .top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:space-between}
+.actors{display:flex;flex-wrap:wrap;gap:6px}
+.actor{font-size:12px;font-weight:600;color:var(--c);display:inline-flex;align-items:center;gap:5px}
+.actor::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.card h3{font-size:18px;line-height:1.3;margin:0;font-weight:600;text-wrap:balance}
+.card p{margin:0}
+.src{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 12px}
+.src a{color:var(--muted);text-underline-offset:2px}
+.src a:hover{color:var(--accent)}
+.empty{color:var(--muted);font-style:italic}
+.item[hidden]{display:none}
+
+/* dossiers */
+.dossier{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.file{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:12px;align-content:start;border-top:5px solid var(--c)}
+.file h3{font-family:var(--display);font-stretch:66%;font-size:30px;line-height:1;margin:0;text-transform:uppercase;font-weight:700}
+.file .role{font-size:14px;color:var(--muted);margin:-6px 0 0}
+.file ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.file li{padding-left:2px}
+.file li small{display:block;color:var(--muted);font-size:13px}
+
+.plan{display:grid;gap:0;border-top:1px solid var(--line)}
+.plan .row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding-block:14px;border-bottom:1px solid var(--line)}
+.plan .row strong{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.plan .row p{margin:0}
+
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.col{min-width:0;padding:18px;border-radius:6px;display:grid;gap:10px;align-content:start}
+.col.yes{background:var(--paper);border:1px solid var(--line)}
+.col.no{background:var(--open-soft);border:1px dashed var(--open)}
+.col h3{margin:0;font-size:17px}
+.col ul{margin:0;padding-left:18px;display:grid;gap:8px}
+
+footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;gap:8px}
+
+@media (max-width:620px){
+  .rail{left:6px}
+  .item{grid-template-columns:1fr;gap:6px;padding-left:24px}
+  .item .date{text-align:left;padding-top:0}
+  .item .dot{left:1px;top:4px}
+  .plan .row{grid-template-columns:1fr;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  .route .arc-draw{animation:none;stroke-dashoffset:0}
+  .route .ring,.route .plane-anim{animation:none}
+  .card,.item .dot{transition:none}
+}
+
+
+/* shared subpage components */
+.topnav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;padding-block:16px;font-family:var(--mono);font-size:13px}
+.topnav a{color:var(--accent);text-decoration:none}
+.topnav a:hover{text-decoration:underline}
+.pnav{display:flex;flex-wrap:wrap;gap:8px;padding-block:4px 10px}
+.pnav a{font-family:var(--mono);font-size:12px;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.pnav a[aria-current="page"]{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.pnav a:hover{border-color:var(--accent);color:var(--accent)}
+.hero2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:center;padding-block:18px 6px}
+.hero2 .txt{display:grid;gap:16px;min-width:0}
+.hero2 h1{font-size:clamp(48px,10vw,96px)}
+.hero2 svg{width:100%;height:auto;max-width:100%}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;padding-block:16px 0}
+.stat{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;gap:4px}
+.stat b{font-family:var(--display);font-stretch:66%;font-weight:900;font-size:44px;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+/* vertical animated steps */
+.vt{position:relative;display:grid;gap:14px;padding-left:30px}
+.vt::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.vt .fill{position:absolute;left:7px;top:6px;width:2px;height:0;background:var(--accent);transition:height .2s linear}
+.vs{position:relative;display:grid;gap:3px;min-width:0;transition:transform .45s ease}
+.vs::before{content:"";position:absolute;left:-29px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s}
+.vs.seen::before{background:var(--accent);border-color:var(--accent)}
+.vs.hot::before{background:var(--c-eua);border-color:var(--c-eua)}
+.vs time{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.vs strong{font-size:16px;line-height:1.35}
+.vs p{margin:0;font-size:15px;color:var(--ink)}
+.vs a.more{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.rv{transform:translateY(10px);transition:transform .5s ease}
+.rv.seen{transform:none}
+.cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.who{min-width:0;background:var(--paper);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:6px;padding:16px;display:grid;gap:8px;align-content:start}
+.who h3{margin:0;font-family:var(--display);font-stretch:66%;font-size:28px;line-height:1;text-transform:uppercase;font-weight:700}
+.who p{margin:0;font-size:15px}
+.who small{color:var(--muted);font-size:13px}
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.view{min-width:0;padding:18px;border-radius:6px;background:var(--paper);border:1px solid var(--line);display:grid;gap:10px;align-content:start}
+.view h3{margin:0;font-size:17px}
+.view ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.srcs{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.srcs a{color:var(--muted)}
+.note{font-size:14px;color:var(--muted);margin:0}
+@media (max-width:700px){.hero2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.rv,.vs{transition:none;transform:none}.vt .fill{transition:none}}
+</style></head><body>
+<style>/* barra comum das Rotas */.rotas-bar .rb-lang{margin-left:auto;color:var(--accent);font-weight:600}.rotas-bar{border-bottom:1px solid var(--line);background:var(--bg);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}.rotas-bar>div{max-width:880px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}.rotas-bar a{color:var(--muted);text-decoration:none;padding-block:2px;border-bottom:2px solid transparent}.rotas-bar a:hover{color:var(--ink)}.rotas-bar a[aria-current]{color:var(--ink);border-bottom-color:var(--accent)}.rotas-bar .rb-home{color:var(--accent);font-weight:600}.rotas-bar a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}</style><style>/* padrão das Rotas: formato detalhado */body{font-size:17px;line-height:1.6}h1{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(60px,15vw,140px);line-height:.86;text-transform:uppercase;overflow-wrap:anywhere}h2{font-family:var(--display);font-stretch:66%;font-weight:800;font-size:clamp(34px,7vw,52px);line-height:.95;text-transform:uppercase}</style><nav class="rotas-bar" aria-label="Routes"><div><a class="rb-home" href="https://fcarvalhodev.github.io/rotas/en/">Routes</a><a href="https://fcarvalhodev.github.io/rota-washington/en/" aria-current="page">Washington</a><a href="https://fcarvalhodev.github.io/rota-master/en/">Master</a><a href="https://fcarvalhodev.github.io/rota-curitiba/en/">Curitiba</a><a href="https://fcarvalhodev.github.io/rota-da-fe/en/">Faith</a><a href="https://fcarvalhodev.github.io/rota-esplanada/en/">Esplanada</a><a href="https://fcarvalhodev.github.io/rota-itamaraty/en/">Itamaraty</a><a href="https://fcarvalhodev.github.io/rota-da-picanha/en/">Picanha</a><a href="https://fcarvalhodev.github.io/rota-do-ibge/en/">IBGE</a><a href="https://fcarvalhodev.github.io/rota-velho-chico/en/">Velho Chico</a><a href="https://fcarvalhodev.github.io/rota-do-tesouro/en/">Treasury</a><a href="https://fcarvalhodev.github.io/rota-rouanet/en/">Rouanet</a><a href="https://fcarvalhodev.github.io/rota-dos-ventos/en/">Winds</a><a href="https://fcarvalhodev.github.io/rota-do-algoritmo/en/">Algorithm</a><a class="rb-lang" href="../exigencias.html" hreflang="pt-BR" lang="pt-BR">PT</a></div></nav>
+
+<style>
+.topnav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;padding-block:16px;font-family:var(--mono);font-size:13px}
+.topnav a{color:var(--accent);text-decoration:none}
+.topnav a:hover{text-decoration:underline}
+.hero3{display:grid;grid-template-columns:auto 1fr;gap:10px 28px;align-items:end;padding-block:18px 8px}
+.big{font-family:var(--display);font-stretch:66%;font-weight:900;font-size:clamp(120px,28vw,220px);line-height:.8;color:var(--c-eua);font-variant-numeric:tabular-nums}
+.hero3 .txt{display:grid;gap:12px;min-width:0;padding-bottom:8px}
+.hero3 h1{font-size:clamp(44px,9vw,84px)}
+.lede{grid-column:1/-1}
+.tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding-block:18px 0}
+.t{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:grid;gap:2px}
+.t b{font-family:var(--display);font-stretch:66%;font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.t span{font-size:13px;color:var(--muted)}
+.t.hi b{color:var(--c-eua)} .t.md b{color:var(--alleg)} .t.lo b{color:var(--muted)} .t.fl b{color:var(--c-flavio)}
+/* status steps */
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;position:relative;padding-top:24px}
+.steps::before{content:"";position:absolute;top:6px;left:0;right:0;height:2px;background:var(--line)}
+.steps .bar{position:absolute;top:6px;left:0;height:2px;width:0;background:var(--c-lula);transition:width 1.4s ease}
+.steps.go .bar{width:100%}
+.st{min-width:0;position:relative;display:grid;gap:4px;align-content:start}
+.st::before{content:"";position:absolute;top:-23px;left:0;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--c-lula)}
+.st time{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.st p{margin:0;font-size:14px}
+/* filters */
+.fbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fb{font-family:var(--body);font-size:14px;font-weight:500;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.fb[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.fb:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.fgroup{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fgroup .lbl{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+/* demand cards */
+.list{display:grid;gap:14px}
+.dm{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:grid;grid-template-columns:56px 1fr;gap:4px 16px;border-left:5px solid var(--rk);transition:transform .45s ease, box-shadow .45s ease}
+.dm.seen{box-shadow:0 1px 0 var(--line)}
+.dm[data-r="alto"]{--rk:var(--c-eua)} .dm[data-r="medio"]{--rk:var(--alleg)} .dm[data-r="baixo"]{--rk:var(--line)}
+.dm .no{font-family:var(--display);font-stretch:66%;font-weight:900;font-size:42px;line-height:.9;color:var(--muted);grid-row:1/span 6;font-variant-numeric:tabular-nums}
+.dm .hd{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:space-between}
+.theme{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.meter{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--rk)}
+.dm[data-r="baixo"] .meter{color:var(--muted)}
+.meter i{display:inline-block;width:14px;height:8px;border-radius:2px;background:var(--line)}
+.meter i.on{background:currentColor}
+.dm h3{margin:2px 0 0;font-size:18px;line-height:1.3;text-wrap:balance}
+.dm .orig{margin:0;font-size:14px;color:var(--muted);font-style:italic}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.pc div{min-width:0;font-size:14px;padding:10px 12px;border-radius:4px;background:var(--bg)}
+.pc b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.pc .pro b{color:var(--ok,#2f7d4f)} .pc .con b{color:var(--c-eua)}
+.sov{grid-column:2;font-size:14px;margin:6px 0 0;padding-left:10px;border-left:3px solid var(--rk)}
+.sov b{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.fl{grid-column:2;font-size:13px;margin-top:6px;display:flex;gap:8px;align-items:baseline;color:var(--c-flavio)}
+.fl b{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--c-flavio);color:var(--paper);padding:2px 6px;border-radius:3px;white-space:nowrap}
+.dm .hd,.dm h3,.dm .orig,.dm .pc{grid-column:2}
+.dm[hidden]{display:none}
+.method{font-size:14px;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:6px;padding:14px 16px;display:grid;gap:6px}
+.method b{color:var(--ink)}
+.srcs{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.srcs a{color:var(--muted)}
+:root{--ok:#2f7d4f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#6cc08d}}
+:root[data-theme="dark"]{--ok:#6cc08d}
+@media (max-width:700px){
+  .hero3{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr;padding-top:0;padding-left:24px;gap:16px}
+  .steps::before{top:0;bottom:0;left:5px;right:auto;width:2px;height:auto}
+  .steps .bar{top:0;left:5px;width:2px;height:0;transition:height 1.4s ease}
+  .steps.go .bar{width:2px;height:100%}
+  .st::before{top:3px;left:-24px}
+  .dm{grid-template-columns:1fr}
+  .dm .no{grid-row:auto;font-size:30px}
+  .dm .hd,.dm h3,.dm .orig,.dm .pc,.sov,.fl{grid-column:1}
+  .pc{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.steps .bar{transition:none}.dm{transition:none}}
+</style>
+
+<div class="wrap">
+  <nav class="topnav" aria-label="Navigation"><a href="./">← Washington Route</a><a href="estrategia.html">Parallel 1: The Trump Corollary →</a></nav>
+  <nav class="pnav" aria-label="Pages"><a href="estrategia.html">Trump Corollary</a><a href="exigencias.html" aria-current="page">21 demands</a><a href="brics.html">BRICS and Pix</a><a href="bigtechs.html">Big tech</a><a href="terras.html">Rare earths</a></nav>
+
+  <header class="hero3">
+    <div class="big" id="big" aria-label="21">21</div>
+    <div class="txt">
+      <div class="kicker">Parallel 2 · US draft of Oct 16, 2025</div>
+      <h1>The 21 demands</h1>
+    </div>
+    <p class="lede">According to the reports cited, a US draft for negotiating the tariff hike contained a list that goes far beyond trade: elections, court rulings, the Central Bank, big tech and strategic minerals. Below, each item with the argument of its defenders, that of its critics, the level of risk to sovereignty and whether it coincides with proposals by Flávio Bolsonaro or allies.</p>
+  </header>
+
+  <div class="tally" id="tally"></div>
+
+  <section class="sec" aria-labelledby="h-st">
+    <h2 id="h-st">What happened to the list</h2>
+    <div class="steps" id="steps"><span class="bar" aria-hidden="true"></span>
+      <div class="st"><time>Oct 16, 2025</time><p>The US delivers the draft with 21 items.</p></div>
+      <div class="st"><time>Oct 2025</time><p>Foreign Minister Mauro Vieira returns the text and calls it unacceptable.</p></div>
+      <div class="st"><time>Nov 4, 2025</time><p>Brazil sends a counterproposal to end the tariffs.</p></div>
+      <div class="st"><time>Jan 2026</time><p>A new draft, with 14 points, is also rejected.</p></div>
+      <div class="st"><time>Sep 17, 2026</time><p>The list becomes public. Lula calls it a “dead file”. Trade negotiations continue.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-l">
+    <h2 id="h-l">Item by item</h2>
+    <div class="fbar" role="group" aria-label="Filters">
+      <div class="fgroup" id="fr"><span class="lbl">Risk</span></div>
+      <div class="fgroup" id="ff"><span class="lbl">Flávio</span></div>
+    </div>
+    <div class="fbar fgroup" id="ft"><span class="lbl">Topic</span></div>
+    <div class="list" id="list"></div>
+    <p class="empty" id="empty" hidden>No items with these filters.</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-m">
+    <h2 id="h-m">How we read the risk</h2>
+    <div class="method">
+      <p><b>High:</b> the item limits decisions of a Brazilian institution (the Judiciary, the Central Bank, the Electoral Courts), makes foreign law apply in Brazil or gives another country preference over strategic assets.</p>
+      <p><b>Medium:</b> the item reduces the room for Congress or regulators to create rules and taxes in the future, or requires geopolitical alignment.</p>
+      <p><b>Low:</b> a commercial or environmental term common in agreements between countries.</p>
+      <p>This classification is an editorial reading by this page, not by an official body. The coincidence with Flávio follows ICL Notícias's survey, which counted 16 items. Marked here are the 14 whose cross-check the report details.</p>
+    </div>
+  </section>
+
+
+<section id="fontes-revisao" aria-labelledby="h-fontes-revisao" style="margin-block:32px;padding:20px;border:1px solid var(--line);border-radius:6px">
+<h2 id="h-fontes-revisao">Sources and limits of this reading</h2>
+<p>The items are reproduced from reports on a draft. There was no independent check of the full document in this review. Risk and political coincidence are editorial classifications; the items are not presented as an agreement in force or an official classification.</p>
+<div class="src"><a href="https://ustr.gov/trade-topics/enforcement/section-301-investigations/section-301-brazils-acts-policies-and-practices-related-digital-trade-and-electronic-payment" target="_blank" rel="noopener">USTR: official procedure and documents</a></div>
+<p style="font-size:14px"><a href="https://fcarvalhodev.github.io/rotas/en/metodologia.html">How we tell facts, allegations and interpretations apart</a> · Editorial review: October 10, 2026.</p>
+</section>
+<footer>
+    <div class="srcs">Sources: <a href="https://www.brasilagro.com.br/conteudo/governo-trump-fez-21-exigencias-ao-brasil-para-negociar-tarifaco-em-2025.html" target="_blank" rel="noopener">BrasilAgro / Estadão</a> <a href="https://www.forte.jor.br/2026/09/18/eua-pediram-mudancas-em-eleicoes-comercio-e-minerais-para-aliviar-tarifas-sobre-o-brasil/" target="_blank" rel="noopener">Forças Terrestres</a> <a href="https://timesbrasil.com.br/brasil/tarifaco-lista-de-exigencias-de-trump-incluiu-eleicoes-de-2026-e-protecao-a-dissidentes-politicos/" target="_blank" rel="noopener">Times Brasil</a> <a href="https://iclnoticias.com.br/?p=128491" target="_blank" rel="noopener">ICL Notícias</a> <a href="https://www.bahianoticias.com.br/noticia/318580-flavio-bolsonaro-propoe-aos-eua-restricao-a-sistemas-nao-ocidentais-e-defende-que-pix-nao-substitui-cartoes" target="_blank" rel="noopener">Bahia Notícias</a> <a href="https://correiobraziliense.com.br/economia/2026/10/7517086-brasil-e-estados-unidos-avancam-em-negociacoes-sobre-tarifas-comerciais.html" target="_blank" rel="noopener">Correio Braziliense</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+const D=[
+ {n:1,th:"Trade",r:"baixo",t:"Eliminate tariffs on American ethanol, chemicals, machinery, cars and high technology",o:"“Brazil shall eliminate tariffs on ethanol, chemical products, machinery, automotive products…”",
+  p:"Cheaper imported products and access to technology.",c:"Direct competition with domestic industry and sugarcane ethanol, with no clear counterpart: the US offered only “adjustments” to tariffs.",
+  s:"An ordinary trade negotiation. The weight lies in the lack of reciprocity, not in sovereignty.",f:"Flávio supports a free trade area with the US, in Washington and in his government plan."},
+ {n:2,th:"Trade",r:"baixo",t:"Allow imports of remanufactured products",o:"“…not adopt or maintain any prohibitions or restrictions on the importation of remanufactured goods.”",
+  p:"Cheaper reconditioned parts and machinery.",c:"Brazil restricts these products to protect industry and keep out old equipment and electronic waste.",
+  s:"A trade rule. Low institutional impact."},
+ {n:3,th:"Digital",r:"medio",t:"Do not tax digital services and recognize that the US protects data adequately",o:"“Brazil shall refrain from imposing digital services taxes…”",
+  p:"Legal certainty for platforms and services used by Brazilians.",c:"The country gives up taxing companies that earn billions here and pre-empts a judgment that would belong to the ANPD, under the LGPD data protection law.",
+  s:"Limits Congress's tax policy and the data regulator's assessment.",f:"Flávio supports fewer regulatory hurdles for technology companies."},
+ {n:4,th:"Digital",r:"alto",t:"“Competitive neutrality” of the Central Bank, which regulates and operates payment systems",o:"Brazil would adopt competitive neutrality regarding the Central Bank's role as payments regulator and operator.",
+  p:"Private payment companies, such as card networks, would compete on equal terms.",c:"It targets Pix, a public, free system operated by the Central Bank, which took room away from American cards and wallets. Pix was in the US trade investigation.",
+  s:"It affects the Central Bank's autonomy over public infrastructure used by more than 150 million people.",f:"Flávio proposed to the USTR that Pix not connect to “non-Western” systems, but supports keeping Pix free."},
+ {n:5,th:"Digital",r:"medio",t:"Never charge import duties on electronic transmissions",o:"“…refrain from imposing customs duties on electronic transmissions…”, supporting a permanent moratorium at the WTO.",
+  p:"Barrier-free digital trade.",c:"An unconditional and permanent commitment, which takes from Brazil a tool other countries are discussing using.",
+  s:"Permanent renunciation of a future tax decision."},
+ {n:6,th:"Digital",r:"medio",t:"Do not create digital competition rules that “restrict” American trade",o:"“…shall not introduce a digital competition regime that unreasonably restricts US trade.”",
+  p:"Avoids excessive regulation that makes services more expensive.",c:"Brazil is discussing rules for large platforms, as the European Union did. The item would leave the US the power to say what is “unreasonable”.",
+  s:"Restricts what Congress can legislate about the sector.",f:"Flávio supports fewer hurdles and negotiating digital trade with the USTR."},
+ {n:7,th:"Politics and courts",r:"alto",t:"A “free and fair” election in 2026, without imprisoning or restricting “political dissidents”",o:"“Brazil shall commit to a free and fair presidential election in 2026…”",
+  p:"Supporters say it guarantees the opposition's participation without persecution.",c:"A foreign country makes trade conditional on Brazil's electoral and judicial process. Government members link “dissidents” to Jair Bolsonaro, convicted by the Supreme Court and ineligible.",
+  s:"Interferes in decisions of the Electoral Courts and the Supreme Court, which the Constitution reserves to Brazil.",f:"Flávio called for “free and fair elections” at CPAC, in the US, in March 2026."},
+ {n:8,th:"Politics and courts",r:"alto",t:"Do not punish Americans for conduct protected by the US First Amendment",o:"“…shall not, extraterritorially, impose fines, asset freezes… for conduct protected by the First Amendment.”",
+  p:"Protects the freedom of expression of American companies and citizens.",c:"It would make the US Constitution a limit for Brazilian courts, including in cases of platforms that disobey court orders here.",
+  s:"Puts foreign law above rulings of the Brazilian Judiciary.",f:"Flávio's plan promises a “crackdown on censorship”."},
+ {n:9,th:"Politics and courts",r:"medio",t:"Prior notice and a right of appeal for American platforms before penalties",o:"“…adequate prior notice and an opportunity to comment on or appeal decisions…”",
+  p:"Due process is a reasonable principle and already exists in Brazilian law.",c:"It applies only to American companies and is set in a trade agreement, not by Congress or the Supreme Court.",
+  s:"Creates a special rule for one country's companies, outside the legislative process.",f:"Flávio was rapporteur of a bill in the Senate and supports a “right of defense” for platforms."},
+ {n:10,th:"Politics and courts",r:"alto",t:"Do not penalize Brazilian banks that comply with US financial sanctions",o:"“…shall not penalize Brazilian financial institutions for complying with US financial sanctions.”",
+  p:"Banks avoid the risk of being cut off from the dollar system.",c:"US sanctions, such as the Magnitsky Act against Alexandre de Moraes, would have automatic effect in Brazil, and Brazilian law could not react.",
+  s:"Gives domestic effect to another government's decisions against Brazilian officials.",f:"Eduardo Bolsonaro and Paulo Figueiredo lobbied for sanctions and complain about banks."},
+ {n:11,th:"Trade",r:"baixo",t:"Free up names of meats and cheeses",o:"“…shall not restrict market access… on account of the mere use of certain terms…”",
+  p:"Makes it easier to export American cheeses and cured meats.",c:"Conflicts with geographical indications negotiated in the Mercosur–European Union agreement.",
+  s:"A trade matter, with impact on another agreement."},
+ {n:12,th:"Minerals and investment",r:"alto",t:"Notify the US before selling critical mineral mines and give American companies a chance",o:"“…inform the United States, in advance, of potential transfers of assets…”",
+  p:"Attracts American investment and creates an alternative to China in the sector.",c:"Gives a foreign government advance information and preference over strategic Brazilian assets, such as rare earths.",
+  s:"Affects the country's control over strategic resources.",f:"Flávio offered a “long-term strategic partnership” on rare earths at the White House."},
+ {n:13,th:"Minerals and investment",r:"baixo",t:"Ban imports of goods made with forced labor",o:"“…adopt and effectively implement a prohibition on the importation of goods…” made with forced labor.",
+  p:"In line with human rights and with rules the US and Europe already apply.",c:"In practice it targets products from China and may make imports more expensive.",
+  s:"A common measure, with a geopolitical effect."},
+ {n:14,th:"Trade",r:"medio",t:"Accept products that meet American standards without extra assessment",o:"“…shall allow entry into Brazil, without additional conformity assessment requirements…”",
+  p:"Less red tape and products on the market faster.",c:"Inmetro and Anvisa would lose the power to require their own tests for American products.",
+  s:"Reduces the role of Brazilian regulators.",f:"Flávio supports regulatory convergence and joining the OECD."},
+ {n:15,th:"Minerals and investment",r:"medio",t:"Economic and national security cooperation with the US",o:"“…strengthen economic and national security cooperation with the United States…”",
+  p:"More secure supply chains and partnership with the world's largest economy.",c:"In practice, alignment against China, Brazil's largest trading partner.",
+  s:"Requires a geopolitical choice made inside a trade agreement.",f:"Flávio supports reducing dependence on China."},
+ {n:16,th:"Minerals and investment",r:"alto",t:"Limit investment by “foreign entities of concern” in mining and industry",o:"“…adopt effective measures to limit investment by foreign entities of concern…”",
+  p:"Protection against foreign control of sensitive sectors.",c:"The US defines what is “of concern”. The target is Chinese investment.",
+  s:"Hands another country the definition of who can invest in Brazil.",f:"Flávio presents Brazil as an alternative to China in minerals."},
+ {n:17,th:"Trade",r:"medio",t:"Brazilian airlines buying Boeing aircraft",o:"“…announcements of intent to purchase [xx] Boeing aircraft.” The number was left blank.",
+  p:"No clear benefit for Brazil.",c:"The government would commit private companies to a directed purchase, in a sector where Brazil's Embraer also makes aircraft.",
+  s:"Interferes in the decisions of private Brazilian companies."},
+ {n:18,th:"Environment",r:"baixo",t:"Fight illegal deforestation",o:"“…adopt measures to effectively address illegal deforestation…”",
+  p:"It is already law and a goal of the Brazilian government itself.",c:"It could become an argument for barriers against Brazilian agribusiness.",
+  s:"Low impact, as it repeats what the law already requires.",f:"Flávio says he agrees with the US demand on deforestation."},
+ {n:19,th:"Environment",r:"baixo",t:"Fight illegal fishing",o:"“…effectively combat illegal, unreported and unregulated fishing…”",
+  p:"Protects fish stocks and legal fishers.",c:"Little objection, beyond the cost of enforcement.",
+  s:"Low impact."},
+ {n:20,th:"Trade",r:"medio",t:"“Stabilize” world soy trade together with the US",o:"“…will work to stabilize world soybean trade.”",
+  p:"Predictability for producers in both countries.",c:"Brazil and the US compete for the same buyer, China. Coordinating could limit Brazilian sales.",
+  s:"Could put conditions on the country's main agricultural export.",f:"Allies support a balance between the US and China on soy."},
+ {n:21,th:"Trade",r:"baixo",t:"Tackle global steel overproduction",o:"“…address global excess capacity in steel production.”",
+  p:"Protects both countries' steelmakers against cheap Chinese steel.",c:"Brazil also exports semi-finished steel to the US.",
+  s:"A common trade issue."}
+];
+const RK={alto:["High risk",3],medio:["Medium risk",2],baixo:["Low risk",1]};
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const list=document.getElementById("list");
+D.forEach(d=>{
+  const el=document.createElement("article");el.className="dm";el.dataset.r=d.r;el.dataset.t=d.th;el.dataset.f=d.f?"1":"0";
+  const lv=RK[d.r];
+  el.innerHTML=`<div class="no">${String(d.n).padStart(2,"0")}</div>
+  <div class="hd"><span class="theme">${d.th}</span><span class="meter" aria-label="${lv[0]}">${[1,2,3].map(i=>`<i class="${i<=lv[1]?"on":""}"></i>`).join("")} ${lv[0]}</span></div>
+  <h3>${esc(d.t)}</h3><p class="orig">${esc(d.o)}</p>
+  <div class="pc"><div class="pro"><b>For</b>${esc(d.p)}</div><div class="con"><b>Against</b>${esc(d.c)}</div></div>
+  <p class="sov"><b>Sovereignty:</b> ${esc(d.s)}</p>
+  ${d.f?`<p class="fl"><b>Coincides</b><span>${esc(d.f)}</span></p>`:""}`;
+  list.appendChild(el);
+});
+/* tally */
+const cnt=k=>D.filter(d=>d.r===k).length;
+document.getElementById("tally").innerHTML=`
+ <div class="t hi"><b data-to="${cnt("alto")}">0</b><span>high risk</span></div>
+ <div class="t md"><b data-to="${cnt("medio")}">0</b><span>medium risk</span></div>
+ <div class="t lo"><b data-to="${cnt("baixo")}">0</b><span>low risk</span></div>
+ <div class="t fl"><b data-to="16">0</b><span>coincide with Flávio or allies, according to ICL</span></div>`;
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function countUp(el,to,ms){if(reduce){el.textContent=to;return}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)}
+countUp(document.getElementById("big"),21,1400);
+document.querySelectorAll(".t b").forEach(b=>countUp(b,+b.dataset.to,1200));
+/* filters */
+const state={r:null,f:null,t:null};
+function mk(gid,key,opts){const g=document.getElementById(gid);opts.forEach(([v,l])=>{const b=document.createElement("button");b.className="fb";b.id="f-"+key+"-"+v;b.textContent=l;b.setAttribute("aria-pressed","false");
+  b.onclick=()=>{state[key]=state[key]===v?null:v;g.querySelectorAll(".fb").forEach(x=>x.setAttribute("aria-pressed",x===b&&state[key]===v));apply()};g.appendChild(b)})}
+mk("fr","r",[["alto","High"],["medio","Medium"],["baixo","Low"]]);
+mk("ff","f",[["1","Coincides"],["0","Does not coincide"]]);
+mk("ft","t",[...new Set(D.map(d=>d.th))].map(x=>[x,x]));
+function apply(){let n=0;list.querySelectorAll(".dm").forEach(el=>{const ok=(!state.r||el.dataset.r===state.r)&&(!state.f||el.dataset.f===state.f)&&(!state.t||el.dataset.t===state.t);el.hidden=!ok;if(ok)n++});document.getElementById("empty").hidden=n>0;check()}
+/* scroll */
+const steps=document.getElementById("steps");
+function check(){const vh=innerHeight;if(steps.getBoundingClientRect().top<vh*0.9)steps.classList.add("go");
+  list.querySelectorAll(".dm:not([hidden])").forEach(el=>{if(el.getBoundingClientRect().top<vh*0.85)el.classList.add("seen")})}
+addEventListener("scroll",check,{passive:true});addEventListener("resize",check);setTimeout(check,150);
+</script>
+
+<script>
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fmt=(v,d)=>v.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+  function countUp(el){const to=+el.dataset.to,d=+(el.dataset.dec||0),pre=el.dataset.pre||"",suf=el.dataset.suf||"";
+    if(reduce){el.textContent=pre+fmt(to,d)+suf;return}
+    const t0=performance.now(),ms=1300;(function f(t){const k=Math.min(1,(t-t0)/ms);el.textContent=pre+fmt(to*(1-Math.pow(1-k,3)),d)+suf;if(k<1)requestAnimationFrame(f)})(t0)}
+  const counted=new WeakSet();
+  function check(){const vh=innerHeight;
+    document.querySelectorAll("[data-to]").forEach(el=>{if(!counted.has(el)&&el.getBoundingClientRect().top<vh*0.95){counted.add(el);countUp(el)}});
+    document.querySelectorAll(".rv,.vs,.grow,.go-on").forEach(el=>{if(el.getBoundingClientRect().top<vh*0.85)el.classList.add("seen")});
+    document.querySelectorAll(".vt").forEach(v=>{const r=v.getBoundingClientRect();const p=Math.min(1,Math.max(0,(vh*0.7-r.top)/r.height));const f=v.querySelector(".fill");if(f)f.style.height=(p*(r.height-12))+"px"});
+  }
+  window.__check=check;
+  addEventListener("scroll",check,{passive:true});addEventListener("resize",check);setTimeout(check,120);
+})();
+</script>
+</body></html>

@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Timeline of relations between Flávio Bolsonaro's campaign, the Lula government and the Trump administration, with sources and level of proof.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Washington Route</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a diplomatic cable file. Hero draws the BSB→DCA route; below, a single vertical timeline with a date rail, actor filters, then three short dossier sections. */
+:root{
+  --bg:#edf0f3; --paper:#f8fafb; --ink:#14213d; --muted:#56627a; --line:#cfd6df;
+  --accent:#0e7c74; --accent-soft:#d5ebe8;
+  --doc:#14213d; --alleg:#a56a00; --alleg-soft:#fbefd6; --open:#6b5bb5; --open-soft:#e8e5f6;
+  --c-flavio:#1f5fbf; --c-eduardo:#7a3fb0; --c-eua:#b23a48; --c-meta:#0e7c74; --c-lula:#9a5b00;
+  --display:"Archivo","Arial Narrow",Impact,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a;
+  --c-flavio:#6fa3f5; --c-eduardo:#b88ae6; --c-eua:#ef7a87; --c-meta:#4cc3b6; --c-lula:#e2a548;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px}
+.mono{font-family:var(--mono)}
+
+/* hero */
+.hero{padding-block:40px 28px;display:grid;gap:22px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(56px,14vw,124px);line-height:.86;margin:0;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
+.lede{font-size:18px;max-width:62ch;margin:0;color:var(--ink)}
+.route{width:100%;max-width:100%;height:auto;display:block}
+.route .arc{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:6 7}
+.route .arc-draw{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.4s .3s cubic-bezier(.6,.1,.2,1) forwards}
+.route .pt{fill:var(--ink)}
+.route .ring{fill:none;stroke:var(--ink);stroke-width:1.5;opacity:.5;transform-origin:center;transform-box:fill-box;animation:pulse 2.4s infinite}
+.route text{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.route .sub{fill:var(--muted);font-size:11px}
+.route .plane{fill:var(--accent)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.6);opacity:0}}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+
+/* evidence tags */
+.ev{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
+.ev.doc{background:var(--doc);color:var(--paper)}
+.ev.alleg{background:var(--alleg-soft);color:var(--alleg);border:1px solid var(--alleg)}
+.ev.open{background:var(--open-soft);color:var(--open);border:1px dashed var(--open)}
+
+/* filters */
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px}
+.filters .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters .lbl{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
+.chip{font-family:var(--body);font-size:14px;font-weight:500;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px 5px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.chip[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--paper))}
+.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* timeline */
+h2{font-family:var(--display);font-stretch:66%;font-weight:800;font-size:clamp(34px,7vw,52px);line-height:1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.sec{padding-block:44px 8px;display:grid;gap:20px}
+.sec-intro{color:var(--muted);max-width:62ch;margin:0}
+.year{font-family:var(--display);font-stretch:66%;font-weight:900;font-size:40px;color:var(--accent);margin:28px 0 6px 0;line-height:1}
+.tl{position:relative;display:grid;gap:14px;padding-left:0}
+.rail{position:absolute;left:96px;top:0;bottom:0;width:2px;background:var(--line)}
+.rail b{display:block;width:100%;background:var(--accent);height:0}
+.item{display:grid;grid-template-columns:84px 1fr;gap:24px;position:relative}
+.item .date{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:right;padding-top:16px;line-height:1.3}
+.item .dot{position:absolute;left:91px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--muted);transition:background .3s,border-color .3s,transform .3s}
+.item.seen .dot{background:var(--accent);border-color:var(--accent)}
+.card{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px 14px;display:grid;gap:8px;transition:transform .45s ease,box-shadow .45s ease}
+.item.seen .card{box-shadow:0 1px 0 var(--line)}
+.item.key .card{border-left:4px solid var(--accent)}
+.card .top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:space-between}
+.actors{display:flex;flex-wrap:wrap;gap:6px}
+.actor{font-size:12px;font-weight:600;color:var(--c);display:inline-flex;align-items:center;gap:5px}
+.actor::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.card h3{font-size:18px;line-height:1.3;margin:0;font-weight:600;text-wrap:balance}
+.card p{margin:0}
+.src{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 12px}
+.src a{color:var(--muted);text-underline-offset:2px}
+.src a:hover{color:var(--accent)}
+.empty{color:var(--muted);font-style:italic}
+.item[hidden]{display:none}
+
+/* dossiers */
+.dossier{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.file{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:12px;align-content:start;border-top:5px solid var(--c)}
+.file h3{font-family:var(--display);font-stretch:66%;font-size:30px;line-height:1;margin:0;text-transform:uppercase;font-weight:700}
+.file .role{font-size:14px;color:var(--muted);margin:-6px 0 0}
+.file ul{margin:0;padding-left:18px;display:grid;gap:8px}
+.file li{padding-left:2px}
+.file li small{display:block;color:var(--muted);font-size:13px}
+
+.plan{display:grid;gap:0;border-top:1px solid var(--line)}
+.plan .row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding-block:14px;border-bottom:1px solid var(--line)}
+.plan .row strong{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.plan .row p{margin:0}
+
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.col{min-width:0;padding:18px;border-radius:6px;display:grid;gap:10px;align-content:start}
+.col.yes{background:var(--paper);border:1px solid var(--line)}
+.col.no{background:var(--open-soft);border:1px dashed var(--open)}
+.col h3{margin:0;font-size:17px}
+.col ul{margin:0;padding-left:18px;display:grid;gap:8px}
+
+/* parallels nav */
+.par{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;padding-block:6px 30px}
+.par a{min-width:0;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:grid;gap:6px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.par a:hover{border-color:var(--accent);transform:translateY(-2px)}
+.par a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.par .n{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.par strong{font-family:var(--display);font-stretch:66%;font-size:30px;line-height:1;text-transform:uppercase;font-weight:700}
+.par span.d{font-size:14px;color:var(--muted)}
+.par .go{font-family:var(--mono);font-size:13px;color:var(--accent)}
+.more{font-family:var(--mono);font-size:13px;color:var(--accent);text-decoration:none;justify-self:start;border-bottom:1px solid currentColor}
+/* network */
+.net-sec{display:grid;gap:14px;padding-block:10px 30px}
+.net{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:center}
+#net{width:100%;height:auto;max-width:100%;background:var(--paper);border:1px solid var(--line);border-radius:6px}
+#net .zone{font-family:var(--mono);font-size:14px;letter-spacing:.14em;fill:var(--muted)}
+#net .divide{stroke:var(--line);stroke-width:1.5;stroke-dasharray:4 6}
+#net .edge{stroke:var(--muted);stroke-width:2;opacity:.45;stroke-dasharray:5 6;animation:flow 1.8s linear infinite;transition:opacity .3s,stroke .3s,stroke-width .3s}
+#net .edge.on{opacity:1;stroke:var(--accent);stroke-width:3.5}
+#net .edge.off{opacity:.12}
+@keyframes flow{to{stroke-dashoffset:-22}}
+#net .node{cursor:pointer;outline:none}
+#net .node circle{fill:var(--paper);stroke:var(--c);stroke-width:3;transition:fill .3s,r .3s}
+#net .node .core{fill:var(--c);stroke:none}
+#net .node text{font-family:var(--body);font-weight:600;font-size:19px;fill:var(--ink);text-anchor:middle}
+#net .node.on circle.ring{fill:color-mix(in srgb,var(--c) 20%,var(--paper))}
+#net .node.off{opacity:.35}
+#net .node:focus-visible circle.ring{stroke-width:5}
+#net .pulse{fill:none;stroke:var(--c);stroke-width:2;transform-origin:center;transform-box:fill-box;animation:pulse 2.8s infinite}
+.netinfo{min-width:0;display:grid;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px}
+.netinfo strong{font-size:17px}
+.netinfo ul{margin:0;padding-left:0;list-style:none;display:grid;gap:10px}
+.netinfo li{display:grid;gap:2px;padding-left:12px;border-left:3px solid var(--accent);animation:slidein .35s ease both}
+.netinfo li b{font-size:14px}
+.netinfo li span{font-size:14px;color:var(--muted)}
+@keyframes slidein{from{transform:translateX(8px)}to{transform:none}}
+.item .card{transform:translateX(10px)}
+.item.seen .card{transform:none}
+@media (max-width:700px){.net{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){#net .edge,#net .pulse{animation:none}.netinfo li{animation:none}.item .card{transform:none}}
+footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;gap:8px}
+
+@media (max-width:620px){
+  .rail{left:6px}
+  .item{grid-template-columns:1fr;gap:6px;padding-left:24px}
+  .item .date{text-align:left;padding-top:0}
+  .item .dot{left:1px;top:4px}
+  .plan .row{grid-template-columns:1fr;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  .route .arc-draw{animation:none;stroke-dashoffset:0}
+  .route .ring,.route .plane-anim{animation:none}
+  .card,.item .dot{transition:none}
+}
+</style>
+</head><body>
+<style>/* barra comum das Rotas */.rotas-bar .rb-lang{margin-left:auto;color:var(--accent);font-weight:600}.rotas-bar{border-bottom:1px solid var(--line);background:var(--bg);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}.rotas-bar>div{max-width:880px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}.rotas-bar a{color:var(--muted);text-decoration:none;padding-block:2px;border-bottom:2px solid transparent}.rotas-bar a:hover{color:var(--ink)}.rotas-bar a[aria-current]{color:var(--ink);border-bottom-color:var(--accent)}.rotas-bar .rb-home{color:var(--accent);font-weight:600}.rv-btn{display:inline-flex;align-items:center;gap:8px;justify-self:start;font-family:var(--ui,system-ui);font-weight:800;font-size:16px;letter-spacing:.02em;text-decoration:none;color:var(--paper,#fff);background:var(--accent);padding:10px 16px;border-radius:999px;box-shadow:0 2px 0 rgba(0,0,0,.15)}.rv-btn:hover{filter:brightness(1.08)}.rv-btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}.rotas-bar a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}</style><style>/* padrão das Rotas: formato detalhado */body{font-size:17px;line-height:1.6}h1{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(60px,15vw,140px);line-height:.86;text-transform:uppercase;overflow-wrap:anywhere}h2{font-family:var(--display);font-stretch:66%;font-weight:800;font-size:clamp(34px,7vw,52px);line-height:.95;text-transform:uppercase}</style><nav class="rotas-bar" aria-label="Routes"><div><a class="rb-home" href="https://fcarvalhodev.github.io/rotas/en/">Routes</a><a href="https://fcarvalhodev.github.io/rota-washington/en/" aria-current="page">Washington</a><a href="https://fcarvalhodev.github.io/rota-master/en/">Master</a><a href="https://fcarvalhodev.github.io/rota-curitiba/en/">Curitiba</a><a href="https://fcarvalhodev.github.io/rota-da-fe/en/">Faith</a><a href="https://fcarvalhodev.github.io/rota-esplanada/en/">Esplanada</a><a href="https://fcarvalhodev.github.io/rota-itamaraty/en/">Itamaraty</a><a href="https://fcarvalhodev.github.io/rota-da-picanha/en/">Picanha</a><a href="https://fcarvalhodev.github.io/rota-do-ibge/en/">IBGE</a><a href="https://fcarvalhodev.github.io/rota-velho-chico/en/">Velho Chico</a><a href="https://fcarvalhodev.github.io/rota-do-tesouro/en/">Treasury</a><a href="https://fcarvalhodev.github.io/rota-rouanet/en/">Rouanet</a><a href="https://fcarvalhodev.github.io/rota-dos-ventos/en/">Winds</a><a href="https://fcarvalhodev.github.io/rota-do-algoritmo/en/">Algorithm</a><a class="rb-lang" href="../" hreflang="pt-BR" lang="pt-BR">PT</a></div></nav>
+
+
+
+<header class="wrap hero">
+  <div class="kicker">Dossier · 2026 presidential election</div>
+  <h1>Washington<br>Route</h1>
+  <svg class="route" viewBox="0 0 800 210" role="img" aria-label="Route between Brasília and Washington">
+    <path class="arc" d="M120 170 Q 400 -40 680 120" opacity=".25"/>
+    <path class="arc-draw" id="arcpath" d="M120 170 Q 400 -40 680 120"/>
+    <circle class="ring" cx="120" cy="170" r="7"/><circle class="pt" cx="120" cy="170" r="6"/>
+    <circle class="ring" cx="680" cy="120" r="7" style="animation-delay:1.2s"/><circle class="pt" cx="680" cy="120" r="6"/>
+    <circle class="plane" r="5"><animateMotion dur="5s" repeatCount="indefinite" rotate="auto" begin="2.7s"><mpath href="#arcpath"/></animateMotion></circle>
+    <text x="120" y="198" text-anchor="middle">BSB</text><text x="120" y="160" text-anchor="middle" class="sub" dy="-14">Brasília</text>
+    <text x="680" y="150" text-anchor="middle">DCA</text><text x="680" y="110" text-anchor="middle" class="sub" dy="-10">Washington</text>
+  </svg>
+  <p class="lede">How Flávio and Eduardo Bolsonaro negotiate with Trump, Rubio and Vance, what the US government demanded from Brazil and what Washington plans for Latin America. Every fact has a source and a label that says how much of it is proven.</p>
+  <a class="rv-btn" href="visual.html"><span aria-hidden="true">📊</span> See the summary in icons</a>
+  <div class="legend">
+    <span><b class="ev doc">Documented</b> recorded in a document, ruling or public statement</span> <span><b class="ev alleg">Allegation</b> a single-source account or an accusation not yet proven</span> <span><b class="ev open">Open</b> under investigation, with no conclusion</span>
+  </div>
+</header>
+
+<section class="wrap" aria-label="Parallel pages">
+  <div class="par">
+    <a href="estrategia.html"><span class="n">Parallel 1 · Dec 2025</span><strong>The Trump Corollary</strong><span class="d">What the US National Security Strategy says about the Americas and how it shows up in practice.</span><span class="go">Open page →</span></a> <a href="exigencias.html"><span class="n">Parallel 2 · Oct 2025</span><strong>The 21 demands</strong><span class="d">Item by item: what the US asked for, arguments for and against, risk to sovereignty and what coincides with Flávio.</span><span class="go">Open page →</span></a> <a href="brics.html"><span class="n">Parallel 3 · Jul 2025</span><strong>BRICS, the dollar and Pix</strong><span class="d">Why a Brazilian payment system became the target of a US trade investigation.</span><span class="go">Open page →</span></a> <a href="bigtechs.html"><span class="n">Parallel 4 · 2024–2026</span><strong>Big tech and the courts</strong><span class="d">Meta: accusations of selectivity, the TSE's request for data, the company's response and what remains to be proven. Also X, Rumble and the Supreme Court.</span><span class="go">Open page →</span></a> <a href="terras.html"><span class="n">Parallel 5 · 2025–2026</span><strong>Rare earths</strong><span class="d">The world's second-largest reserve, the dispute with China and the Goiás mine that passed into American hands.</span><span class="go">Open page →</span></a>
+  </div>
+</section>
+
+<section class="wrap net-sec" aria-labelledby="h-net">
+  <h2 id="h-net">Who talks to whom</h2>
+  <p class="sec-intro">Tap a name to see the documented connections.</p>
+  <div class="net">
+    <svg id="net" viewBox="0 0 640 500" role="group" aria-label="Map of connections between those involved">
+      <text x="20" y="28" class="zone">US</text><text x="20" y="490" class="zone">BRAZIL</text>
+      <line x1="0" y1="250" x2="640" y2="250" class="divide"/>
+      <g id="edges"></g><g id="nodes"></g>
+    </svg>
+    <div class="netinfo" id="netinfo" aria-live="polite"><strong>11 connections among 9 people involved.</strong><span>Tap a name on the map to see what links each one to the others.</span></div>
+  </div>
+</section>
+
+<nav class="filters" aria-label="Filter by person">
+  <div class="wrap" id="chips"><span class="lbl">Filter</span></div>
+</nav>
+
+<main class="wrap">
+  <section class="sec" aria-labelledby="h-tl">
+    <h2 id="h-tl">Timeline</h2>
+    <p class="sec-intro">From January 2025 to the first round of 2026. Milestones with a side bar carry the most weight.</p>
+    <div class="tl" id="tl"><div class="rail" aria-hidden="true"><b id="railfill"></b></div></div>
+    <p class="empty" id="empty" hidden>No events for this filter.</p>
+  </section>
+
+  <section class="sec" aria-labelledby="h-neg">
+    <h2 id="h-neg">Who negotiates what</h2>
+    <p class="sec-intro">What each of the brothers took to Washington, according to public records.</p>
+    <div class="dossier">
+      <article class="file" style="--c:var(--c-flavio)">
+        <h3>Flávio Bolsonaro</h3>
+        <p class="role">Senator (PL, Rio de Janeiro), presidential candidate. At least six trips to the US in 2026.</p>
+        <ul>
+          <li>Asked Trump and Rubio to designate PCC and CV as terrorists. The designation came out the day after the meeting.<small>May 27–28, 2026</small></li>
+          <li>Offered a "long-term strategic partnership" in rare earths and critical minerals.<small>White House, May 2026</small></li>
+          <li>Proposed to the USTR a legislative commitment that Pix would not connect to "non-Western" payment systems.<small>Document of Jul 1, 2026</small></li>
+          <li>Asked that the 25% surcharge be postponed by 180 days, until after the election.<small>USTR, Jul 2026</small></li>
+          <li>His government plan coincides with 16 of the 21 American demands, according to an ICL survey.<small>Revealed in Sep 2026</small></li>
+          <li>Says he receives no help from the American government and that he will keep Pix free of charge.</li>
+        </ul>
+      </article>
+      <article class="file" style="--c:var(--c-eduardo)">
+        <h3>Eduardo Bolsonaro</h3>
+        <p class="role">Former federal deputy. Has lived in the US since February 2025.</p>
+        <ul>
+          <li>Said he was "focused 24 hours a day" on pressing American authorities against Supreme Court decisions.</li>
+          <li>Celebrated the Magnitsky Act sanctions against Alexandre de Moraes and said it was "just the beginning".<small>Jul 2025</small></li>
+          <li>According to the Prosecutor General's Office, he worked with Paulo Figueiredo to obtain sanctions against officials and tariffs against Brazil.</li>
+          <li>Suggested replacing Pix with Zelle, an American system.<small>Jun 2026</small></li>
+          <li>Accompanied Flávio at the meetings with Rubio and Vance.<small>May 2026</small></li>
+          <li>Lost his seat for absences and was sentenced by the Supreme Court to 4 years and 2 months for coercion during legal proceedings.<small>Dec 2025 · Jun 2026</small></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-plan">
+    <h2 id="h-plan">Rubio's agenda for the region</h2>
+    <p class="sec-intro">What the Secretary of State and the Trump administration do and say about Latin America.</p>
+    <div class="plan">
+      <div class="row"><strong>Doctrine</strong><p>The National Security Strategy of December 2025 created the "Trump Corollary" to the Monroe Doctrine. In August 2026, the State Department called the doctrine a "central pillar" and quoted Trump: American dominance in the Western Hemisphere "will never be questioned again".</p></div>
+      <div class="row"><strong>Military force</strong><p>Capture of Nicolás Maduro in January 2026 and about 200 dead in strikes on boats in the Caribbean and the Pacific. Afterwards, an oil deal with Venezuela's interim government.</p></div>
+      <div class="row"><strong>Criminal factions</strong><p>Cartels classified as "narco-terrorists", which has included PCC and CV since May 2026. The Lula government opposes it, fearing it could justify American military action in Brazil.</p></div>
+      <div class="row"><strong>Allies</strong><p>Support for "iron fist" and aligned governments: Milei in Argentina, Abelardo de la Espriella in Colombia. In September 2026, Rubio visited Colombia, Peru and Ecuador.</p></div>
+      <div class="row"><strong>Brazil</strong><p>Tariffs; revoked visas for Moraes, Jorge Messias and the Brazilian ambassador; and the nomination of Daniel Perez, nicknamed "Mini Rubio", as ambassador in Brasília. Gazeta do Povo describes an effort to isolate countries seen as too close to China.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-ver">
+    <h2 id="h-ver">Coincidence or strategy?</h2>
+    <p class="sec-intro">The convergence between Washington and Flávio's campaign is no accident. It is public and acknowledged by both sides. But there is a difference between open alignment and coordinated interference, and that second part has not yet been proven.</p>
+    <div class="verdict">
+      <div class="col yes">
+        <h3>What is proven</h3>
+        <ul>
+          <li>The Trump administration pressures Brazil with tariffs, sanctions and visas, and mentioned Jair Bolsonaro and the election in its demands.</li>
+          <li>Flávio took proposals to Trump, Rubio, Vance and the USTR that meet American demands.</li>
+          <li>Flávio's requests became American measures in less than 24 hours, in the case of PCC and CV.</li>
+          <li>Eduardo was convicted in Brazil for using this pressure to intimidate the Supreme Court.</li>
+          <li>Meta adopted rhetoric aligned with Trump against Latin American courts.</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h3>What is not yet proven</h3>
+        <ul>
+          <li>That Meta moderated Brazilian content at the request of the American government.</li>
+          <li>That foreign money or structures are financing Flávio's campaign. The PT asked the Supreme Court to investigate.</li>
+          <li>That the group linked to Peter Thiel in São Paulo had an electoral purpose.</li>
+          <li>That Palantir or Alex Karp have any role in the election.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Checked on October 12, 2026 (Tokyo); events identified by the dates of the Brazilian sources. Investigation is not conviction, and each person cited has their version shown when available.</p>
+    <p>Runoff: October 25, 2026.</p>
+  </footer>
+
+<section id="fontes-revisao" aria-labelledby="h-fontes-revisao" style="margin-block:32px;padding:20px;border:1px solid var(--line);border-radius:6px">
+<h2 id="h-fontes-revisao">Sources and limits of this reading</h2>
+<p>News of a proposal or a scheduled meeting does not prove it happened. Designating factions as terrorists does not automatically authorize military intervention. The electoral timeline reports the stage of the count, and trade effects must follow the applicable act.</p>
+<div class="src"><a href="https://www.tse.jus.br/comunicacao/noticias/2026/Outubro/flavio-bolsonaro-e-lula-vao-disputar-o-2o-turno-para-a-presidencia-da-republica" target="_blank" rel="noopener">TSE: first round</a><a href="https://ustr.gov/trade-topics/enforcement/section-301-investigations/section-301-brazils-acts-policies-and-practices-related-digital-trade-and-electronic-payment" target="_blank" rel="noopener">USTR: procedure regarding Brazil</a></div>
+<p style="font-size:14px"><a href="https://fcarvalhodev.github.io/rotas/en/metodologia.html">How we tell facts, allegations and interpretations apart</a> · News update: October 12, 2026 (Tokyo).</p>
+</section>
+</main>
+
+<script>
+const A={flavio:["Flávio","var(--c-flavio)"],eduardo:["Eduardo","var(--c-eduardo)"],eua:["Trump administration","var(--c-eua)"],meta:["Big tech","var(--c-meta)"],lula:["Lula government","var(--c-lula)"]};
+const E=[
+ {l:["See big tech and the courts","bigtechs.html"],y:2025,d:"Jan 7",a:["meta","eua"],ev:"doc",t:"Zuckerberg ends fact-checking and attacks Latin America's \"secret courts\"",
+  b:"Announcing the end of fact-checking at Meta, he says he will work with Trump against governments that \"censor\" American companies and mentions Latin American courts that secretly order content removed, a reference read as a message to Brazil's Supreme Court.",
+  s:[["Poder360","https://www.poder360.com.br/poder-midia/america-latina-tem-tribunais-secretos-de-censura-diz-zuckerberg/"],["Agência Pública","https://apublica.org/nota/meta-se-alinha-a-trump-mira-justica-latina-e-facilita-fake-news-sob-bandeira-anticensura/"]]},
+ {y:2025,d:"Feb 19–22",l:["See big tech and the courts","bigtechs.html"],a:["meta","eua"],ev:"doc",t:"Trump's company and Rumble sue Moraes in the US; Rumble is suspended in Brazil",
+  b:"Hours after the charges against Jair Bolsonaro, Trump Media and Rumble sue Moraes in a Florida court. Days later, Rumble goes offline in Brazil for failing to name a legal representative or comply with Supreme Court orders.",
+  s:[["Agência Pública","https://apublica.org/2025/02/quatro-pontos-para-entender-a-guerra-de-trump-e-rumble-contra-moraes/"]]},
+ {y:2025,d:"Jun 26",l:["See big tech and the courts","bigtechs.html"],a:["meta"],ev:"doc",t:"Supreme Court expands platforms' liability for user content",
+  b:"By 8 votes to 3, the Supreme Court changes its reading of article 19 of the Internet Civil Framework. Platforms become liable for certain content even without a court order.",
+  s:[["Exame","https://exame.com/brasil/stf-tem-placar-de-8x2-para-ampliar-responsabilizacao-de-redes-sobre-conteudos-publicados"],["Olhar Digital","https://olhardigital.com.br/2025/11/05/pro/stf-publica-acordao-de-decisao-sobre-mudancas-no-marco-civil-da-internet/"]]},
+ {y:2025,d:"Jul 6–7",k:1,l:["See BRICS, the dollar and Pix","brics.html"],a:["eua","lula"],ev:"doc",t:"At the BRICS summit in Rio, Trump threatens an extra 10% tariff",
+  b:"While Lula hosts the bloc's leaders, Trump announces an additional tariff on any country that aligns with BRICS's \"anti-American\" policies. Lula replies that he paid it \"no importance\" and calls the post irresponsible.",
+  s:[["Movimento Econômico","https://movimentoeconomico.com.br/politica/2025/07/07/trump-ameaca-impor-novas-tarifas-a-paises-alinhados-ao-brics-lula-reage/"],["JB","https://www.jb.com.br/mundo/2025/07/1056101-trump-ameaca-tarifas-extras-de-10-sobre-os-brics-enquanto-lideres-se-reunem-no-brasil.html"]]},
+ {y:2025,d:"Feb",a:["eduardo"],ev:"doc",t:"Eduardo moves to the US",
+  b:"The then-deputy leaves Brazil and starts working with American authorities against Supreme Court decisions. He would later say he was not there \"on vacation\".",
+  s:[["Poder360","https://www.poder360.com.br/poder-justica/stf-condena-eduardo-a-4-anos-e-2-meses/"]]},
+ {y:2025,d:"Jul 9",k:1,a:["eua"],ev:"doc",t:"Trump announces a 50% tariff and cites the \"witch hunt\" against Jair Bolsonaro",
+  b:"In a letter to Lula, Trump links the tariff to Bolsonaro's trial and to court decisions against American platforms, and orders a trade investigation, which would later include Pix.",
+  s:[["Poder360 · letter","https://www.poder360.com.br/poder-internacional/leia-a-integra-da-carta-de-trump-a-lula-impondo-tarifa-de-50/"],["TecMundo","https://www.tecmundo.com.br/mercado/413584-eua-criticam-pix-e-ameacam-taxa-de-25-ao-brasil.htm"]]},
+ {y:2025,d:"Jul 10",a:["flavio"],ev:"doc",t:"Flávio says the government should accept what Trump imposed",
+  b:"In an interview with CNN, one day after the tariff letter.",
+  s:[["ICL Notícias","https://iclnoticias.com.br/?p=128491"]]},
+ {y:2025,d:"Jul 15",k:1,l:["See BRICS, the dollar and Pix","brics.html"],a:["eua"],ev:"doc",t:"US opens a trade investigation that includes Pix",
+  b:"The Section 301 investigation targets the treatment of American social networks, ethanol, piracy, illegal deforestation and the government's role in electronic payments, that is, Pix.",
+  s:[["Forbes","https://forbes.com.br/forbes-money/2025/07/pre-mercado-eua-investigam-praticas-comerciais-do-brasil-pix-e-etanol-na-mira/"],["American Banker","https://www.americanbanker.com/payments/news/trump-tariffs-target-brazils-pix"]]},
+ {y:2025,d:"Jul 30",k:1,a:["eua","eduardo"],ev:"doc",t:"US applies the Magnitsky Act against Alexandre de Moraes",
+  b:"The US Treasury freezes the assets of the Supreme Court justice in charge of the coup plot case. Eduardo and Paulo Figueiredo celebrate and say it is \"just the beginning\".",
+  s:[["Congresso em Foco","https://www.congressoemfoco.com.br/noticia/110610/eua-impoem-sancoes-da-lei-magnitsky-a-alexandre-de-moraes"],["Revista Oeste","https://revistaoeste.com/politica/eduardo-bolsonaro-e-paulo-figueiredo-celebram-sancao-imposta-a-moraes-e-so-o-comeco/"]]},
+ {y:2025,d:"Sep 11",k:1,a:["eua","flavio","eduardo"],ev:"doc",t:"Supreme Court sentences Jair Bolsonaro to 27 years and 3 months",
+  b:"He is convicted of attempting a coup and of armed criminal organization. The conviction is the backdrop to the tariff letter, the sanction against Moraes and the item on \"political dissidents\" in the American demands.",
+  s:[["Diário do Nordeste","https://diariodonordeste.verdesmares.com.br/pontopoder/jair-bolsonaro-e-condenado-a-27-anos-e-3-meses-em-regime-fechado-define-stf-1.3689972"],["Poder360 · Trump's letter","https://www.poder360.com.br/poder-internacional/leia-a-integra-da-carta-de-trump-a-lula-impondo-tarifa-de-50/"]]},
+ {y:2025,d:"Oct 16",k:1,l:["See the 21 demands","exigencias.html"],a:["eua","lula"],ev:"doc",t:"US hands Brazil a list of 21 demands",
+  b:"It includes a \"free and fair\" election without restrictions on \"political dissidents\", advance notice of sales of critical mineral assets with a chance for American companies, and softer rules for big tech. The Lula government refuses to put electoral conditions in the trade negotiation.",
+  s:[["ICL Notícias","https://iclnoticias.com.br/?p=128491"],["A Crítica","https://acritica.net/eleicoes-2026/flavio-bolsonaro-nega-apoio-dos-eua-a-campanha-apos-revelacao-sobre-exigencias-eleitorais/"]]},
+ {y:2025,d:"Oct 26",k:1,a:["lula","eua"],ev:"doc",t:"Lula and Trump meet in Malaysia",
+  b:"In 50 minutes, on the sidelines of the ASEAN summit, Lula asks for the immediate suspension of the 50% tariffs. Trump orders negotiations to begin, with Rubio taking part. Lula says there is no reason for discord between the two countries.",
+  s:[["Mercado & Consumo","https://mercadoeconsumo.com.br/26/10/2025/economia/lula-se-reune-com-trump-na-malasia-e-discute-relacoes-entre-brasil-eua/"]]},
+ {y:2025,d:"Dec 4",k:1,l:["See the Trump Corollary","estrategia.html"],a:["eua"],ev:"doc",t:"National Security Strategy creates the \"Trump Corollary\" to the Monroe Doctrine",
+  b:"The document puts the Americas above Europe, the Middle East and Asia on the list of priorities and promises to stop powers from outside the region from controlling ports, energy and telecommunications.",
+  s:[["Itatiaia","https://www.itatiaia.com.br/mundo/doutrina-monroe-dominio-eua-video-departamento-estado/"]]},
+ {y:2025,d:"Dec",a:["eduardo","flavio"],ev:"doc",t:"Eduardo loses his seat; Jair Bolsonaro announces Flávio as candidate",
+  b:"Eduardo is removed for excessive absences. In the same month, Jair, ineligible until 2030, names Flávio for the presidential race.",
+  s:[["Estado de Minas","https://www.em.com.br/politica/2026/05/7416874-como-eduardo-bolsonaro-perdeu-o-mandato-e-virou-reu-no-stf.html"],["Itatiaia","https://www.itatiaia.com.br/politica/eleicoes/conheca-a-carreira-politica-de-flavio-bolsonaro-pre-candidato-a-presidencia/"]]},
+ {y:2026,d:"Jan 3",k:1,a:["eua","flavio"],ev:"doc",t:"US captures Maduro; Flávio's meeting with Rubio falls through",
+  b:"The military operation in Venezuela upends the meeting Flávio was seeking with Rubio, according to InfoMoney. The capture becomes the main example of the new doctrine.",
+  s:[["InfoMoney","https://www.infomoney.com.br/?p=3168592"],["Times Brasil","https://timesbrasil.com.br/mundo/pizza-no-pentagono-conheca-indice-que-previu-a-queda-de-maduro/"]]},
+ {y:2026,d:"Feb",a:["eduardo"],ev:"doc",t:"Eduardo becomes a defendant at the Supreme Court for coercion",
+  b:"The Prosecutor General's Office accuses Eduardo and Paulo Figueiredo of seeking sanctions and tariffs against Brazil to pressure the Supreme Court.",
+  s:[["Estado de Minas","https://www.em.com.br/politica/2026/05/7416874-como-eduardo-bolsonaro-perdeu-o-mandato-e-virou-reu-no-stf.html"]]},
+ {l:["See rare earths","terras.html"],y:2026,d:"Mar",a:["lula","eua"],ev:"doc",t:"Brazil denies visas to an American critical minerals delegation",
+  b:"It also bars the entry of two State Department officials who wanted to inspect electronic voting machines.",
+  s:[["Gazeta do Povo","https://www.gazetadopovo.com.br/mundo/governo-trump-revoga-visto-de-embaixadora-do-brasil-nos-eua/"]]},
+ {y:2026,d:"Mar 28",a:["flavio"],ev:"doc",t:"Flávio launches his pre-candidacy at CPAC, in the US",
+  b:"At the conservative event in Dallas, he calls for \"free and fair elections\" in Brazil and offers the country as a solution for American access to rare earths.",
+  s:[["Itatiaia","https://www.itatiaia.com.br/politica/eleicoes/conheca-a-carreira-politica-de-flavio-bolsonaro-pre-candidato-a-presidencia/"],["Aos Fatos","https://www.aosfatos.org/noticias/flavio-bolsonaro-nao-disse-vai-extinguir-pix-agradar-trump/"]]},
+ {y:2026,d:"Apr 20",k:1,l:["See rare earths","terras.html"],a:["eua"],ev:"doc",t:"American company buys Brazil's only rare earth producer",
+  b:"USA Rare Earth announces the purchase of Serra Verde, in Goiás, for about US$2.8 billion. The mine had already received US$565 million from an arm of the American government, with part of its output reserved for the US or \"aligned\" countries.",
+  s:[["Olhar Digital","https://olhardigital.com.br/2026/04/20/pro/brasil-empresa-dos-eua-adquire-unica-mina-de-terras-raras-por-r-13-9-bi/"],["Diário do Comércio","https://diariodocomercio.com.br/negocios/mineradora-terras-raras-brasileira-recebe-financiamento-maior-eua/"]]},
+ {l:["See rare earths","terras.html"],y:2026,d:"Apr 26",a:["flavio"],ev:"doc",t:"Flávio: rare earths should \"come here\" and Pix stays free",
+  b:"In a video, he says whoever wants rare earths must process them in Brazil with technology transfer, that he will negotiate with the US and China and that he will keep Pix.",
+  s:[["Estado de Minas","https://www.em.com.br/politica/2026/04/7406266-flavio-bolsonaro-defende-uso-de-terras-raras-no-brasil-por-outros-paises.html"]]},
+ {y:2026,d:"May 7",k:1,a:["lula","eua"],ev:"doc",t:"Lula goes to the White House",
+  b:"Three hours of meetings on tariffs, organized crime and rare earths. With no deal, the two governments create a working group on tariffs and the trade investigation. Lula says Pix was not discussed directly and hands over the list of Brazilians with restricted visas.",
+  s:[["Jornal Grande Bahia","https://jornalgrandebahia.com.br/2026/05/presidentes-lula-e-donald-trump-discutem-tarifas-crime-organizado-e-terras-raras-em-reuniao-de-tres-horas-na-casa-branca/"],["Olhar Digital","https://olhardigital.com.br/2026/05/07/pro/lula-e-trump-falam-sobre-minerais-criticos-em-reuniao/"]]},
+ {y:2026,d:"May",a:["eua"],ev:"alleg",t:"Group linked to Peter Thiel spends days in São Paulo",
+  b:"According to an ICL columnist, at least 15 guests registered as Thiel Capital stayed at the Rosewood hotel. The stated reason was a startup event. The report shows no meeting with politicians.",
+  s:[["ICL Notícias","https://iclnoticias.com.br/?p=129077"]]},
+ {y:2026,d:"May 26–27",k:1,a:["flavio","eduardo","eua"],ev:"doc",t:"Flávio at the White House with Trump, Rubio and Vance",
+  b:"He asks for PCC and CV to be classified as terrorists and proposes a partnership on critical minerals. Eduardo and Paulo Figueiredo attend the 30-minute meeting with Rubio.",
+  s:[["Correio da Manhã","https://www.correiodamanha.com.br/politica/2026/05/289342-flavio-bolsonaro-volta-a-debater-cv-e-pcc-em-reuniao-com-marco-rubio.html"],["Jornal de Brasília","https://jornaldebrasilia.com.br/noticias/politica-e-poder/flavio-bolsonaro-volta-a-casa-branca-e-fala-com-rubio-e-jd-vance-um-dia-apos-encontro-com-trump/"]]},
+ {y:2026,d:"May 28",k:1,l:["See the strategy behind it","estrategia.html#faccoes"],a:["eua","lula"],ev:"doc",t:"The next day, the US classifies PCC and CV as terrorists",
+  b:"The State Department announces the designation against the position of the Lula government, which fears the measure could open the way for American military action on Brazilian territory.",
+  s:[["Correio da Manhã","https://www.correiodamanha.com.br/politica/2026/05/amp/289676-eua-contraria-lula-e-classifica-pcc-e-cv-como-organizacoes-terroristas.html"]]},
+ {y:2026,d:"Jun 16",a:["eduardo"],ev:"doc",t:"Supreme Court sentences Eduardo to 4 years and 2 months",
+  b:"The First Panel finds that the campaign for sanctions in the US was used to intimidate justices during Jair Bolsonaro's trial.",
+  s:[["Poder360","https://www.poder360.com.br/poder-justica/stf-condena-eduardo-a-4-anos-e-2-meses/"]]},
+ {l:["See BRICS, the dollar and Pix","brics.html"],y:2026,d:"Jun",a:["eduardo"],ev:"doc",t:"Eduardo suggests replacing Pix with Zelle",
+  b:"Zelle is an American payment system. Pix was among the practices investigated by the USTR.",
+  s:[["Diario de Pernambuco","https://www.diariodepernambuco.com.br/politica/2026/06/11715755-eduardo-bolsonaro-sugere-trocar-pix-pelo-zelle-dos-estados-unidos.html"]]},
+ {l:["See BRICS, the dollar and Pix","brics.html"],y:2026,d:"Jul 1–7",k:1,a:["flavio","eua"],ev:"doc",t:"Flávio at the USTR: Pix kept away from \"non-Western\" systems and tariff only after the election",
+  b:"In an 86-page document, he proposes a legislative commitment that Pix will not connect to \"non-Western\" payment systems and asks for the 25% surcharge to be postponed by 180 days. He postpones a schedule in Pernambuco to stay in the US.",
+  s:[["Bahia Notícias","https://www.bahianoticias.com.br/noticia/318580-flavio-bolsonaro-propoe-aos-eua-restricao-a-sistemas-nao-ocidentais-e-defende-que-pix-nao-substitui-cartoes"],["Correio Braziliense","https://www.correiobraziliense.com.br/politica/2026/07/7456425-flavio-bolsonaro-adia-agenda-em-pernambuco-para-ficar-mais-um-dia-nos-eua.html"]]},
+ {y:2026,d:"Jul",a:["flavio"],ev:"open",t:"Supreme Court opens an inquiry into Flávio and Vorcaro",
+  b:"The Federal Police are investigating money laundering, corruption and tax evasion linked to Banco Master, and whether part of the money for the film \"Dark Horse\" paid Eduardo's expenses in the US.",
+  s:[["Bloomberg Línea","https://www.bloomberglinea.com.br/brasil/flavio-bolsonaro-pede-fim-de-sigilo-em-investigacao-sobre-lacos-com-vorcaro-do-master/"],["Aos Fatos","https://www.aosfatos.org/noticias/flavio-mentiu-ao-menos-43-vezes-sobre-envolvimento-com-vorcaro/"]]},
+ {y:2026,d:"Aug 4",k:1,a:["eua","lula"],ev:"doc",t:"US revokes the Brazilian ambassador's visa",
+  b:"Retaliation against Brazil, which is holding up approval of Daniel Perez, the \"Mini Rubio\", as ambassador. The visas of Moraes and Jorge Messias were also revoked.",
+  s:[["Gazeta do Povo","https://www.gazetadopovo.com.br/mundo/governo-trump-revoga-visto-de-embaixadora-do-brasil-nos-eua/"],["Gazeta do Povo · Rubio","https://www.gazetadopovo.com.br/mundo/marco-rubio-endurece-ofensiva-diplomatica-e-pressiona-governo-lula/"]]},
+ {y:2026,d:"Aug 11",k:1,l:["See the Trump Corollary","estrategia.html"],a:["eua"],ev:"doc",t:"State Department publishes a video celebrating the Monroe Doctrine",
+  b:"\"American dominance in the Western Hemisphere will never be questioned again,\" Trump says in the video. Lula's campaign reads the post as a sign that Rubio will try to block his re-election.",
+  s:[["Itatiaia","https://www.itatiaia.com.br/mundo/doutrina-monroe-dominio-eua-video-departamento-estado/"],["Correio da Manhã","https://www.correiodamanha.com.br/politica/2026/08/310362-video-dos-eua-sobre-dominio-na-america-preocupa-campanha-de-lula.html"]]},
+ {y:2026,d:"Sep 7",a:["eua"],ev:"doc",t:"Rubio visits Colombia, Peru and Ecuador",
+  b:"A cooperation agenda against \"narco-terrorism\" with aligned governments. Analysts cite regional fears of interference in the Brazilian election.",
+  s:[["WFAE / NPR","https://www.wfae.org/world/2026-09-07/rubio-to-visit-3-latin-american-countries-this-week"]]},
+ {y:2026,d:"Sep 17",k:1,l:["See item by item","exigencias.html"],a:["eua","flavio"],ev:"doc",t:"The 21 demands become public; 16 coincide with Flávio and allies",
+  b:"An ICL survey cross-checks the document with the government plan and statements. Flávio denies receiving American help: \"We are the ones who decide the election here\".",
+  s:[["ICL Notícias","https://iclnoticias.com.br/?p=128491"],["A Crítica","https://acritica.net/eleicoes-2026/flavio-bolsonaro-nega-apoio-dos-eua-a-campanha-apos-revelacao-sobre-exigencias-eleitorais/"]]},
+ {y:2026,d:"Sep 23",a:["lula","flavio"],ev:"open",t:"PT asks the Supreme Court to investigate foreign interference",
+  b:"The request targets documentaries and companies abroad linked to the PL's training platform and asks for the ticket to be annulled if abuse is proven.",
+  s:[["Diario de Pernambuco","https://www.diariodepernambuco.com.br/politica/2026/09/11724754-pt-vai-ao-stf-por-interferencia-externa-nas-eleicoes-e-mira-cassar-flavio.html"]]},
+ {l:["See big tech and the courts","bigtechs.html"],y:2026,d:"late Sep",k:1,a:["meta","lula"],ev:"open",t:"Meta blocks Lula's ads and takes down a profile critical of Flávio",
+  b:"Lula's campaign page loses permission to run ads without explanation. The Revelando Brasil profile goes down one day after a video about Flávio and Vorcaro. Both cases are reversed, and investigation requests are filed with the Federal Prosecution Service. Tech Policy Press found no sign of pressure from the American government.",
+  s:[["Tech Policy Press","https://techpolicy.press/on-eve-of-brazil-elections-meta-content-moderation-decisions-raise-questions"],["TNH1","https://www.tnh1.com.br/noticia/nid/meta-desabilitou-anuncios-do-perfil-de-lula-no-facebook/"]]},
+ {y:2026,d:"late Sep",a:["eua","flavio"],ev:"alleg",t:"Trump-linked influencers promote pro-Flávio bets",
+  b:"According to Tech Policy Press, influencers close to Trump paid to boost Polymarket posts favorable to Flávio, and the Rockbridge network, co-founded by JD Vance, has ties to the campaign.",
+  s:[["Tech Policy Press","https://techpolicy.press/on-eve-of-brazil-elections-meta-content-moderation-decisions-raise-questions"]]},
+ {y:2026,d:"Oct 4",a:["flavio","lula"],ev:"doc",t:"First round: Flávio 47.03%, Lula 45.16%",
+  b:"The TSE record of October 5 gives these percentages with 99.99% of polling sections counted. The two face each other in the runoff on October 25.",
+  s:[["TSE: count of October 5","https://www.tse.jus.br/comunicacao/noticias/2026/Outubro/flavio-bolsonaro-e-lula-vao-disputar-o-2o-turno-para-a-presidencia-da-republica"]]},
+  {l:["Meta: facts, response and limits","bigtechs.html#meta-2026"],y:2026,d:"Oct 10",k:1,a:["meta","lula"],ev:"open",t:"TSE asks Meta for data on suspected selective treatment",
+   b:"Reports record a 48-hour deadline for explanations. Lula's campaign alleges favoritism toward Flávio; Meta denies it. The request is not a finding of interference.",
+   s:[["AFP/UOL","https://noticias.uol.com.br/ultimas-noticias/afp/2026/10/10/tse-questiona-meta-apos-denuncias-de-lula-sobre-interferencia-nas-eleicoes.amp.htm"],["Metrópoles","https://www.metropoles.com/brasil/tse-da-48h-para-meta-explicar-suposta-interferencia-na-campanha-de-lula"]]},
+  {l:["Understand the channel episode","bigtechs.html#meta-2026"],y:2026,d:"Oct 11",a:["meta","lula"],ev:"doc",t:"Cueva reviews the order suspending the Exército do Lula channel",
+   b:"According to UOL, the rapporteur revokes Nunes Marques's order and rules that the channel stay online. This is a court restriction that was reviewed, distinct from Meta's own moderation.",
+   s:[["UOL: the rapporteur's decision","https://noticias.uol.com.br/eleicoes/2026/10/11/relator-do-tse-revoga-ordem-de-nunes-marques-e-reativa-canal-exercito-do-lula.amp.htm"]]}
+];
+const EVL={doc:"Documented",alleg:"Allegation",open:"Open"};
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const tl=document.getElementById("tl");
+let lastY=null;
+E.forEach((e,idx)=>{
+  if(e.y!==lastY){const y=document.createElement("div");y.className="year";y.textContent=e.y;y.dataset.year=e.y;tl.appendChild(y);lastY=e.y;}
+  const el=document.createElement("article");
+  el.className="item"+(e.k?" key":"");el.dataset.a=e.a.join(" ");el.dataset.y=e.y;
+  el.innerHTML=`<div class="date">${e.d}<br>${e.y}</div><span class="dot" aria-hidden="true"></span>
+  <div class="card"><div class="top"><div class="actors">${e.a.map(k=>`<span class="actor" style="--c:${A[k][1]}">${A[k][0]}</span>`).join("")}</div><span class="ev ${e.ev}">${EVL[e.ev]}</span></div>
+  <h3>${esc(e.t)}</h3><p>${esc(e.b)}</p>
+  <div class="src">${e.s.map(s=>`<a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a>`).join("")}</div>${e.l?`<a class="more" href="${e.l[1]}">${e.l[0]} →</a>`:""}</div>`;
+  tl.appendChild(el);
+});
+
+/* filters */
+const chips=document.getElementById("chips");const active=new Set();
+Object.entries(A).forEach(([k,[n,c]])=>{
+  const b=document.createElement("button");b.className="chip";b.id="f-"+k;b.style.setProperty("--c",c);b.setAttribute("aria-pressed","false");
+  b.innerHTML=`<i></i>${n}`;b.onclick=()=>{active.has(k)?active.delete(k):active.add(k);b.setAttribute("aria-pressed",active.has(k));apply();};
+  chips.appendChild(b);
+});
+function apply(){
+  let shown=0;const years={};
+  tl.querySelectorAll(".item").forEach(it=>{const ok=!active.size||it.dataset.a.split(" ").some(a=>active.has(a));it.hidden=!ok;if(ok){shown++;years[it.dataset.y]=1}});
+  tl.querySelectorAll(".year").forEach(y=>y.hidden=!years[y.dataset.year]);
+  document.getElementById("empty").hidden=shown>0;rail();
+}
+
+/* scroll: rail fill + mark seen (cards stay visible at rest) */
+const fill=document.getElementById("railfill");
+function rail(){
+  const r=tl.getBoundingClientRect();const vh=innerHeight;
+  const p=Math.min(1,Math.max(0,(vh*0.6-r.top)/r.height));fill.style.height=(p*100)+"%";
+  tl.querySelectorAll(".item:not([hidden])").forEach(it=>{const t=it.getBoundingClientRect().top;if(t<vh*0.75)it.classList.add("seen")});
+}
+addEventListener("scroll",rail,{passive:true});addEventListener("resize",rail);rail();
+
+/* network map */
+(function(){
+  const N={
+    ustr:{n:"USTR",x:100,y:95,c:"var(--c-eua)"},trump:{n:"Trump",x:270,y:70,c:"var(--c-eua)"},rubio:{n:"Rubio",x:445,y:95,c:"var(--c-eua)"},vance:{n:"Vance",x:580,y:170,c:"var(--c-eua)"},
+    meta:{n:"Meta",x:575,y:330,c:"var(--c-meta)"},
+    eduardo:{n:"Eduardo",x:85,y:395,c:"var(--c-eduardo)"},flavio:{n:"Flávio",x:225,y:320,c:"var(--c-flavio)"},lula:{n:"Lula",x:385,y:420,c:"var(--c-lula)"},stf:{n:"STF",x:540,y:440,c:"var(--muted)"}
+  };
+  const L=[
+    ["flavio","trump","Meeting at the White House","May 2026. Asked for PCC and CV to be designated as terrorists."],
+    ["flavio","rubio","30-minute meeting","May 27, 2026. Rubio would support the designation, according to Flávio."],
+    ["flavio","vance","Meeting on freedom of expression","May 27, 2026."],
+    ["flavio","ustr","86-page document","Jul 2026. Pix kept away from \"non-Western\" systems and tariff only after the election."],
+    ["eduardo","rubio","Campaign for sanctions","2025. Celebrated the Magnitsky Act against Moraes. Convicted of coercion in 2026."],
+    ["eduardo","flavio","Brothers","Eduardo accompanied the May 2026 meetings in Washington."],
+    ["lula","trump","Two meetings","Malaysia, Oct 2025, and the White House, May 2026. Tariff negotiations continue."],
+    ["lula","rubio","Visa crisis","Aug 2026. The ambassador's visa revoked; Brazil holds up the \"Mini Rubio\" ambassador."],
+    ["stf","trump","Sanctions and visas","Jul 2025. Magnitsky Act against Moraes and visas revoked."],
+    ["meta","trump","Declared alignment","Jan 2025. Zuckerberg says he will work with Trump against \"censorship\"."],
+    ["meta","stf","Clash over moderation","Zuckerberg cites \"secret courts\". The Supreme Court expands platforms' liability in Jun 2025."]
+  ];
+  const ns="http://www.w3.org/2000/svg",eg=document.getElementById("edges"),ng=document.getElementById("nodes"),info=document.getElementById("netinfo");
+  const mk=(t,a)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+  L.forEach((l,i)=>{const a=N[l[0]],b=N[l[1]];const e=mk("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,class:"edge"});e.dataset.a=l[0];e.dataset.b=l[1];e.style.animationDelay=(i*0.15)+"s";eg.appendChild(e)});
+  let sel=null;
+  Object.entries(N).forEach(([k,v],i)=>{
+    const g=mk("g",{class:"node",tabindex:"0",role:"button","aria-label":v.n});g.style.setProperty("--c",v.c);g.dataset.k=k;
+    g.appendChild(mk("circle",{cx:v.x,cy:v.y,r:26,class:"pulse",style:"animation-delay:"+(i*0.3)+"s"}));
+    g.appendChild(mk("circle",{cx:v.x,cy:v.y,r:26,class:"ring"}));
+    g.appendChild(mk("circle",{cx:v.x,cy:v.y,r:7,class:"core"}));
+    const t=mk("text",{x:v.x,y:v.y+50});t.textContent=v.n;g.appendChild(t);
+    const go=()=>pick(sel===k?null:k);g.addEventListener("click",go);g.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();go()}});
+    ng.appendChild(g);
+  });
+  function pick(k){sel=k;
+    const linked=new Set([k]);
+    eg.querySelectorAll(".edge").forEach(e=>{const on=k&&(e.dataset.a===k||e.dataset.b===k);e.classList.toggle("on",!!on);e.classList.toggle("off",!!k&&!on);if(on){linked.add(e.dataset.a);linked.add(e.dataset.b)}});
+    ng.querySelectorAll(".node").forEach(g=>{g.classList.toggle("on",g.dataset.k===k);g.classList.toggle("off",!!k&&!linked.has(g.dataset.k))});
+    if(!k){info.innerHTML='<strong>11 connections among 9 people involved.</strong><span>Tap a name on the map to see what links each one to the others.</span>';return}
+    const rows=L.filter(l=>l[0]===k||l[1]===k).map(l=>{const o=l[0]===k?l[1]:l[0];return `<li><b>${N[o].n}: ${l[2]}</b><span>${l[3]}</span></li>`}).join("");
+    info.innerHTML=`<strong>${N[k].n}</strong><ul>${rows}</ul>`;
+  }
+})();
+</script>
+
+</body></html>
