@@ -222,7 +222,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;ga
 <main class="wrap">
   <section class="sec" aria-labelledby="h-tl">
     <h2 id="h-tl">Timeline</h2>
-    <p class="sec-intro">From January 2025 to the first round of 2026. Milestones with a side bar carry the most weight.</p>
+    <p class="sec-intro">From January 2025 to October 2026. Milestones with a side bar carry the most weight.</p>
     <div class="tl" id="tl"><div class="rail" aria-hidden="true"><b id="railfill"></b></div></div>
     <p class="empty" id="empty" hidden>No events for this filter.</p>
   </section>
@@ -289,6 +289,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;ga
         <ul>
           <li>That Meta moderated Brazilian content at the request of the American government.</li>
           <li>That foreign money or structures are financing Flávio's campaign. The PT asked the Supreme Court to investigate.</li>
+          <li>That Flávio's campaign used the manipulation system linked to Elytron, a company it paid. The payment is in the TSE accounts; use of the system has not been proven, according to the Intercept report itself.</li>
           <li>That the group linked to Peter Thiel in São Paulo had an electoral purpose.</li>
           <li>That Palantir or Alex Karp have any role in the election.</li>
         </ul>
@@ -297,7 +298,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;ga
   </section>
 
   <footer>
-    <p>Checked on October 14, 2026 (Tokyo); events identified by the dates of the Brazilian sources. Investigation is not conviction, and each person cited has their version shown when available.</p>
+    <p>Checked on October 17, 2026 (Tokyo); events identified by the dates of the Brazilian sources. Investigation is not conviction, and each person cited has their version shown when available.</p>
     <p>Runoff: October 25, 2026.</p>
   </footer>
 
@@ -305,7 +306,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:14px;display:grid;ga
 <h2 id="h-fontes-revisao">Sources and limits of this reading</h2>
 <p>News of a proposal or a scheduled meeting does not prove it happened. Designating factions as terrorists does not automatically authorize military intervention. The electoral timeline reports the stage of the count, and trade effects must follow the applicable act.</p>
 <div class="src"><a href="https://www.tse.jus.br/comunicacao/noticias/2026/Outubro/flavio-bolsonaro-e-lula-vao-disputar-o-2o-turno-para-a-presidencia-da-republica" target="_blank" rel="noopener">TSE: first round</a><a href="https://ustr.gov/trade-topics/enforcement/section-301-investigations/section-301-brazils-acts-policies-and-practices-related-digital-trade-and-electronic-payment" target="_blank" rel="noopener">USTR: procedure regarding Brazil</a></div>
-<p style="font-size:14px"><a href="https://fcarvalhodev.github.io/rotas/en/metodologia.html">How we tell facts, allegations and interpretations apart</a> · News update: October 14, 2026 (Tokyo).</p>
+<p style="font-size:14px"><a href="https://fcarvalhodev.github.io/rotas/en/metodologia.html">How we tell facts, allegations and interpretations apart</a> · News update: October 17, 2026 (Tokyo).</p>
 </section>
 </main>
 
@@ -425,7 +426,10 @@ const E=[
    s:[["AFP/UOL","https://noticias.uol.com.br/ultimas-noticias/afp/2026/10/10/tse-questiona-meta-apos-denuncias-de-lula-sobre-interferencia-nas-eleicoes.amp.htm"],["Metrópoles","https://www.metropoles.com/brasil/tse-da-48h-para-meta-explicar-suposta-interferencia-na-campanha-de-lula"]]},
   {l:["Understand the channel episode","bigtechs.html#meta-2026"],y:2026,d:"Oct 11–13",a:["meta","lula"],ev:"doc",t:"The Exército do Lula channel is suspended, released and suspended again by the TSE",
    b:"Nunes Marques suspends the channel at Flávio's request; inspector general Cueva revokes it the same day, according to UOL. On October 13, Nunes Marques annuls the revocation and makes the return conditional on registering the channel with the Electoral Courts. It is a court restriction, distinct from Meta's own moderation.",
-   s:[["UOL: the rapporteur's decision","https://noticias.uol.com.br/eleicoes/2026/10/11/relator-do-tse-revoga-ordem-de-nunes-marques-e-reativa-canal-exercito-do-lula.amp.htm"],["Poder360: new suspension","https://www.poder360.com.br/poder-eleicoes-2026/nunes-marques-volta-a-suspender-canal-exercito-do-lula/"]]}
+   s:[["UOL: the rapporteur's decision","https://noticias.uol.com.br/eleicoes/2026/10/11/relator-do-tse-revoga-ordem-de-nunes-marques-e-reativa-canal-exercito-do-lula.amp.htm"],["Poder360: new suspension","https://www.poder360.com.br/poder-eleicoes-2026/nunes-marques-volta-a-suspender-canal-exercito-do-lula/"]]},
+ {y:2026,d:"Oct 16",a:["flavio"],ev:"alleg",t:"Flávio's campaign paid a company linked to an election “manipulation” system, says Intercept",
+   b:"Documented: the TSE accounts show R$600,000 paid to Elytron, a company with an address in São Paulo and registered in Portugal, and the PL paid another R$131,900. The invoices mention IT security and consulting. Allegation: a former American consultant gave Intercept a presentation of a system linked to the company, with fake accounts, AI avatars and planted rumours. The report says there is no proof the system was sold to or used by the campaign. The campaign and the company say the service was only protection against attacks. For now, a single source.",
+   s:[["Intercept Brasil","https://www.intercept.com.br/2026/10/16/flavio-pagou-empresa-eua-sistema-manipular-eleicoes/"]]}
 ];
 const EVL={doc:"Documented",alleg:"Allegation",open:"Open"};
 const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
