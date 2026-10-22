@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Rota Washington clue-hunting game: you are the reporter, search a hangar in Brasília and an office in Washington, and sort out what is fact, what is open and what is rumour.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Clue Hunt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a point-and-click game. The player is the reporter: two illustrated scenes (a hangar in Brasília, an office in Washington) with clickable objects; each object opens a fact card with the Rotas label, and every card lands in the notebook below. At the end, pick the honest headline. */
+:root{
+  --bg:#edf0f3; --paper:#f8fafb; --ink:#14213d; --muted:#56627a; --line:#cfd6df;
+  --accent:#0e7c74; --accent-soft:#d5ebe8;
+  --doc:#14213d; --alleg:#a56a00; --alleg-soft:#fbefd6; --open:#6b5bb5; --open-soft:#e8e5f6; --no:#a12a2a; --no-soft:#f6dede;
+  --wall:#c9d1da; --wall2:#b9c2cd; --floor:#9aa3ad; --wood:#a8743f; --wood2:#8c5d30; --steel:#6b7480; --room:#2b313a; --sky:#bfe0f2; --desk:#7a5232; --hint:#f2c94c;
+  --display:"Archivo","Arial Narrow",Impact,sans-serif;
+  --ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a; --no:#f19b9b; --no-soft:#3a1c1c;
+  --wall:#3a4452; --wall2:#323b48; --floor:#272e38; --wood:#8a5e33; --wood2:#6f4a27; --steel:#8b95a3; --room:#151a21; --sky:#27445a; --desk:#5a3c24;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1520; --paper:#151d2b; --ink:#e6ebf2; --muted:#9aa7bb; --line:#2a3546;
+  --accent:#4cc3b6; --accent-soft:#163430;
+  --doc:#e6ebf2; --alleg:#f0b54a; --alleg-soft:#3a2c12; --open:#a99cf0; --open-soft:#29254a; --no:#f19b9b; --no-soft:#3a1c1c;
+  --wall:#3a4452; --wall2:#323b48; --floor:#272e38; --wood:#8a5e33; --wood2:#6f4a27; --steel:#8b95a3; --room:#151a21; --sky:#27445a; --desk:#5a3c24;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px}
+header{padding-block:28px 6px;display:grid;gap:10px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{margin:0}
+.lede{margin:0;max-width:64ch;font-size:18px}
+.how{margin:0;font-family:var(--ui);font-size:15px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px 10px;font-family:var(--ui);font-size:13px}
+.tg{display:inline-block;font-family:var(--ui);font-weight:800;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:2px 9px;border-radius:999px;border:2px solid currentColor;white-space:nowrap}
+.tg.doc{color:var(--doc);background:var(--paper)}
+.tg.open{color:var(--open);background:var(--open-soft)}
+.tg.alleg{color:var(--alleg);background:var(--alleg-soft)}
+.tg.no{color:var(--no);background:var(--no-soft)}
+
+/* game bar */
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:18px}
+.tab{font-family:var(--ui);font-weight:700;font-size:15px;border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
+.tab[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.tab:disabled{opacity:.45;cursor:not-allowed}
+.tab:focus-visible,.btn:focus-visible,.hs:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.score{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.btn{font-family:var(--ui);font-weight:800;font-size:15px;border:0;background:var(--accent);color:var(--paper);border-radius:999px;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+
+/* stage */
+.stage{position:relative;margin-top:10px;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--wall);touch-action:manipulation}
+.stage svg{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none}
+.hs{cursor:pointer;outline:none}
+.hs .hl{fill:none;stroke:var(--hint);stroke-width:4;stroke-dasharray:8 6;opacity:0;transition:opacity .2s}
+.hs:hover .hl,.hs:focus-visible .hl{opacity:1}
+.hints .hs:not(.found) .hl{opacity:1;animation:pulse 1.4s ease-in-out infinite}
+.hs.found .hl{opacity:0}
+.hs.found .tick{opacity:1}
+.tick{opacity:0;transition:opacity .3s}
+@keyframes pulse{50%{opacity:.25}}
+.inroom{opacity:0;pointer-events:none;transition:opacity .5s .2s}
+.opened .inroom{opacity:1;pointer-events:auto}
+#panelWood{transition:transform .6s cubic-bezier(.5,0,.2,1)}
+.opened #panelWood{transform:translateX(150px)}
+.lbl{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.lbl.w{fill:#fff}
+.sign{font-family:var(--display);font-weight:900;font-stretch:70%;font-size:26px;letter-spacing:.04em}
+
+/* fact pop-up */
+.pop{position:absolute;inset:auto 10px 10px 10px;max-width:560px;margin-inline:auto;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:10px;padding:14px 16px 14px;box-shadow:0 12px 28px rgba(0,0,0,.25);display:grid;gap:8px;font-size:16px;line-height:1.5}
+.pop h3{margin:0;font-family:var(--ui);font-size:19px;line-height:1.25}
+.pop .quip{font-style:italic;color:var(--muted)}
+.pop .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.pop a{font-family:var(--mono);font-size:12px;color:var(--muted)}
+@media (max-width:640px){.stage .pop{position:static;margin:10px;box-shadow:none}}
+
+/* notebook */
+.notes{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:10px}
+.notes h2{margin:0;font-family:var(--display);font-stretch:66%;font-weight:800;font-size:30px;text-transform:uppercase;background:var(--paper);justify-self:start;padding-right:8px}
+.notes ol{margin:0;padding-left:22px;display:grid;gap:10px}
+.notes li{background:var(--paper);font-size:16px;line-height:1.5}
+.notes li b{font-family:var(--ui)}
+.notes .empty{color:var(--muted);font-style:italic;background:var(--paper)}
+.notes small{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+/* ending */
+.end{margin-top:22px;background:var(--paper);border:2px solid var(--accent);border-radius:10px;padding:18px;display:grid;gap:14px}
+.end h2{margin:0;font-family:var(--display);font-stretch:66%;font-weight:800;font-size:34px;line-height:1;text-transform:uppercase}
+.q{display:grid;gap:8px}
+.q p{margin:0;font-family:var(--ui);font-weight:700}
+.opt{text-align:left;font-family:var(--body);font-size:16px;line-height:1.4;border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:10px 12px;cursor:pointer}
+.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.opt.right{border-color:var(--accent);background:var(--accent-soft)}
+.opt.wrong{border-color:var(--no);background:var(--no-soft)}
+.fb{margin:0;font-size:15px;color:var(--muted)}
+.tally{display:flex;flex-wrap:wrap;gap:8px 16px;font-family:var(--ui);font-weight:700}
+.verdict{font-family:var(--ui);font-size:20px;font-weight:800}
+footer{padding-block:30px 50px;color:var(--muted);font-size:14px;display:grid;gap:6px}
+.back{font-family:var(--ui);font-weight:700}
+</style>
+</head><body>
+<style>/* barra comum das Rotas */.rotas-bar .rb-lang{margin-left:auto;color:var(--accent);font-weight:600}.rotas-bar{border-bottom:1px solid var(--line);background:var(--bg);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}.rotas-bar>div{max-width:880px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}.rotas-bar a{color:var(--muted);text-decoration:none;padding-block:2px;border-bottom:2px solid transparent}.rotas-bar a:hover{color:var(--ink)}.rotas-bar a[aria-current]{color:var(--ink);border-bottom-color:var(--accent)}.rotas-bar .rb-home{color:var(--accent);font-weight:600}.rv-btn{display:inline-flex;align-items:center;gap:8px;justify-self:start;font-family:var(--ui,system-ui);font-weight:800;font-size:16px;letter-spacing:.02em;text-decoration:none;color:var(--paper,#fff);background:var(--accent);padding:10px 16px;border-radius:999px;box-shadow:0 2px 0 rgba(0,0,0,.15)}.rv-btn:hover{filter:brightness(1.08)}.rv-btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}.rotas-bar a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}</style><style>/* padrão das Rotas: formato detalhado */body{font-size:17px;line-height:1.6}h1{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(60px,15vw,140px);line-height:.86;text-transform:uppercase;overflow-wrap:anywhere}h2{font-family:var(--display);font-stretch:66%;font-weight:800;font-size:clamp(34px,7vw,52px);line-height:.95;text-transform:uppercase}</style><nav class="rotas-bar" aria-label="Routes"><div><a class="rb-home" href="https://fcarvalhodev.github.io/rotas/en/">Routes</a><a href="https://fcarvalhodev.github.io/rota-washington/en/" aria-current="page">Washington</a><a href="https://fcarvalhodev.github.io/rota-master/en/">Master</a><a href="https://fcarvalhodev.github.io/rota-curitiba/en/">Curitiba</a><a href="https://fcarvalhodev.github.io/rota-da-fe/en/">Faith</a><a href="https://fcarvalhodev.github.io/rota-esplanada/en/">Esplanada</a><a href="https://fcarvalhodev.github.io/rota-itamaraty/en/">Itamaraty</a><a href="https://fcarvalhodev.github.io/rota-da-picanha/en/">Picanha</a><a href="https://fcarvalhodev.github.io/rota-do-ibge/en/">IBGE</a><a href="https://fcarvalhodev.github.io/rota-velho-chico/en/">Velho Chico</a><a href="https://fcarvalhodev.github.io/rota-do-tesouro/en/">Treasury</a><a href="https://fcarvalhodev.github.io/rota-rouanet/en/">Rouanet</a><a href="https://fcarvalhodev.github.io/rota-dos-ventos/en/">Winds</a><a href="https://fcarvalhodev.github.io/rota-do-algoritmo/en/">Algorithm</a><a href="https://fcarvalhodev.github.io/rota-do-posto/en/">Pump</a><a href="https://fcarvalhodev.github.io/rota-das-queimadas/en/">Fires</a><a href="https://fcarvalhodev.github.io/rota-dos-games/en/">Games</a><a href="https://fcarvalhodev.github.io/rota-do-contracheque/en/">Paycheck</a><a class="rb-lang" href="../jogo.html" hreflang="pt-BR" lang="pt-BR">PT</a></div></nav>
+<header class="wrap">
+  <div class="kicker">Rota Washington · game</div>
+  <h1>Clue Hunt</h1>
+  <p class="lede">You are the reporter. Search a hangar in Brasília and an office in Washington, tap the objects and note what you find. Each clue gets a label: fact, open, rumour or nothing found. At the end, pick the honest headline.</p>
+  <p class="how">It is a joke, but the facts are real and sourced. Nobody here has been convicted of anything that appears in the game.</p>
+  <div class="tags"><span class="tg doc">Documented</span><span class="tg open">Open</span><span class="tg alleg">Claim</span><span class="tg no">Not shown</span></div>
+</header>
+
+<main class="wrap">
+  <div class="bar">
+    <button type="button" class="tab" id="t1" aria-pressed="true">1. Hangar in Brasília</button>
+    <button type="button" class="tab" id="t2" aria-pressed="false" disabled>2. Office in Washington</button>
+    <button type="button" class="tab" id="hint" aria-pressed="false">🔍 Show clues</button>
+    <span class="score" id="score" aria-live="polite">Clues: 0 of 20</span>
+  </div>
+
+  <div class="stage" id="stage">
+    <!-- SCENE 1: hangar -->
+    <svg id="s1" viewBox="0 0 800 480" role="group" aria-label="Hangar in Brasília. Objects to investigate: jet, another plane, STF folder, laptop, betting poster, wooden panel and boarding pass.">
+      <rect width="800" height="480" fill="var(--wall)"/>
+      <g stroke="var(--wall2)" stroke-width="3"><path d="M40 0V360M80 0V360M120 0V360M160 0V360M200 0V360M240 0V360M280 0V360M320 0V360M360 0V360M400 0V360M440 0V360M480 0V360M520 0V360M560 0V360"/></g>
+      <rect x="0" y="0" width="800" height="26" fill="var(--wall2)"/>
+      <text x="20" y="60" class="sign" fill="var(--ink)" opacity=".75">HANGAR 7 · BSB</text>
+      <!-- open hangar door with sky -->
+      <rect x="20" y="80" width="250" height="150" fill="var(--sky)" stroke="var(--steel)" stroke-width="6"/>
+      <path d="M20 200 Q90 180 160 196 T270 190 V230 H20Z" fill="#8fb98a" opacity=".7"/>
+      <polygon points="0,360 800,360 800,480 0,480" fill="var(--floor)"/>
+      <path d="M0 420 H800" stroke="var(--hint)" stroke-width="6" stroke-dasharray="40 24"/>
+
+      <!-- other plane, in the sky door -->
+      <g class="hs" data-id="aviao2" tabindex="0" role="button" aria-label="Another plane, outside">
+        <g transform="translate(70 120)">
+          <path d="M0 30 Q10 18 40 18 H140 Q160 18 168 30 Q160 40 140 40 H40 Q10 40 0 30Z" fill="#f4f6f8" stroke="var(--steel)" stroke-width="2"/>
+          <path d="M120 18 L150 -6 H160 L146 18Z" fill="#d2d8de" stroke="var(--steel)" stroke-width="2"/>
+          <path d="M60 30 L100 62 H112 L92 30Z" fill="#d2d8de" stroke="var(--steel)" stroke-width="2"/>
+          <g fill="var(--steel)"><circle cx="30" cy="27" r="3"/><circle cx="42" cy="27" r="3"/><circle cx="54" cy="27" r="3"/><circle cx="66" cy="27" r="3"/></g>
+        </g>
+        <rect class="hl" x="60" y="100" width="190" height="90" rx="8"/>
+        <circle class="tick" cx="250" cy="100" r="12" fill="var(--accent)"/>
+      </g>
+
+      <!-- main jet -->
+      <g class="hs" data-id="jato" tabindex="0" role="button" aria-label="Jet in the hangar">
+        <g transform="translate(30 250)">
+          <path d="M0 60 Q20 34 70 32 H300 Q330 32 340 50 Q332 70 300 74 H70 Q20 74 0 60Z" fill="#fbfcfd" stroke="var(--steel)" stroke-width="3"/>
+          <path d="M270 32 L315 -18 H335 L312 32Z" fill="#e3e8ec" stroke="var(--steel)" stroke-width="3"/>
+          <path d="M140 60 L210 104 H232 L190 60Z" fill="#e3e8ec" stroke="var(--steel)" stroke-width="3"/>
+          <path d="M8 56 Q20 44 40 44 L44 56Z" fill="#33414f"/>
+          <g fill="#33414f"><rect x="80" y="44" width="12" height="9" rx="3"/><rect x="104" y="44" width="12" height="9" rx="3"/><rect x="128" y="44" width="12" height="9" rx="3"/><rect x="152" y="44" width="12" height="9" rx="3"/><rect x="176" y="44" width="12" height="9" rx="3"/></g>
+          <rect x="60" y="62" width="220" height="5" fill="var(--accent)"/>
+          <g fill="#2b313a"><rect x="70" y="80" width="6" height="22"/><circle cx="73" cy="104" r="7"/><rect x="230" y="80" width="6" height="22"/><circle cx="233" cy="104" r="7"/></g>
+        </g>
+        <rect class="hl" x="22" y="222" width="360" height="140" rx="10"/>
+        <circle class="tick" cx="372" cy="226" r="12" fill="var(--accent)"/>
+      </g>
+
+      <!-- crate with STF folder -->
+      <rect x="400" y="300" width="110" height="64" fill="var(--wood2)"/><path d="M400 300 L510 364 M510 300 L400 364" stroke="var(--wood)" stroke-width="5"/>
+      <g class="hs" data-id="pasta" tabindex="0" role="button" aria-label="Folder stamped STF">
+        <g transform="translate(410 272) rotate(-6)">
+          <rect width="84" height="30" rx="3" fill="#e8c76a" stroke="#8a6a1a" stroke-width="2"/>
+          <rect x="6" y="-8" width="30" height="10" rx="2" fill="#e8c76a" stroke="#8a6a1a" stroke-width="2"/>
+          <text x="42" y="21" text-anchor="middle" font-family="var(--mono)" font-size="13" font-weight="700" fill="#7a2a3d">STF</text>
+        </g>
+        <rect class="hl" x="402" y="258" width="104" height="52" rx="6"/>
+        <circle class="tick" cx="500" cy="262" r="11" fill="var(--accent)"/>
+      </g>
+
+      <!-- laptop on a cart -->
+      <rect x="300" y="180" width="8" height="0" fill="none"/>
+      <g class="hs" data-id="notebook" tabindex="0" role="button" aria-label="Laptop open on a bank screen">
+        <rect x="430" y="196" width="10" height="66" fill="var(--steel)"/><rect x="400" y="190" width="72" height="8" fill="var(--steel)"/>
+        <g transform="translate(398 128)">
+          <rect width="76" height="52" rx="4" fill="#20262e" stroke="var(--steel)" stroke-width="2"/>
+          <rect x="5" y="5" width="66" height="40" fill="#e9f3f7"/>
+          <text x="38" y="20" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="#14213d">BANK</text>
+          <text x="38" y="33" text-anchor="middle" font-family="var(--mono)" font-size="7" fill="#a12a2a">master user</text>
+          <rect x="-6" y="52" width="88" height="8" rx="2" fill="var(--steel)"/>
+        </g>
+        <rect class="hl" x="388" y="118" width="98" height="80" rx="6"/>
+        <circle class="tick" cx="484" cy="122" r="11" fill="var(--accent)"/>
+      </g>
+
+      <!-- betting poster -->
+      <g class="hs" data-id="cartaz" tabindex="0" role="button" aria-label="Betting poster on the wall">
+        <rect x="500" y="66" width="86" height="112" rx="4" fill="#1e7a3d" stroke="#0f3d1f" stroke-width="3"/>
+        <text x="543" y="94" text-anchor="middle" font-family="var(--display)" font-weight="900" font-size="18" fill="#ffe36b">BET</text>
+        <text x="543" y="114" text-anchor="middle" font-family="var(--display)" font-weight="900" font-size="18" fill="#ffe36b">NOW!</text>
+        <g transform="translate(523 128)"><rect width="22" height="22" rx="4" fill="#fff"/><circle cx="6" cy="6" r="2.5" fill="#1e7a3d"/><circle cx="16" cy="16" r="2.5" fill="#1e7a3d"/><circle cx="11" cy="11" r="2.5" fill="#1e7a3d"/></g>
+        <circle cx="565" cy="140" r="10" fill="#e24b4b" stroke="#fff" stroke-width="3" stroke-dasharray="4 3"/>
+        <text x="543" y="170" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#fff">hidden? partner</text>
+        <rect class="hl" x="492" y="58" width="102" height="128" rx="6"/>
+        <circle class="tick" cx="590" cy="62" r="11" fill="var(--accent)"/>
+      </g>
+
+      <!-- the hidden room behind the panel -->
+      <g id="room">
+        <rect x="610" y="120" width="170" height="240" fill="var(--room)"/>
+        <rect x="610" y="120" width="170" height="240" fill="none" stroke="var(--steel)" stroke-width="8"/>
+        <g stroke="var(--steel)" stroke-width="5"><path d="M620 196 H770 M620 262 H770"/></g>
+        <!-- counting machine -->
+        <g class="hs inroom" data-id="maquina" tabindex="-1" role="button" aria-label="Money-counting machine">
+          <g transform="translate(628 158)">
+            <rect width="62" height="36" rx="5" fill="#d9dee4" stroke="#3b434d" stroke-width="2"/>
+            <rect x="8" y="-8" width="46" height="12" rx="2" fill="#bfc6ce" stroke="#3b434d" stroke-width="2"/>
+            <rect x="8" y="12" width="28" height="12" fill="#1b2a1b"/><text x="22" y="22" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#7dff8a">0000</text>
+            <circle cx="48" cy="18" r="5" fill="#e24b4b"/>
+          </g>
+          <rect class="hl" x="620" y="142" width="80" height="58" rx="5"/>
+          <circle class="tick" cx="698" cy="146" r="10" fill="var(--accent)"/>
+        </g>
+        <!-- receipt on shelf -->
+        <g class="hs inroom" data-id="recibo" tabindex="-1" role="button" aria-label="Paper on the shelf">
+          <g transform="translate(716 166) rotate(8)"><rect width="34" height="28" fill="#fffbe9" stroke="#8a7a4a"/><path d="M5 8 H29 M5 14 H25 M5 20 H20" stroke="#8a7a4a"/></g>
+          <rect class="hl" x="708" y="156" width="54" height="46" rx="5"/>
+          <circle class="tick" cx="760" cy="158" r="10" fill="var(--accent)"/>
+        </g>
+        <!-- suitcases -->
+        <g class="hs inroom" data-id="malas" tabindex="-1" role="button" aria-label="Suitcases on the bottom shelf">
+          <g transform="translate(626 216)"><rect width="56" height="42" rx="5" fill="#5b3a2a" stroke="#2e1d14" stroke-width="2"/><rect x="18" y="-8" width="20" height="10" rx="3" fill="none" stroke="#2e1d14" stroke-width="3"/><path d="M0 20 H56" stroke="#2e1d14"/></g>
+          <g transform="translate(694 222)"><rect width="66" height="36" rx="5" fill="#3a4f6b" stroke="#1d2735" stroke-width="2"/><rect x="24" y="-7" width="18" height="9" rx="3" fill="none" stroke="#1d2735" stroke-width="3"/></g>
+          <g transform="translate(640 284)"><rect width="110" height="56" rx="6" fill="#7a2a3d" stroke="#3d1520" stroke-width="2"/><rect x="44" y="-9" width="22" height="11" rx="3" fill="none" stroke="#3d1520" stroke-width="3"/><path d="M20 0 V56 M90 0 V56" stroke="#3d1520" stroke-width="2"/></g>
+          <rect class="hl" x="618" y="204" width="152" height="146" rx="6"/>
+          <circle class="tick" cx="768" cy="208" r="10" fill="var(--accent)"/>
+        </g>
+      </g>
+      <!-- wooden panel that slides away -->
+      <g class="hs" data-id="painel" tabindex="0" role="button" aria-label="Wooden panel on the wall">
+        <g id="panelWood">
+          <rect x="604" y="114" width="182" height="252" fill="var(--wood)" stroke="var(--wood2)" stroke-width="4"/>
+          <g stroke="var(--wood2)" stroke-width="2" opacity=".7"><path d="M640 114 V366 M680 114 V366 M720 114 V366 M760 114 V366"/><path d="M612 160 q14 -8 22 2 M650 230 q14 -8 22 2 M700 300 q14 -8 22 2 M735 180 q14 -8 22 2"/></g>
+          <text x="695" y="248" text-anchor="middle" font-family="var(--mono)" font-size="12" fill="#3b2412">solid hardwood</text>
+          <text x="695" y="264" text-anchor="middle" font-family="var(--mono)" font-size="12" fill="#3b2412">(nothing to see)</text>
+        </g>
+        <rect class="hl" x="598" y="108" width="194" height="264" rx="8"/>
+        <circle class="tick" cx="788" cy="112" r="11" fill="var(--accent)"/>
+      </g>
+
+      <!-- boarding pass -->
+      <g class="hs" data-id="embarque" tabindex="0" role="button" aria-label="Boarding pass on the floor">
+        <g transform="translate(520 404) rotate(-8)">
+          <rect width="110" height="44" rx="4" fill="#fff" stroke="#14213d" stroke-width="2"/>
+          <path d="M80 0 V44" stroke="#14213d" stroke-dasharray="3 3"/>
+          <text x="40" y="18" text-anchor="middle" font-family="var(--mono)" font-size="12" font-weight="700" fill="#14213d">BSB → DCA</text>
+          <text x="40" y="33" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#56627a">gate: truth</text>
+          <text x="95" y="27" text-anchor="middle" font-size="16">✈</text>
+        </g>
+        <rect class="hl" x="510" y="384" width="134" height="76" rx="6"/>
+        <circle class="tick" cx="640" cy="388" r="11" fill="var(--accent)"/>
+      </g>
+    </svg>
+
+    <!-- SCENE 2: Washington office -->
+    <svg id="s2" viewBox="0 0 800 480" role="group" aria-label="Office in Washington. Objects to investigate: photos on the wall, safe, demands folder, letter, laptop, sticky note, phone and passport." hidden>
+      <rect width="800" height="480" fill="#d9cdb8"/>
+      <g stroke="#cbbda5" stroke-width="2"><path d="M0 40 H800 M0 80 H800 M0 120 H800 M0 160 H800 M0 200 H800 M0 240 H800 M0 280 H800"/></g>
+      <polygon points="0,380 800,380 800,480 0,480" fill="#6b4a3a"/>
+      <!-- window with a generic dome -->
+      <rect x="30" y="50" width="230" height="200" fill="var(--sky)" stroke="#f3efe7" stroke-width="10"/>
+      <g fill="#f4f1ea" stroke="#9aa3ad" stroke-width="2">
+        <rect x="60" y="200" width="170" height="40"/>
+        <g stroke-width="1.5"><path d="M70 204 V238 M84 204 V238 M98 204 V238 M112 204 V238 M178 204 V238 M192 204 V238 M206 204 V238 M220 204 V238"/></g>
+        <rect x="104" y="176" width="82" height="24"/>
+        <path d="M110 176 A35 40 0 0 1 180 176Z"/>
+        <rect x="139" y="124" width="12" height="14"/><path d="M145 112 V124" stroke-width="3"/>
+        <path d="M60 240 H230" stroke-width="5"/>
+      </g>
+      <path d="M145 50 V120 M30 110 H260" stroke="#f3efe7" stroke-width="6"/>
+      <text x="145" y="278" text-anchor="middle" class="lbl">Washington, DC</text>
+
+      <!-- photo frame: Flávio -->
+      <g class="hs" data-id="fotoF" tabindex="0" role="button" aria-label="Photo on the wall: meeting at the White House, May 2026">
+        <rect x="300" y="60" width="140" height="104" fill="#2b2b2b"/><rect x="308" y="68" width="124" height="74" fill="#e8eef3"/>
+        <g fill="#56627a"><circle cx="330" cy="98" r="8"/><rect x="321" y="108" width="18" height="30" rx="6"/><circle cx="360" cy="96" r="9"/><rect x="350" y="107" width="20" height="31" rx="6"/><circle cx="390" cy="98" r="8"/><rect x="381" y="108" width="18" height="30" rx="6"/><circle cx="415" cy="99" r="7"/><rect x="407" y="108" width="16" height="30" rx="6"/></g>
+        <text x="370" y="156" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#fff">White House · May 2026</text>
+        <rect class="hl" x="292" y="52" width="156" height="120" rx="6"/>
+        <circle class="tick" cx="446" cy="56" r="11" fill="var(--accent)"/>
+      </g>
+      <!-- photo frame: Lula -->
+      <g class="hs" data-id="fotoL" tabindex="0" role="button" aria-label="Another photo on the wall: Lula and Trump">
+        <rect x="470" y="70" width="128" height="96" fill="#2b2b2b"/><rect x="478" y="78" width="112" height="66" fill="#eef0e6"/>
+        <g fill="#7a6a4a"><circle cx="512" cy="104" r="9"/><rect x="502" y="115" width="20" height="28" rx="6"/><circle cx="556" cy="104" r="9"/><rect x="546" y="115" width="20" height="28" rx="6"/></g>
+        <text x="534" y="158" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#fff">Malaysia · Oct 2025</text>
+        <rect class="hl" x="462" y="62" width="144" height="112" rx="6"/>
+        <circle class="tick" cx="604" cy="66" r="11" fill="var(--accent)"/>
+      </g>
+      <!-- safe -->
+      <g class="hs" data-id="cofre" tabindex="0" role="button" aria-label="Safe in the corner">
+        <rect x="636" y="230" width="132" height="150" rx="8" fill="#4a535e" stroke="#2b313a" stroke-width="4"/>
+        <circle cx="702" cy="296" r="24" fill="#7a838e" stroke="#2b313a" stroke-width="4"/><path d="M702 278 V296 L714 304" stroke="#2b313a" stroke-width="4" fill="none"/>
+        <text x="702" y="356" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#e6ebf2">CAMPAIGN FUND</text>
+        <text x="702" y="369" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#e6ebf2">“MADE IN USA”</text>
+        <rect class="hl" x="628" y="222" width="148" height="166" rx="8"/>
+        <circle class="tick" cx="772" cy="226" r="11" fill="var(--accent)"/>
+      </g>
+      <!-- desk -->
+      <rect x="150" y="330" width="460" height="22" fill="var(--desk)"/><rect x="170" y="352" width="20" height="100" fill="var(--desk)"/><rect x="570" y="352" width="20" height="100" fill="var(--desk)"/>
+      <!-- folder: 21 demands -->
+      <g class="hs" data-id="exig" tabindex="0" role="button" aria-label="Folder with the number 21">
+        <rect x="170" y="296" width="96" height="34" rx="3" fill="#2f5f9e" stroke="#16304f" stroke-width="2"/>
+        <text x="218" y="319" text-anchor="middle" font-family="var(--display)" font-weight="900" font-size="20" fill="#fff">21 ITEMS</text>
+        <rect class="hl" x="162" y="288" width="112" height="50" rx="6"/>
+        <circle class="tick" cx="272" cy="292" r="11" fill="var(--accent)"/>
+      </g>
+      <!-- tariff letter -->
+      <g class="hs" data-id="carta" tabindex="0" role="button" aria-label="Letter with the number 50%">
+        <g transform="translate(282 290) rotate(-5)"><rect width="70" height="42" fill="#fff" stroke="#9aa3ad"/><text x="35" y="27" text-anchor="middle" font-family="var(--display)" font-weight="900" font-size="22" fill="#b23a48">50%</text></g>
+        <rect class="hl" x="274" y="280" width="88" height="58" rx="6"/>
+        <circle class="tick" cx="360" cy="284" r="11" fill="var(--accent)"/>
+      </g>
+      <!-- laptop -->
+      <g class="hs" data-id="laptop" tabindex="0" role="button" aria-label="Laptop showing an invoice">
+        <g transform="translate(380 258)">
+          <rect width="104" height="66" rx="4" fill="#20262e"/><rect x="6" y="6" width="92" height="52" fill="#f2f5f8"/>
+          <text x="52" y="22" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="#14213d">INVOICE</text>
+          <text x="52" y="35" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="#14213d">“IT security”</text>
+          <text x="52" y="48" text-anchor="middle" font-family="var(--mono)" font-size="9" font-weight="700" fill="#0e7c74">R$ 600k</text>
+          <rect x="-8" y="66" width="120" height="7" rx="2" fill="#6b7480"/>
+        </g>
+        <rect class="hl" x="370" y="250" width="124" height="86" rx="6"/>
+        <circle class="tick" cx="492" cy="254" r="11" fill="var(--accent)"/>
+      </g>
+      <!-- sticky note -->
+      <g class="hs" data-id="zelle" tabindex="0" role="button" aria-label="Note stuck on the wall">
+        <g transform="translate(470 200) rotate(6)"><rect width="56" height="46" fill="#ffe86b" stroke="#c9b230"/><text x="28" y="20" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#14213d">Pix → ?</text><text x="28" y="35" text-anchor="middle" font-family="var(--mono)" font-size="10" font-weight="700" fill="#14213d">Zelle!</text></g>
+        <rect class="hl" x="462" y="192" width="72" height="66" rx="6"/>
+        <circle class="tick" cx="532" cy="196" r="11" fill="var(--accent)"/>
+      </g>
+      <!-- phone -->
+      <g class="hs" data-id="celular" tabindex="0" role="button" aria-label="Phone with a betting chart">
+        <g transform="translate(508 280)"><rect width="34" height="54" rx="6" fill="#20262e"/><rect x="3" y="7" width="28" height="40" fill="#e9f3f7"/><path d="M6 40 L12 32 L18 35 L24 22 L29 16" stroke="#1f5fbf" stroke-width="2" fill="none"/><text x="17" y="15" text-anchor="middle" font-family="var(--mono)" font-size="5" fill="#14213d">bets</text></g>
+        <rect class="hl" x="500" y="272" width="50" height="70" rx="6"/>
+        <circle class="tick" cx="548" cy="276" r="10" fill="var(--accent)"/>
+      </g>
+      <!-- passport -->
+      <g class="hs" data-id="passaporte" tabindex="0" role="button" aria-label="Passport with a stamped visa">
+        <g transform="translate(556 300) rotate(10)"><rect width="38" height="30" rx="3" fill="#1d4f2e"/><text x="19" y="14" text-anchor="middle" font-family="var(--mono)" font-size="6" fill="#e8c76a">BRAZIL</text><g transform="translate(6 17) rotate(-12)"><rect width="28" height="10" fill="none" stroke="#e24b4b" stroke-width="1.5"/><text x="14" y="8" text-anchor="middle" font-family="var(--mono)" font-size="6" font-weight="700" fill="#e24b4b">REVOKED</text></g></g>
+        <rect class="hl" x="546" y="290" width="58" height="52" rx="6"/>
+        <circle class="tick" cx="602" cy="294" r="10" fill="var(--accent)"/>
+      </g>
+      <!-- empty chair with a nameplate -->
+      <g class="hs" data-id="cadeira" tabindex="0" role="button" aria-label="Empty chair with a nameplate">
+        <rect x="300" y="384" width="90" height="12" rx="3" fill="#2b313a"/><rect x="306" y="340" width="78" height="46" rx="8" fill="#3a4452"/><rect x="340" y="396" width="8" height="40" fill="#2b313a"/><path d="M314 446 H376" stroke="#2b313a" stroke-width="6"/>
+        <rect x="312" y="350" width="66" height="16" fill="#e8c76a"/><text x="345" y="362" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="#14213d">ex-deputy</text>
+        <rect class="hl" x="294" y="332" width="102" height="122" rx="6"/>
+        <circle class="tick" cx="392" cy="336" r="11" fill="var(--accent)"/>
+      </g>
+    </svg>
+
+    <div class="pop" id="pop" role="dialog" aria-modal="false" aria-labelledby="popT" hidden>
+      <div class="row"><span id="popTag" class="tg"></span><span class="mono" id="popN" style="font-family:var(--mono);font-size:12px;color:var(--muted)"></span></div>
+      <h3 id="popT"></h3>
+      <p id="popB" style="margin:0"></p>
+      <p class="quip" id="popQ" style="margin:0"></p>
+      <div class="row"><a id="popS" href="#" target="_blank" rel="noopener"></a><button type="button" class="btn" id="popOk">Write it in the notebook</button></div>
+    </div>
+  </div>
+
+  <div class="bar"><button type="button" class="btn ghost" id="finish">File the story</button><span class="how">You can file whenever you like, but whoever finds everything writes better.</span></div>
+
+  <section class="notes" aria-labelledby="hN">
+    <h2 id="hN">Reporter's notebook</h2>
+    <ol id="notes"><li class="empty">Nothing noted yet. Tap an object.</li></ol>
+  </section>
+
+  <section class="end" id="end" aria-labelledby="hE" hidden>
+    <h2 id="hE">Headline time</h2>
+    <div class="q" id="q1"><p>Hangar headline:</p></div>
+    <div class="q" id="q2"><p>Washington headline:</p></div>
+    <div id="result" hidden>
+      <div class="tally" id="tally"></div>
+      <p class="verdict" id="verdict"></p>
+      <p style="margin:0">Want to see everything calmly, with sources? <a href="index.html">Rota Washington</a> · <a href="https://fcarvalhodev.github.io/rota-master/en/">Rota Master</a></p>
+      <button type="button" class="btn ghost" id="again">Play again</button>
+    </div>
+  </section>
+
+  <footer>
+    <a class="back" href="index.html">← Back to Rota Washington</a>
+    <p>A satirical game with real facts. Every clue carries its source. Investigation is not conviction, and those named deny wrongdoing.</p>
+    <p>Facts up to 21 October 2026 · own illustrations.</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+const LBL={doc:"Documented",open:"Open",alleg:"Allegation",no:"Not shown"};
+const P={
+ painel:{s:1,ev:"doc",t:"A door hidden behind the panel",b:"In August, the Federal Police found an armoured door behind a wooden panel in the hangar of the air companies of lawyer Willer Tomaz, a friend of Flávio Bolsonaro, at Brasília airport. The defence confirms the room.",q:"“Solid hardwood, nothing to see,” said the panel. There was.",src:["Rádio Pampa, with Estadão and TV Globo","https://www.radiopampa.com.br/advogado-amigo-de-flavio-bolsonaro-tinha-sala-secreta-para-dinheiro-vivo-no-aeroporto-de-brasilia-diz-a-policia-federal/"]},
+ maquina:{s:1,ev:"doc",t:"Money-counting machine",b:"It was in the room, along with shelves and suitcases. The police found another machine at Tomaz's home in an earlier phase of the operation.",q:"The display reads 0000. It found nothing to count either.",src:["Rádio Pampa, with Estadão and TV Globo","https://www.radiopampa.com.br/advogado-amigo-de-flavio-bolsonaro-tinha-sala-secreta-para-dinheiro-vivo-no-aeroporto-de-brasilia-diz-a-policia-federal/"]},
+ malas:{s:1,ev:"no",t:"Empty suitcases",b:"There was no money in the room. The police suspect it was used to store cash; the defence says it serves cash-in-transit clients and calls the suspicion fanciful. So far, it is not proven.",q:"You open all three suitcases. Inside: hangar air conditioning.",src:["Rádio Pampa, with Estadão and TV Globo","https://www.radiopampa.com.br/advogado-amigo-de-flavio-bolsonaro-tinha-sala-secreta-para-dinheiro-vivo-no-aeroporto-de-brasilia-diz-a-policia-federal/"]},
+ recibo:{s:1,ev:"no",t:"A paper with Flávio's name on it?",b:"We looked in the reporting for any document linking Flávio directly to the room. There is none. He is under investigation for something else: his financial relationship with Tomaz.",q:"It's the counting machine's warranty. Expired.",src:["Rota Master: timeline","https://fcarvalhodev.github.io/rota-master/en/#h-tl"]},
+ jato:{s:1,ev:"open",t:"The travel jet",b:"According to UOL and Folha, Tomaz's companies paid for private jet flights used by Flávio, including a trip to France in May 2025. Flávio and Tomaz say these were trips between friends, with no financial relationship.",q:"In the cup holder, a napkin: “friendship between the families”.",src:["Brasil de Fato","https://www.brasildefato.com.br/2026/10/10/flavio-bolsonaro-dividia-conta-com-investigado-por-desvios-no-inss-indicam-e-mails/"]},
+ notebook:{s:1,ev:"open",t:"“Master user”",b:"Emails seized by the Federal Police show Flávio with “master user” access to the account of Alcazar, a Tomaz company, at Santander. The access was removed on 22 May 2025. Flávio says he never had that access.",q:"The cursor blinks. The bank declines to comment.",src:["Terra / DW","https://www.terra.com.br/noticias/o-que-se-sabe-sobre-suposto-elo-de-flavio-bolsonaro-com-esquema-de-bets,565fe97eae2082589f7650575db2a9eda3q1wpce.html"]},
+ pasta:{s:1,ev:"open",t:"STF inquiry",b:"Since 8 October, Flávio has been under STF investigation on suspicion of money laundering linked to Tomaz. The rapporteur is Alexandre de Moraes. It is his second inquiry; the first is the “Dark Horse” film one. The campaign calls it political persecution.",q:"The folder is thick. Investigation is not conviction, but it is not fake news either.",src:["CartaCapital","https://www.cartacapital.com.br/politica/flavio-bolsonaro-e-alvo-de-segundo-inquerito-no-stf-por-suspeita-de-lavagem-de-dinheiro/"]},
+ cartaz:{s:1,ev:"open",t:"The betting site on the poster",b:"The Federal Police are examining whether Flávio was a hidden partner in Best Bet, controlled by a Tomaz company in Portugal. It is a suspicion, with no charges. Flávio denies any stake. According to Folha, Tomaz placed about R$ 5 billion in bets in 2025.",q:"Poster odds: “hidden partner” pays 3 to 1. The house takes no bets.",src:["Painel Político, on piauí","https://painelpolitico.com/a-bet-do-flavio-e-do-willer-segundo-a-piaui"]},
+ aviao2:{s:1,ev:"open",t:"Another plane, another senator",b:"In the same INSS operation, the Federal Police say Tomaz's network was the “financial hub” of Senator Weverton Rocha, of the PDT: a R$ 6 million house and R$ 11 million transferred to his wife. Tomaz says he only lent a plane.",q:"Apparently the hangar serves both sides of the aisle.",src:["Metrópoles","https://www.metropoles.com/brasil/pf-diz-que-willer-tomaz-operava-hub-financeiro-para-weverton-rocha"]},
+ embarque:{s:1,go:2,ev:"doc",t:"Boarding pass: BSB → DCA",b:"The other half of the story is in Washington: what the Trump administration demanded of Brazil and what Flávio's campaign took there.",q:"Gate: truth. Now boarding.",src:["Washington Route","index.html"]},
+ fotoF:{s:2,ev:"doc",t:"Flávio at the White House",b:"On 26 and 27 May 2026, Flávio met Trump, Rubio and Vance and asked for PCC and CV to be designated as terrorists. The next day, the US did exactly that.",q:"Ordered one day, delivered the next. Not even food delivery is that fast.",src:["Correio da Manhã","https://www.correiodamanha.com.br/politica/2026/05/289342-flavio-bolsonaro-volta-a-debater-cv-e-pcc-em-reuniao-com-marco-rubio.html"]},
+ fotoL:{s:2,ev:"doc",t:"Lula and Trump too",b:"Lula met Trump in Malaysia in October 2025 and at the White House in May 2026, to negotiate the tariffs. Talking to the US president is not a crime for anyone.",q:"Apparently everyone has a photo with Trump.",src:["Mercado & Consumo","https://mercadoeconsumo.com.br/26/10/2025/economia/lula-se-reune-com-trump-na-malasia-e-discute-relacoes-entre-brasil-eua/"]},
+ carta:{s:2,ev:"doc",t:"The 50% letter",b:"In July 2025, Trump announced a 50% tariff on Brazilian goods and cited the “witch hunt” against Jair Bolsonaro. A day later, Flávio said the government should accept what Trump imposed.",q:"Letterhead paper, orange ink.",src:["Poder360: the letter","https://www.poder360.com.br/poder-internacional/leia-a-integra-da-carta-de-trump-a-lula-impondo-tarifa-de-50/"]},
+ exig:{s:2,ev:"doc",t:"The 21 demands",b:"The US handed Brazil a list of 21 demands, including an election with no restrictions on “political dissidents”. An ICL survey found 16 that match proposals by Flávio and his allies. Flávio denies American help.",q:"Item 22, in pencil: “and a coffee”. (That one doesn't exist.)",src:["ICL Notícias","https://iclnoticias.com.br/?p=128491"]},
+ laptop:{s:2,ev:"alleg",t:"The Elytron invoice",b:"Documented: the campaign paid R$ 600,000 to Elytron, according to its TSE accounts, for “IT security”. Claim: The Intercept says a system linked to the company creates fake accounts and rumours. The report itself says there is no proof it was used in the campaign.",q:"Single source so far. A good reporter waits for the second.",src:["Intercept Brasil","https://www.intercept.com.br/2026/10/16/flavio-pagou-empresa-eua-sistema-manipular-eleicoes/"]},
+ celular:{s:2,ev:"alleg",t:"Bets on the election",b:"According to Tech Policy Press, influencers close to Trump paid to boost Polymarket bets favourable to Flávio. It is one publication's account, with no official confirmation.",q:"The chart only goes up. Like every chart from someone selling something.",src:["Tech Policy Press","https://techpolicy.press/on-eve-of-brazil-elections-meta-content-moderation-decisions-raise-questions"]},
+ cofre:{s:2,ev:"no",t:"The “American campaign fund” safe",b:"There is no proof that foreign money or structure is funding Flávio's campaign. The PT asked the STF to investigate foreign interference; the request is pending.",q:"You spin the dial. It's empty. Just a Monroe Doctrine leaflet.",src:["Diario de Pernambuco","https://www.diariodepernambuco.com.br/politica/2026/09/11724754-pt-vai-ao-stf-por-interferencia-externa-nas-eleicoes-e-mira-cassar-flavio.html"]},
+ zelle:{s:2,ev:"doc",t:"Swap Pix for Zelle",b:"In June 2026, Eduardo Bolsonaro suggested swapping Pix for Zelle, an American payment system. Pix was among the practices investigated by the Trump administration.",q:"Try paying for a street-market pastel with Zelle and tell us how it went.",src:["Diario de Pernambuco","https://www.diariodepernambuco.com.br/politica/2026/06/11715755-eduardo-bolsonaro-sugere-trocar-pix-pelo-zelle-dos-estados-unidos.html"]},
+ passaporte:{s:2,ev:"doc",t:"Visas revoked",b:"In August 2026, the US revoked the visas of Brazil's ambassador, Alexandre de Moraes and Jorge Messias, in retaliation against the Lula government.",q:"Red stamp. At least the passport is green and yellow.",src:["Gazeta do Povo","https://www.gazetadopovo.com.br/mundo/governo-trump-revoga-visto-de-embaixadora-do-brasil-nos-eua/"]},
+ cadeira:{s:2,ev:"doc",t:"The ex-deputy's chair",b:"Eduardo Bolsonaro moved to the US in 2025, lost his seat for absences and was sentenced by the STF to 4 years and 2 months for coercion, for seeking sanctions and tariffs against Brazil to pressure the Supreme Court.",q:"The nameplate says “ex-deputy”. The chair still swivels.",src:["Poder360","https://www.poder360.com.br/poder-justica/stf-condena-eduardo-a-4-anos-e-2-meses/"]}
+};
+const TOTAL=Object.keys(P).length;
+const found=[];let cur=1,open1=false,pending=null;
+const $=id=>document.getElementById(id);
+const stage=$("stage"),pop=$("pop"),notes=$("notes");
+function setScene(n){cur=n;$("s1").toggleAttribute("hidden",n!==1);$("s2").toggleAttribute("hidden",n!==2);$("t1").setAttribute("aria-pressed",n===1);$("t2").setAttribute("aria-pressed",n===2);closePop()}
+function score(){$("score").textContent="Clues: {n} of {t}".replace("{n}",found.length).replace("{t}",TOTAL)}
+function closePop(){pop.hidden=true;pending=null}
+function show(id){
+ const p=P[id];pending=id;
+ $("popTag").className="tg "+p.ev;$("popTag").textContent=LBL[p.ev];
+ $("popN").textContent=found.includes(id)?"already noted":"new clue";
+ $("popT").textContent=p.t;$("popB").textContent=p.b;$("popQ").textContent=p.q;
+ $("popS").textContent="Fonte: "+p.src[0];$("popS").href=p.src[1];
+ $("popOk").textContent=p.go?"Board for Washington ✈":"Write it in the notebook";
+ pop.hidden=false;$("popOk").focus({preventScroll:true});
+}
+function note(id){
+ if(found.includes(id))return;found.push(id);
+ const p=P[id];const li=document.createElement("li");
+ const tag=document.createElement("span");tag.className="tg "+p.ev;tag.textContent=LBL[p.ev];
+ const b=document.createElement("b");b.textContent=" "+p.t+". ";
+ const t=document.createTextNode(p.b+" ");
+ const a=document.createElement("a");a.href=p.src[1];a.target="_blank";a.rel="noopener";a.textContent=p.src[0];
+ const sm=document.createElement("small");sm.append(a);
+ li.append(tag,b,t,sm);
+ const e=notes.querySelector(".empty");if(e)e.remove();notes.append(li);
+ document.querySelectorAll('.hs[data-id="'+id+'"]').forEach(g=>g.classList.add("found"));
+ score();
+}
+$("popOk").addEventListener("click",()=>{const id=pending;if(!id)return;note(id);const p=P[id];closePop();if(p.go){$("t2").disabled=false;setScene(2)}});
+document.querySelectorAll(".hs").forEach(g=>{
+ const act=()=>{const id=g.dataset.id;
+  if(id==="painel"&&!open1){open1=true;$("s1").classList.add("opened");document.querySelectorAll(".inroom").forEach(x=>x.setAttribute("tabindex","0"))}
+  show(id)};
+ g.addEventListener("click",act);
+ g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();act()}});
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!pop.hidden)closePop()});
+$("t1").addEventListener("click",()=>setScene(1));
+$("t2").addEventListener("click",()=>{if(!$("t2").disabled)setScene(2)});
+$("hint").addEventListener("click",()=>{const on=stage.classList.toggle("hints");$("hint").setAttribute("aria-pressed",on);$("hint").textContent=on?"🔍 Hide clues":"🔍 Show clues"});
+
+/* headlines */
+const Q=[
+ {el:"q1",o:[
+  ["Flávio hid dollars in a secret airport room","There was no money in the room, and no source links Flávio to it. That headline gets you sued.",0],
+  ["Police find an empty hidden room with a money-counting machine in the hangar of Flávio's friend; senator is under STF investigation and denies wrongdoing","Right. It has the fact, the doubt and the version of the person named.",1],
+  ["Secret room? All press fake news","The room exists, the defence confirms it, and the STF inquiry exists too.",0]]},
+ {el:"q2",o:[
+  ["Trump bought Brazil's election","There is no proof of foreign money in the campaign. The American pressure is documented; the purchase is not.",0],
+  ["US pressures Brazil with tariffs and demands, and Flávio takes requests to Washington; American money in the campaign has not been proven","Right. It separates what is public from what is still suspicion.",1],
+  ["Nobody here talks to Trump","Flávio and Lula both met Trump. The difference is in what each one asked for.",0]]}
+];
+let answered=0,right=0;
+function buildQ(){Q.forEach(q=>{const box=$(q.el);box.querySelectorAll(".opt,.fb").forEach(x=>x.remove());const fb=document.createElement("p");fb.className="fb";fb.setAttribute("aria-live","polite");
+ const opts=q.o.map(x=>x).sort(()=>Math.random()-.5);
+ opts.forEach(o=>{const b=document.createElement("button");b.type="button";b.className="opt";b.textContent=o[0];
+  b.addEventListener("click",()=>{if(box.dataset.done)return;box.dataset.done=1;b.classList.add(o[2]?"right":"wrong");
+   if(!o[2])box.querySelectorAll(".opt").forEach((x,i)=>{if(opts[i][2])x.classList.add("right")});
+   fb.textContent=o[1];answered++;if(o[2])right++;if(answered===2)finish()});box.append(b)});box.append(fb)})}
+function finish(){
+ const c={doc:0,open:0,alleg:0,no:0};found.forEach(id=>{if(id!=="embarque")c[P[id].ev]++});
+ const t=$("tally");t.innerHTML="";Object.keys(c).forEach(k=>{const s=document.createElement("span");s.innerHTML='<span class="tg '+k+'">'+LBL[k]+'</span> '+c[k];t.append(s)});
+ const n=found.length;
+ $("verdict").textContent=right===2&&n>=TOTAL-2?"Editor's verdict: a real reporter. Found almost everything and made nothing up.":right===2?"Editor's verdict: honest headlines, but you left clues on the floor. Back to the hangar.":right===1?"Editor's verdict: halfway there. One headline belonged in a family group chat.":"Editor's verdict: that's a WhatsApp chain-message headline. Try again.";
+ $("result").hidden=false;
+}
+$("finish").addEventListener("click",()=>{answered=0;right=0;Q.forEach(q=>delete $(q.el).dataset.done);$("result").hidden=true;buildQ();$("end").hidden=false;$("end").scrollIntoView({behavior:"smooth",block:"start"})});
+$("again").addEventListener("click",()=>location.reload());
+score();
+})();
+</script>
+</body></html>
